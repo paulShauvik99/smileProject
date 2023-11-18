@@ -15,9 +15,13 @@ from django.conf import settings
 import uuid
 import jwt
 import pytz
+from django.conf import settings
 
 
 # Create your views here.
+key = settings.SECRET_KEY
+#print(key)
+
 
 @csrf_exempt
 def register(request) :
@@ -75,12 +79,13 @@ def send_otp(request):
             return JsonResponse({'detail': 'Mobile number is required.'}, status=400)
         
         secret_key = pyotp.random_base32()
-        print(secret_key)
+        #print(secret_key)
         totp = pyotp.TOTP(secret_key, interval=300)  
         otp = totp.now()
      
 
         # Store the OTP and its creation time in the session
+        print(key)
         request.session['secret_key'] = secret_key
         #request.session['otp_creation_time'] = time.time()
         request.session['phoneNumber'] = phoneNumber
@@ -92,29 +97,34 @@ def send_otp(request):
             
             # Replace 'from_' with your Twilio phone number
             from_ = settings.TWILIO_PHONE_NUMBER
+
             
             message = client.messages.create(
-                body="Hi saurav gandu, your otp is" + otp,
+                body="Hi, your otp is" + otp,
                 to=to,
                 from_=from_
             )
+            
             
         except Exception as e:
             print(e) 
             return JsonResponse({"error" : "error occured while sending sms"}, status=401)
         
         return JsonResponse({"success" : "SMS sent successfully","otp" : otp},status  =200) 
+    return JsonResponse({"error" :"Invalid request Method"}, status=400)
 
 @csrf_exempt
 def verify_otp(request):
     if request.method=="POST":
-        body = json.loads(request.body)
-        otp = body['otp']
-        secret_key = request.session.get('secret_key')
-        print(secret_key)
-        totp = pyotp.TOTP(secret_key,interval=300)
-        status = totp.verify(otp)
-        
+        try:
+            body = json.loads(request.body)
+            otp = body['otp']
+            secret_key = request.session.get('secret_key')
+            print(secret_key)
+            totp = pyotp.TOTP(secret_key,interval=300)
+            status = totp.verify(otp)
+        except :
+            
         return JsonResponse({"status" : "OTP verification status " + str(status)},status=200)
 
 
@@ -134,6 +144,7 @@ def resend_otp(request):
         #request.session['otp_creation_time'] = time.time()
         request.session['phoneNumber'] = phoneNumber
         
+        #generate JWT token for user verification
         try: 
             client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
     
@@ -144,7 +155,7 @@ def resend_otp(request):
             from_ = settings.TWILIO_PHONE_NUMBER
             
             message = client.messages.create(
-                body="Hi saurav gandu, your otp is" + otp,
+                body="Hi , your otp is" + otp,
                 to=to,
                 from_=from_
             )
