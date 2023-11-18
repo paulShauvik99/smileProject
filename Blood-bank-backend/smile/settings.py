@@ -141,7 +141,11 @@ DATABASES = {
             'NAME': 'blood_bank',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'mongodb://127.0.0.1:27017/'
+                'host': 'mongodb+srv://smile:Pu1toOuIPjUSg2AB@smile1.lbmzkff.mongodb.net/?retryWrites=true&w=majority',
+                'username' : 'smile',
+                'password' : 'Pu1toOuIPjUSg2AB',
+                'authSource' : 'admin'
+
             }  
         }
 }
