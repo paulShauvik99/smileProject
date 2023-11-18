@@ -129,7 +129,11 @@ DATABASES = {
             'NAME': 'blood_bank',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'mongodb://127.0.0.1:27017/'
+                'host': 'mongodb+srv://smile:Pu1toOuIPjUSg2AB@smile1.lbmzkff.mongodb.net/?retryWrites=true&w=majority',
+                'username' : 'smile',
+                'password' : 'Pu1toOuIPjUSg2AB',
+                'authSource' : 'admin'
+
             }  
         }
 }
@@ -185,7 +189,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Twilio Account SID and Auth Token
 TWILIO_ACCOUNT_SID = 'AC2ef3fffdc6f6d22ec7066a4f347aac5c'
-TWILIO_AUTH_TOKEN = '0cdb5c0bc65f4293cae67f035a871834'
+TWILIO_AUTH_TOKEN = '130f1594eba14ac3244a6414c843d934'
 
 # Twilio Phone Number (from which you'll send SMS)
 TWILIO_PHONE_NUMBER = '+12568249842'
+
+SESSION_SAVE_EVERY_REQUEST = True
