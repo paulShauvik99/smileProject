@@ -301,13 +301,13 @@ const DonateBlood = () => {
                                     
                                 </HStack>
                                 <HStack>
-                                    <PinInput otp variant='pill' size='lg' >
-                                        <PinInputField height={28} fontSize={22} width={28} color='red.500' bg='red.100'/>
-                                        <PinInputField height={28} fontSize={22} width={28} color='red.500' bg='red.100'/>
-                                        <PinInputField height={28} fontSize={22} width={28} color='red.500' bg='red.100'/>
-                                        <PinInputField height={28} fontSize={22} width={28} color='red.500' bg='red.100'/>
-                                        <PinInputField height={28} fontSize={22} width={28} color='red.500' bg='red.100'/>
-                                        <PinInputField height={28} fontSize={22} width={28} color='red.500' bg='red.100'/>
+                                    <PinInput otp variant='pill' placeholder='_' size='lg' >
+                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
+                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
+                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
+                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
+                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
+                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
                                     </PinInput>
                                 </HStack>
                             </VStack>

@@ -1,17 +1,6 @@
-import { ChakraProvider, Heading } from '@chakra-ui/react'
+import { ChakraProvider,  FormHelperText, Heading } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import {
-    Box,
-    Step,
-    StepDescription,
-    StepIcon,
-    StepIndicator,
-    StepNumber,
-    StepSeparator,
-    StepStatus,
-    StepTitle,
-    Stepper,
-    useSteps,
     Button,
     FormControl,
     FormLabel,
@@ -33,25 +22,19 @@ import {
     Text
 } from '@chakra-ui/react'
 import { Phone } from '@phosphor-icons/react'
-
-
-
-//Steps
-
-const steps = [
-    { title: 'Personal Details' , description: 'First' },
-    { title: 'Anatomical Features', description: 'Second' },
-    { title: 'Contact Details', description: 'Third' },
-]
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useNavigate} from 'react-router-dom'
 
 
 const RequestBlood = () => {
+    
+    // axios.defaults.withCredentials=true
 
-    //Active Stepper State 
-    const { activeStep , setActiveStep } = useSteps({
-        index : 0,
-        count : steps.length
-    })
+    // Navigate
+    const navigate = useNavigate()
+
 
     //Show Timer
     const [showTime, setShowTime] = useState(false)
@@ -61,14 +44,28 @@ const RequestBlood = () => {
     const [disability , setDisability] = useState(false)
     //Timer Countdown
     const [time , setTime] = useState('')
+    //Recepient Number
+    const [number , setNumber] = useState('')
+    //Error Msg for Phone Number
+    const [errMsg , setErrorMsg] = useState({
+        isErr : false,
+        msg : ''
+    })    
+    //Multiplying Timer
+    const [n ,setN ] = useState(1)
+    // Getting OTP value from user input
+    const [otpVal ,setOtpVal] = useState("")
+    //Verifying OTP
+    const [isLoading , setIsLoading] = useState(false)
 
+    //Handlers
     // OTP Timer
     const timer= () => {
 
         setShowTime(!showTime)
         setChangeText('Resend OTP')
         setDisability(!disability)
-        const end = new Date(Date.now()  + 15*1000)
+        const end = new Date(Date.now()  + n*15*1000)
         const int = setInterval(()=>{
             const now = new Date()
             const diff = (end - now) / 1000
@@ -84,9 +81,77 @@ const RequestBlood = () => {
                 clearInterval(int)
             }
         },1000)
-        
+        setN(prev => prev+1)
 
     }
+
+
+
+    // SEND OTP
+    const sendOtp = async() =>{
+        
+        if(number.length !== 10){
+            // console.log("Validation")
+            setErrorMsg(prev => ({
+                isErr : true,
+                msg : "Invalid Number! Please Enter a valid Number."
+            }))
+            return
+        }else{
+            timer()
+            setErrorMsg(prev => ({
+                isErr : false,
+                msg : ""
+            })) 
+            
+            let data =  JSON.stringify({
+                phoneNumber : `+91${number}`
+            })
+            
+            const res = await axios.post('http://127.0.0.1:8000/donor/send_otp/', data)
+            toast.success("OTP Sent Successfully !",{
+                position : toast.POSITION.BOTTOM_RIGHT
+            })
+            
+            console.log(res)
+
+        }
+    }
+
+
+    // Verify OTP
+
+    const verifyOtp = async ( ) =>{
+        
+        if(otpVal.length !== 6){
+            toast.error("Wrong OTP", {
+                position : toast.POSITION.BOTTOM_RIGHT
+            })
+            return
+        }else{
+            // setIsLoading(true)
+            let data = JSON.stringify({
+                otp : otpVal
+            })
+            // console.log(data)
+            // try {
+                const res = await axios.post('http://127.0.0.1:8000/donor/verify_otp/',data)
+                console.log(res)
+            //     setIsLoading(false)
+            // } catch (error) {
+            //     console.log(error)                
+            // }
+
+            localStorage.setItem("token" , JSON.stringify({token : "checkingifthisworks"}))
+
+            navigate("/request/requestdashboard")
+
+
+
+        }
+    }
+
+    // console.log(number)
 
 
     return (
@@ -109,10 +174,14 @@ const RequestBlood = () => {
                                                 fontSize={14}  
                                                 type="number" 
                                                 name="phone" 
-                                                // value={donorInfo.phone} 
-                                                // onChange={e =>  setDetails(e)} 
+                                                value={number} 
+                                                onChange={e =>  setNumber(e.target.value)} 
                                             />
                                         </InputGroup>
+                                        {errMsg.isErr ? (
+                                            <FormHelperText fontSize={12} color="red" fontWeight={700} >{errMsg.msg}</FormHelperText>
+                                        ) : null}
+                                            
                                     </FormControl>
 
                                             <HStack mt={15}>
@@ -122,7 +191,7 @@ const RequestBlood = () => {
                                                     height='35px'
                                                     width='120px'
                                                     fontSize='16px'
-                                                    onClick={timer}
+                                                    onClick={sendOtp}
                                                     isDisabled={disability}
                                                 >
                                                     {changeText}
@@ -131,7 +200,9 @@ const RequestBlood = () => {
                                                 
                                             </HStack>
                                             <HStack>
-                                                <PinInput otp variant='pill' size='lg' >
+                                                <PinInput otp variant='pill' size='lg' value={otpVal}  onChange={e=>setOtpVal(e)}
+                                                    placeholder='_'
+                                                >
                                                     <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
                                                     <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
                                                     <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
@@ -140,7 +211,6 @@ const RequestBlood = () => {
                                                     <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
                                                 </PinInput>
                                             </HStack>
-
 
                                             <Button 
                                                 // onClick={handleNext} 
@@ -151,10 +221,14 @@ const RequestBlood = () => {
                                                 height='30px'
                                                 width='120px'
                                                 fontSize='16px'
+                                                isLoading={isLoading}
+                                                loadingText='Verifying'
+                                                onClick={verifyOtp}
                                             >
                                                 Verify OTP
                                             </Button>   
                                         </VStack>
+                                        <ToastContainer />
                             </div>
                         </div>
                     </div>
