@@ -141,10 +141,10 @@ DATABASES = {
             'NAME': 'blood_bank',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'mongodb+srv://smile:Pu1toOuIPjUSg2AB@smile1.lbmzkff.mongodb.net/?retryWrites=true&w=majority',
-                'username' : 'smile',
-                'password' : 'Pu1toOuIPjUSg2AB',
-                'authSource' : 'admin'
+                'host': env('HOST'),
+                'username' : env('USERNAME'),
+                'password' : env('PASSWORD'),
+                'authSource' : env('AUTHSOURCE')
 
             }  
         }

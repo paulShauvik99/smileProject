@@ -124,6 +124,7 @@ def verify_otp(request):
             totp = pyotp.TOTP(secret_key,interval=300)
             status = totp.verify(otp)
         except :
+            return JsonResponse({"status" : "OTP verification Failed" + str(status)},status=200)
             
         return JsonResponse({"status" : "OTP verification status " + str(status)},status=200)
 
