@@ -72,7 +72,7 @@ def request_blood(request):
           
         except Exception as e:
             print(e)
-            return JsonResponse({'status': 'error'},status=401)
+            return JsonResponse({'error': 'error while saving form'},status=500)
         
 
 
@@ -113,103 +113,14 @@ def request_blood(request):
                     matched_donor = MatchedDonor(recipient=new_recipient.id, donor=donor.id)
                     matched_donor.save()
                 
-            return JsonResponse({"success" : "Request Placed Successfully"},status =200)
+            return JsonResponse({"success" : "Request Placed Successfully"},status =201)
         except Exception as e:
             print(e) 
-            return JsonResponse({"error" : "No Donor Found of this Blood Group"},status=400)
+            return JsonResponse({"error" : "No Donor Found of this Blood Group"},status=404)
         
     return JsonResponse({"error" : "Invalid request method"},status =400)
 
 # add JWT token verification
 
-@csrf_exempt
-def get_matched_donors(request):
-    if (request.method =='GET'):
-        try:
-            recipient_list = Recipient.objects.filter(status = 'Pending')
-            r_list = []
-            for recipient in recipient_list:
-        
-                
-                recipient_id = recipient.id
-                recipient_details = {
-                    'name' : recipient.firstName + recipient.lastName,
-                    'phoneNumber' : recipient.phoneNumber,
-                    'bloodgroup' : recipient.bloodGroup,
-                    'units' : recipient.units,
-                    'address' : recipient.address
-
-                }
-                matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
-                donorlist = []
-                for pair in matchedDonors:
-                    
-
-                    donor = Donor.objects.filter(id = pair.donor).first()
-                    donorlist.append({
-                        'name' : donor.firstName +" "+donor.lastName,
-                        'bloodGroup' : donor.bloodGroup,
-                        'phoneNumber' : donor.phoneNumber,
-                        'address' : donor.address,
-                        'matched_id' : pair.id
-                    })
-                
-                r_list.append({
-                    
-                    'recipient' : recipient_details,
-                    'paired_donors' : donorlist
-                })
 
 
-
-            return JsonResponse({'success' : 'returned successsfully', 'recipient_donor_list' : r_list},status =200)
-        except Exception as e:
-            print(e)
-            return JsonResponse({"error" : "Failed"},status=400)
-    return JsonResponse({"error" : "Invalid request Method"}, status=401)
-
-@csrf_exempt
-def get_confirmed_donors(request):
-    if (request.method =='GET'):
-        try:
-            recipient_list = Recipient.objects.filter(status = 'Pending')
-            r_list = []
-            for recipient in recipient_list:
-        
-                
-                recipient_id = recipient.id
-                recipient_details = {
-                    'name' : recipient.firstName + recipient.lastName,
-                    'phoneNumber' : recipient.phoneNumber,
-                    'bloodgroup' : recipient.bloodGroup,
-                    'units' : recipient.units,
-                    'address' : recipient.address
-
-                }
-                matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
-                donorlist = []
-                for pair in matchedDonors:
-                    
-
-                    donor = Donor.objects.filter(id = pair.donor).first()
-                    donorlist.append({
-                        'name' : donor.firstName +" "+donor.lastName,
-                        'bloodGroup' : donor.bloodGroup,
-                        'phoneNumber' : donor.phoneNumber,
-                        'address' : donor.address,
-                        'matched_id' : pair.id
-                    })
-                
-                r_list.append({
-                    
-                    'recipient' : recipient_details,
-                    'paired_donors' : donorlist
-                })
-
-
-
-            return JsonResponse({'success' : 'returned successsfully', 'recipient_donor_list' : r_list},status =200)
-        except Exception as e:
-            print(e)
-            return JsonResponse({"error" : "Failed"},status=400)
-    return JsonResponse({"error" : "Invalid request Method"}, status=401)
