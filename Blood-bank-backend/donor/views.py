@@ -33,6 +33,7 @@ def register(request) :
         bloodGroup = body['bloodGroup']
         phoneNumber = body['phoneNumber']
         email = body['email']
+        otp = body['otp']
         address = body['address']
 
         isDonor = Donor.objects.filter(phoneNumber  = phoneNumber).first()
@@ -46,6 +47,26 @@ def register(request) :
         print(id)
         print(dob)
         date_obj = datetime.strptime(dob, date_format)
+        
+        try:
+            
+            secret_key = request.session.get('secret_key')
+            print(secret_key)
+            totp = pyotp.TOTP(secret_key,interval=300)
+            status = totp.verify(otp)
+            print(status)
+            phoneNumber = request.session.get('phoneNumber')
+            del request.session['phoneNumber']
+            del request.session['secret_key']
+            
+            request.session['member_id'] = phoneNumber
+            request.session.set_expiry(3000000)
+            
+
+        except Exception as e:
+            print(e)
+            return JsonResponse({"status" : "OTP verification Failed "  },status=400)
+
 
 
         try:
@@ -64,35 +85,7 @@ def register(request) :
             print(e)
             return JsonResponse({'error': 'While regestering'},status=500)
         
-        secret_key = pyotp.random_base32()
-        #print(secret_key)
-        totp = pyotp.TOTP(secret_key, interval=300)  
-        otp = totp.now()
-     
-
-        # Store the OTP and its creation time in the session
-        print(key)
-        request.session['secret_key'] = secret_key
-        #request.session['otp_creation_time'] = time.time()
-        request.session['phoneNumber'] = phoneNumber
-        try: 
-            print(settings.TWILIO_AUTH_TOKEN)
-            client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-    
-            # Replace 'to' with the recipient's phone number
-            to = phoneNumber
-            
-            # Replace 'from_' with your Twilio phone number
-            from_ = settings.TWILIO_PHONE_NUMBER
-
-            
-            message = client.messages.create(
-                body="Hi, your otp for Donor Registration is" + otp,
-                to=to,
-                from_=from_
-            )
-        except:
-            return
+        
         return JsonResponse({"success" : "Donor Registered Successfully"},status = 200)
     return JsonResponse({"error" : "Invalid request method"},status =400)
  
@@ -152,7 +145,7 @@ def send_otp(request):
             print(e) 
             return JsonResponse({"error" : "error occured while sending sms"}, status=500)
         
-        return JsonResponse({"success" : "SMS sent successfully","otp" : otp},status  =200) 
+        return JsonResponse({"success" : "SMS sent successfully"},status  =200) 
     return JsonResponse({"error" :"Invalid request Method"}, status=400)
 
 @csrf_exempt
