@@ -142,9 +142,9 @@ def get_available_dates(request):
             return JsonResponse({"error" : "Invalid Session Id"},status =401)
         try:
             dates = Calender.objects.all()
-            data = []
+            data = {}
             for date in dates:
-                data.append({"date.date": date.quantity})
+                data[str(date.date)] =date.quantity
         except Exception as e:
             return JsonResponse({"error" : "Something Went Wrong"},status=500)
         return JsonResponse({"status" : "success","dates" : data},status=200)
