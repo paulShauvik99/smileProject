@@ -146,7 +146,7 @@ def send_otp(request):
             return JsonResponse({"error" : "error occured while sending sms"}, status=500)
         
         return JsonResponse({"success" : "SMS sent successfully"},status  =200) 
-    return JsonResponse({"error" :"Invalid request Method"}, status=400)
+    return JsonResponse({"error" :"Invalid request Method"}, status=409)
 
 @csrf_exempt
 def verify_otp(request):

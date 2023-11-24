@@ -38,6 +38,7 @@ import { IdentificationBadge, Envelope, Phone ,Calendar, Password, Eye, EyeSlash
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 
 
@@ -52,12 +53,15 @@ const steps = [
 const DonateBlood = () => {
     axios.defaults.withCredentials=true
 
+    const navigate = useNavigate()
+
     //Active Stepper State 
     const { activeStep , setActiveStep } = useSteps({
         index : 0,
         count : steps.length
     })
-
+// OTP Value
+    const [otpVal , setOtpVal] = useState('')
         
     // State Handlers
     //Donor Information
@@ -86,6 +90,8 @@ const DonateBlood = () => {
     //Disable OTP Button
     const [disability , setDisability] = useState(false)
     
+    const [n ,setN ] = useState(1)
+    
     //Handlers
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -110,7 +116,7 @@ const DonateBlood = () => {
         setShowTime(!showTime)
         setChangeText('Resend OTP')
         setDisability(!disability)
-        const end = new Date(Date.now()  + 15*1000)
+        const end = new Date(Date.now()  + n*15*1000)
         const int = setInterval(()=>{
             const now = new Date()
             const diff = (end - now) / 1000
@@ -126,7 +132,7 @@ const DonateBlood = () => {
                 clearInterval(int)
             }
         },1000)
-        
+        setN(prev => prev+1)
 
     }
 
@@ -141,13 +147,22 @@ const DonateBlood = () => {
         timer()
         try{
             const res =  await axios.post('http://127.0.0.1:8000/donor/send_otp/', JSON.stringify(phoneNumber))
+            if('success' in res.data){
+                toast.success(res.data.success, {
+                    position : toast.POSITION.TOP_RIGHT
+                })
+            }else{
+                toast.error(res.data.error , {
+                    position : toast.POSITION.TOP_RIGHT
+                })
+            }
             console.log(res)
             
 
 
         }catch(err){
-            toast.error('Something Went Wrong!',{
-                position : toast.POSITION.BOTTOM_RIGHT
+            toast.error(err.response.data.error,{
+                position : toast.POSITION.TOP_RIGHT
             })
         }
 
@@ -163,18 +178,32 @@ const DonateBlood = () => {
             phoneNumber : `+91${donorInfo.phoneNumber}`,
             address : donorInfo.address,
             bloodGroup : donorInfo.bloodGroup,
-            weight : donorInfo.weight,
-            lastDonated : donorInfo.lastDonated,
-            isThalassemia : donorInfo.isThalassemia,
+            // weight : donorInfo.weight,
+            // lastDonated : donorInfo.lastDonated,
+            // isThalassemia : donorInfo.isThalassemia,
+            otp : otpVal
         }
         console.log(donorDet)
         try {
             const res = await axios.post('http://127.0.0.1:8000/donor/register/',JSON.stringify(donorDet))
-            console.log(res)
+            if('success' in res.data){
+                toast.success(res.data.success , {
+                    position : toast.POSITION.TOP_RIGHT
+                })
+                navigate("/donate/donordashboard")
+            }else{
+                toast.error(res.data.error , {
+                    position : toast.POSITION.TOP_RIGHT
+                })
+            }
+            
+            
+            console.log(res.data)
         } catch (err) {
-            toast.error("Couldn't Verify. Something Went Wrong!",{
-                position : toast.POSITION.BOTTOM_RIGHT
+            toast.error(err.response.data.error,{
+                position : toast.POSITION.TOP_RIGHT
             })
+            // console.log()
         }
     }
 
@@ -350,7 +379,7 @@ const DonateBlood = () => {
                                     
                                 </HStack>
                                 <HStack>
-                                    <PinInput otp variant='pill' placeholder='_' size='lg' >
+                                    <PinInput otp variant='pill' placeholder='_' size='lg' value={otpVal}  onChange={e=>setOtpVal(e)} >
                                         <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
                                         <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
                                         <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>

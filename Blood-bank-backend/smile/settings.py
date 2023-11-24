@@ -69,14 +69,13 @@ MIDDLEWARE = [
 ]
 
 
-CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1:3000', ]
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000', ]
 
 #CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_AGE = 1800
-
+SESSION_COOKIE_AGE = 18000
 
 
 
@@ -156,7 +155,7 @@ DATABASES = {
             'NAME': 'blood_bank',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': env('HOST'),
+                'host': 'mongodb+srv://gdas:abcdefgh@smile1.lbmzkff.mongodb.net/?retryWrites=true&w=majority',
                 'username' :'gdas',
                 'password' : 'abcdefgh',
                 'authSource' : 'admin'
