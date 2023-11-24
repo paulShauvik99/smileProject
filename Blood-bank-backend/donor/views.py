@@ -184,6 +184,12 @@ def verify_otp(request):
 
 
 
+
+
+
+
+
+
 @csrf_exempt
 def resend_otp(request):
     if request.method== "GET": 
