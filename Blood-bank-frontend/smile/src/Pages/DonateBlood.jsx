@@ -172,7 +172,7 @@ const DonateBlood = () => {
     const verifyOtp = async () =>{
         const donorDet = {
             firstName : donorInfo.firstName,
-            lastName : donorInfo.lastDonated,
+            lastName : donorInfo.lastName,
             dob : donorInfo.dob,
             email : donorInfo.email,
             phoneNumber : `+91${donorInfo.phoneNumber}`,
