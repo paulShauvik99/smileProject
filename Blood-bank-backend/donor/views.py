@@ -235,18 +235,34 @@ def get_donor_records(request):
 
         try :
             donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", donor = donor.id).all()
+            pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", donor = donor.id).first()
+            pendingRecipient = Recipient.objects.filter(id = pendingDonation.recipient).first()
+            pendingRecipientJson = {
+                "name" : pendingRecipient.firstName +" " +  pendingRecipient.lastName,
+                "address" : pendingRecipient.address,
+                "date" : pendingRecipient.date
+            }
             data = []
             for obj in donationList:
                 recipient = Recipient.objects.filter(id = obj.recipient).first()
                 data.append({
-                    "recipient_name" : recipient.firstName + recipient.lastName,
+                    "recipient_name" : recipient.firstName +" "+ recipient.lastName,
                     "bloodGroup" : recipient.bloodGroup,
                     "address" : recipient.address,
                     "date" : recipient.date
     
                 })
+
+            donorObj = Donor.objects.filter(id = donor.id).first()
+            donorJson = {
+                "name" : donor.firstName +" "+ donor.lastName,
+                "bloodGroup" : donor.bloodGroup,
+                "lastDonation" : donor.lastDonated,
+                "address" : donor.address,
+
+            }
             
-            return JsonResponse({"status" : "Data fetched"},status=200)
+            return JsonResponse({"status" : "Data fetched","pastRecord" :data,"donorDetails" : donorJson,"pendingDonation" : pendingRecipientJson },status=200)
         except Exception as e:
             print(e)
             JsonResponse({"error" : "Error while fetching data"},status=500)
@@ -336,6 +352,14 @@ def confirm_donor(request):
             if records is not None:
                 for record in records:
                     record.delete()
+
+
+            donor = pair.donor
+            donorRecords = MatchedDonor.objects.filter(donor = donor,status = 'Pending')
+            if donorRecords is not None:
+                for record in donorRecords:
+                    record.delete()
+
                 
             
         
