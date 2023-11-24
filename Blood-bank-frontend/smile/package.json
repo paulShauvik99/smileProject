@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.17",
+    "@mui/x-data-grid": "^6.18.2",
     "@mui/x-date-pickers": "^6.18.1",
     "@phosphor-icons/react": "^2.0.14",
     "axios": "^1.6.2",

@@ -176,17 +176,7 @@ const DonateBlood = () => {
                             </FormControl>
                         </GridItem>
                         
-                        <GridItem colSpan={2}>
-                            <FormControl isRequired>
-                                <FormLabel htmlFor='address'>Address</FormLabel>
-                                <InputGroup>
-                                    <InputLeftAddon className='address' height={20}>
-                                        <Icon as={HouseLine}  boxSize={8} weight='duotone' color='#ce2432' />
-                                    </InputLeftAddon>
-                                    <Textarea variant='pill' fontSize={14} resize='none' name="address" value={donorInfo.address} onChange={e =>  setDetails(e)} />
-                                </InputGroup>
-                            </FormControl>
-                        </GridItem>
+                        
                     </Grid>
                 </>
             )
@@ -272,6 +262,18 @@ const DonateBlood = () => {
                                         <Icon as={Phone} boxSize={8} weight='duotone' color='#ce2432' />
                                     </InputLeftAddon>
                                     <Input variant='pill' height={30} fontSize={14}  type="number" name="phone" value={donorInfo.phone} onChange={e =>  setDetails(e)} />
+                                </InputGroup>
+                            </FormControl>
+                        </GridItem>
+
+                        <GridItem colSpan={2}>
+                            <FormControl isRequired>
+                                <FormLabel htmlFor='address'>Address</FormLabel>
+                                <InputGroup>
+                                    <InputLeftAddon className='address' height={20}>
+                                        <Icon as={HouseLine}  boxSize={8} weight='duotone' color='#ce2432' />
+                                    </InputLeftAddon>
+                                    <Textarea variant='pill' fontSize={14} resize='none' name="address" value={donorInfo.address} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>

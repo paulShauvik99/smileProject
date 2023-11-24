@@ -13,6 +13,70 @@ html{
 }
 
 
+
+
+//Admin , Admin Dashboard
+
+
+.admin_outer_div{
+    min-height: 100vh;
+    width: $main-width;
+    background-color: $bg-primary;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    &::after{
+        content : "";
+        position: absolute;
+        width: 100rem;
+        height: 150rem;
+        background-color: $bg-secondary;
+        top : 10rem;
+        right: -15rem;
+        // z-index: -5;
+        rotate: 317deg;
+        border-radius: 43rem 33rem 105rem 10rem;
+        box-shadow: 0 0 60rem $bg-shadow,
+                    0 0 1rem $bg-secondary;
+
+        
+    }
+    &::before{
+        content : "";
+        position: absolute;
+        width: 40rem;
+        height: 50rem;
+        background-color: $bg-secondary;
+        top : 2rem;
+        left: 2rem;
+        // z-index: -5;
+        rotate: 300deg;
+        border-radius: 33rem 14rem 15rem 20rem;
+        box-shadow: 0 0 60rem $bg-shadow,
+                    0 0 1rem $bg-secondary;
+        
+    }
+
+    & .admin_inner_div{
+        z-index: 6;
+        
+        
+        
+        
+        & .css-10hburv-MuiTypography-root{
+            font-size: 2rem;
+        }
+    }
+
+
+
+}
+
+
+
+
+
 //Navbar
 
 .outer_nav{
@@ -99,16 +163,21 @@ html{
 
 
 
-//Donate Blood
 
 
+//Donate Blood, Donor Dashboard, Request Blood, Request Dashboard
+
+.css-79ws1d-MuiModal-root {
+    & .css-1hv8oq8-MuiStepLabel-label {
+        font-size: 1.6rem !important;
+    }
+
+}
 .donate_outer_div, .request_outer_div , .req_dashboard_outer_div , .don_dashboard_outer_div {
-    // font-size: 3rem;
     min-height: $main-height;
     width: $main-width;
     background-color: $bg-primary;
     position: relative;
-    // z-index: -6;
     overflow: hidden;
     &::after{
         content : "";
@@ -142,9 +211,9 @@ html{
         
     }
 
-    & .donate_inner_div, & .request_inner_div, & .req_dashboard_inner_div{
-        
-        & .req_dashboard_content{
+    & .donate_inner_div, & .request_inner_div, & .req_dashboard_inner_div, & .don_dashboard_inner_div{
+    
+        & .req_dashboard_content, & .don_dashboard_content{
             width: 100%;
             min-height: 100rem;
             display: flex;
@@ -153,6 +222,14 @@ html{
             & .actual_content{
                 z-index: 6;
                 width: 135em;
+                background-color: rgba(255, 255, 255, 0.2);
+                border-radius: 2.5rem;
+                border-left: 3px solid rgba(255, 255, 255, 0.7);
+                border-bottom: 3px solid rgba(255, 255, 255, 0.7);
+                border-top: 1px solid rgba(255, 255, 255, 0.7);
+                border-right: 1px solid rgba(255, 255, 255, 0.7);
+                box-shadow: inset 0px 0px 15rem 0px rgba(255, 255, 255, 0.8);
+                
                 & .grid_container{
                     display: grid;
                     grid-template-areas:    "main calendar"
@@ -162,21 +239,41 @@ html{
                     gap: 1rem;
                     padding: 3rem;
 
+
                     & .main{
                         grid-area: main;
-                        background-color: teal;
-                        
+                        justify-content: space-around;
+                        align-items: space-around;
+                        display: flex;
+                        flex-direction: column;
+                        & .remaining_units{
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            place-self: flex-start;
+                        }
+
+                        & .register_patient{
+                            place-self: flex-start;
+                            margin-left: 2rem ;
+
+                            
+
+                        }
                     }
+
+
                     & .calendar{
                         grid-area: calendar;
-                        background-color: aqua;
                         display: flex;
-                        // width: 100%;
                         flex-direction: column;
                         justify-content: center;
                         & .css-4pax7l-MuiPickersLayout-root{
                             height: 50rem;
-
+                            background-image: $check-main;
+                            border-bottom: 2px solid $bg-shadow;
+                            border-right: 2px solid $bg-shadow;
+                            box-shadow: 0 0 9rem rgba(0 , 0 , 0 , 0.2);
                             & .css-16b5y55-MuiPickersLayout-contentWrapper{
                                 justify-content: center;
                             }
@@ -188,6 +285,7 @@ html{
                         & .css-nk89i7-MuiPickersCalendarHeader-root{
                             margin-bottom: 3rem;
                             justify-content: center;
+                            
                             & .css-cyfsxc-MuiPickersCalendarHeader-labelContainer{
                                 margin-right: 0 !important;
                             }
@@ -197,6 +295,13 @@ html{
                             }
 
                             
+                        }
+                        & .css-1q04gal-MuiDateCalendar-root{
+                            margin-top: -1rem;
+                        }
+
+                        & .css-4pax7l-MuiPickersLayout-root{
+                            border-radius: 2rem !important;
                         }
 
                         & .css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel{
@@ -210,37 +315,56 @@ html{
                             font-size : 1.2rem !important;
                             width: 3.72rem;
                             height: 3.72rem;
+                            &:hover {
+                                background-color: rgba(208, 162, 83, 0.547);
+                            }
                             
                         }
                         & .css-1u23akw-MuiButtonBase-root-MuiPickersDay-root{
                             font-size : 1.2rem !important;
                             width: 3.72rem;
                             height: 3.72rem;
+                            &:hover{
+                                background-color: rgba(208, 162, 83, 0.547);
+                            }
                             
                         }
                         & .css-jgls56-MuiButtonBase-root-MuiPickersDay-root.Mui-selected{
                             font-size : 1.2rem !important;
                             width: 3.72rem;
                             height: 3.72rem;
+                            background-color: orange;
                             
                         }
                         & .css-jgls56-MuiButtonBase-root-MuiPickersDay-root{
                             font-size : 1.2rem !important;
                             width: 3.72rem;
                             height: 3.72rem;
+                            // background-color: rgba(208, 162, 83, 0.547);
+                        }
 
+                        & .css-1mnzkq2-MuiBadge-badge{
+                            background-color: #ff610c;
                         }
 
                     }
                     & .requests{
                         grid-area: requests;
-                        background-color: lightgreen; 
                         height: 100%;
                     }
-
-
-
                 }
+
+                & .modal_div{
+
+                    & .css-ascpo7-MuiStepLabel-root {
+                        & .css-1vyamtt-MuiStepLabel-labelContainer{
+                            & .css-1hv8oq8-MuiStepLabel-label {
+                                font-size: 1.8rem !important;
+                            }
+                        }
+                    }
+                }
+
             }
 
 
@@ -258,11 +382,11 @@ html{
 
             
             & .donate_registration_form, & .request_registration_form {
-                background-color: rgba(255, 255, 255, 0.2);
-                border-radius: 2.5rem;
                 width: 70rem;
                 padding: 4rem;
                 z-index: 6;  
+                background-color: rgba(255, 255, 255, 0.2);
+                border-radius: 2.5rem;
                 border-left: 3px solid rgba(255, 255, 255, 0.7);
                 border-bottom: 3px solid rgba(255, 255, 255, 0.7);
                 border-top: 1px solid rgba(255, 255, 255, 0.7);
