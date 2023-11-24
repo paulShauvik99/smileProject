@@ -28,6 +28,8 @@ import {
 import { IdentificationBadge, Envelope, Phone ,Calendar, HouseLine, Drop } from '@phosphor-icons/react'
 import TableComp from '../Components/Table';
 import CalendarComp from '../Components/Calendar';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 
@@ -374,7 +376,22 @@ export default function RequestDashboard() {
     }
 
 
-    useEffect(() => {
+    useEffect(async () => {
+
+        try {
+            const res = await axios.get('http://127.0.0.1:8000/recipient/get_available_dates/')
+            console.log(res.data)
+            if('success' in res.data){
+                   
+            }
+        } catch (error) {
+            toast.error(error.resoponse.data.message, {
+                position : toast.POSITION.TOP_RIGHT
+            })
+        }
+
+
+
         const timer = setInterval(() => {
             setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 25));
         }, 800);
@@ -610,6 +627,8 @@ export default function RequestDashboard() {
                                         </Box>
                                         </Fade>
                                     </Modal>
+
+                                    <ToastContainer />
                                 </div>
                             </div>
                         </div>
