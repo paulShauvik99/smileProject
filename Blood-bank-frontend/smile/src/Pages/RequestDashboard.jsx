@@ -377,17 +377,24 @@ export default function RequestDashboard() {
     }
 
 
-    useEffect(() => {
-
+    const loadAPI = async () =>{
         try {
-            
+            const res = await axios.get('http://127.0.0.1:8000/recipient/get_available_dates/')
+            console.log(res)
+            if(res.data.status === 'success'){
+                console.log(res.data.dates)
+            }
         } catch (error) {
             toast.error(error.resoponse.data.message, {
                 position : toast.POSITION.TOP_RIGHT
             })
         }
+    }
 
 
+    useEffect(() => {
+
+        loadAPI()
 
         const timer = setInterval(() => {
             setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 25));
@@ -395,7 +402,11 @@ export default function RequestDashboard() {
         return () => {
             clearInterval(timer);
         };
+
+
     }, []);
+
+
 
     const rows = [
         {
