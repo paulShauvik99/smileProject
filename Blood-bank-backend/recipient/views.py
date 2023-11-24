@@ -137,15 +137,15 @@ def request_blood(request):
 @csrf_exempt
 def get_available_dates(request):
     if request.method == "GET":
-        phoneNumber = request.session.get('member_id')
-        if phoneNumber is None:
-            return JsonResponse({"error" : "Invalid Session Id"},status =401)
+        # phoneNumber = request.session.get('member_id')
+        # if phoneNumber is None:
+        #     return JsonResponse({"error" : "Invalid Session Id"},status =401)
         try:
             dates = Calender.objects.all()
-            data = []
+            data = {}
             for date in dates:
-                data.append({"date" : date.date, "quantity" : date.quantity})
+                data.append({str(date.date): date.quantity})
         except Exception as e:
             return JsonResponse({"error" : "Something Went Wrong"},status=500)
-        return JsonResponse({"success" : data},status=200)
+        return JsonResponse({"status" : "success","dates" : data},status=200)
     return JsonResponse({"error" : "Invalid request method"},status =400)

@@ -29,7 +29,8 @@ import { IdentificationBadge, Envelope, Phone ,Calendar, HouseLine, Drop } from 
 import TableComp from '../Components/Table';
 import CalendarComp from '../Components/Calendar';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer , toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -376,14 +377,10 @@ export default function RequestDashboard() {
     }
 
 
-    useEffect(async () => {
+    useEffect(() => {
 
         try {
-            const res = await axios.get('http://127.0.0.1:8000/recipient/get_available_dates/')
-            console.log(res.data)
-            if('success' in res.data){
-                   
-            }
+            
         } catch (error) {
             toast.error(error.resoponse.data.message, {
                 position : toast.POSITION.TOP_RIGHT
