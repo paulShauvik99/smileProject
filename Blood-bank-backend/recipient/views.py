@@ -144,8 +144,8 @@ def get_available_dates(request):
             dates = Calender.objects.all()
             data = []
             for date in dates:
-                data.append({"date" : date.date, "quantity" : date.quantity})
+                data.append({"date.date": date.quantity})
         except Exception as e:
             return JsonResponse({"error" : "Something Went Wrong"},status=500)
-        return JsonResponse({"success" : data},status=200)
+        return JsonResponse({"status" : "success","dates" : data},status=200)
     return JsonResponse({"error" : "Invalid request method"},status =400)
