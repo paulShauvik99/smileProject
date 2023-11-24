@@ -11,8 +11,8 @@ class Donor(models.Model):
     lastName = models.CharField(default="",max_length=30)
     dob = models.DateField()
     bloodGroup = models.CharField(default="",max_length=30)
-    phoneNumber = models.TextField(default='',max_length=10)
-    email = models.TextField(default="",max_length=30)
+    phoneNumber = models.TextField(default='',max_length=14,null=True)
+    email = models.TextField(default="",max_length=30,null=True)
     lastDonated = models.DateField(null=True)
     address  = models.TextField(default="",max_length=500)
     
@@ -41,5 +41,5 @@ class MatchedDonor(models.Model):
 
 class Calender(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    date = models.DateField()
-    quantity = models.IntegerField(default=10)
+    date = models.DateField(null=True)
+    quantity = models.IntegerField(default=10,null=True)

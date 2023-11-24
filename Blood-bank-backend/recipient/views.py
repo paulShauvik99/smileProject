@@ -2,7 +2,7 @@ from django.shortcuts import render
 import json
 import datetime
 from recipient.models import Recipient
-from donor.models import Donor,MatchedDonor
+from donor.models import Donor,MatchedDonor,Calender
 from django.http import JsonResponse
 import datetime
 import pytz
@@ -28,6 +28,9 @@ def request_blood(request):
         units =body['units']
         dateString = body['date']
         date_format = '%Y-%m-%d'
+        phoneNumber = request.session.get('member_id')
+        if phoneNumber is None:
+            return JsonResponse({"error" : "Invalid Session Id"},status =401)
         
         #print(dob)
         birthDateObj = datetime.datetime.strptime(dob, date_format)
@@ -113,6 +116,12 @@ def request_blood(request):
                         
                     matched_donor = MatchedDonor(recipient=new_recipient.id, donor=donor.id)
                     matched_donor.save()
+                    dateObj = Calender.objects.filter(date = date).first()
+                    if dateObj:
+                        if dateObj.quantity <=0:
+                            return JsonResponse({"error" : "Dates Not available "},status = 400)
+                        dateObj.quantity -= 1
+                        dateObj.save()
                 
             return JsonResponse({"success" : "Request Placed Successfully"},status =201)
         except Exception as e:
@@ -125,3 +134,18 @@ def request_blood(request):
 
 
 
+@csrf_exempt
+def get_available_dates(request):
+    if request.method == "GET":
+        phoneNumber = request.session.get('member_id')
+        if phoneNumber is None:
+            return JsonResponse({"error" : "Invalid Session Id"},status =401)
+        try:
+            dates = Calender.objects.all()
+            data = []
+            for date in dates:
+                data.append({"date" : date.date, "quantity" : date.quantity})
+        except Exception as e:
+            return JsonResponse({"error" : "Something Went Wrong"},status=500)
+        return JsonResponse({"success" : data},status=200)
+    return JsonResponse({"error" : "Invalid request method"},status =400)
