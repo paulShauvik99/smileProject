@@ -50,14 +50,14 @@ def register(request) :
 
         try:
             new_donor = Donor(
-            firstName = firstName,
-            lastName = lastName,
-            dob = date_obj.date(),
-            bloodGroup = bloodGroup,
-            phoneNumber = phoneNumber,
-            email = email,
-            address = address,
-            id = id
+                firstName = firstName,
+                lastName = lastName,
+                dob = date_obj.date(),
+                bloodGroup = bloodGroup,
+                phoneNumber = phoneNumber,
+                email = email,
+                address = address,
+                id = id
             )
             new_donor.save()
         except Exception as e:

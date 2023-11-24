@@ -58,7 +58,7 @@ const DonateBlood = () => {
         count : steps.length
     })
 
-    
+        
     // State Handlers
     //Donor Information
     const [donorInfo, setDonorInfo] = useState({
