@@ -30,7 +30,7 @@ import {useNavigate} from 'react-router-dom'
 
 const RequestBlood = () => {
     
-    // axios.defaults.withCredentials=true
+    axios.defaults.withCredentials=true
 
     // Navigate
     const navigate = useNavigate()
