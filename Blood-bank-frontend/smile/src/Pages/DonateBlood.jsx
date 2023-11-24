@@ -33,12 +33,11 @@ import {
     VStack,
     Text
 } from '@chakra-ui/react'
-
-
-
 import { ChakraProvider, IconButton  } from '@chakra-ui/react'
 import { IdentificationBadge, Envelope, Phone ,Calendar, Password, Eye, EyeSlash, HouseLine, Drop, Gauge, CalendarCheck      } from '@phosphor-icons/react'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios'
 
 
 
@@ -51,6 +50,7 @@ const steps = [
 
 //Main Page 
 const DonateBlood = () => {
+    axios.defaults.withCredentials=true
 
     //Active Stepper State 
     const { activeStep , setActiveStep } = useSteps({
@@ -62,11 +62,11 @@ const DonateBlood = () => {
     // State Handlers
     //Donor Information
     const [donorInfo, setDonorInfo] = useState({
-        fName : '',
-        lName : '',
+        firstName : '',
+        lastName : '',
         dob : '',
         email : '',
-        phone : '',
+        phoneNumber : '',
         address : '',
         bloodGroup : '',
         weight : '',
@@ -130,6 +130,53 @@ const DonateBlood = () => {
 
     }
 
+    //APIs
+
+    const sendOtp = async () =>{
+        const phoneNumber = {
+            phoneNumber : `+91${donorInfo.phoneNumber}`
+        }
+
+        console.log(phoneNumber)
+        timer()
+        try{
+            const res =  await axios.post('http://127.0.0.1:8000/donor/send_otp/', JSON.stringify(phoneNumber))
+            console.log(res)
+            
+
+
+        }catch(err){
+            toast.error('Something Went Wrong!',{
+                position : toast.POSITION.BOTTOM_RIGHT
+            })
+        }
+
+    }
+
+
+    const verifyOtp = async () =>{
+        const donorDet = {
+            firstName : donorInfo.firstName,
+            lastName : donorInfo.lastDonated,
+            dob : donorInfo.dob,
+            email : donorInfo.email,
+            phoneNumber : `+91${donorInfo.phoneNumber}`,
+            address : donorInfo.address,
+            bloodGroup : donorInfo.bloodGroup,
+            weight : donorInfo.weight,
+            lastDonated : donorInfo.lastDonated,
+            isThalassemia : donorInfo.isThalassemia,
+        }
+        console.log(donorDet)
+        try {
+            const res = await axios.post('http://127.0.0.1:8000/donor/register/',JSON.stringify(donorDet))
+            console.log(res)
+        } catch (err) {
+            toast.error("Couldn't Verify. Something Went Wrong!",{
+                position : toast.POSITION.BOTTOM_RIGHT
+            })
+        }
+    }
 
     // console.log(donorInfo)
 
@@ -144,23 +191,23 @@ const DonateBlood = () => {
                     <Grid templateColumns='repeat(2, 1fr)' columnGap={14}>
                         <GridItem>
                             <FormControl isRequired>
-                                <FormLabel htmlFor='fname'>First Name</FormLabel>
+                                <FormLabel htmlFor='firstName'>First Name</FormLabel>
                                 <InputGroup>
                                     <InputLeftAddon height={30}>
                                         <Icon as={IdentificationBadge } boxSize={8} weight="duotone" color="#ce2432" />
                                     </InputLeftAddon>
-                                    <Input variant='pill' height={30} fontSize={14} type="text" name="fName" value={donorInfo.fName} onChange={e =>  setDetails(e)}  colorScheme='pink'/>
+                                    <Input variant='pill' height={30} fontSize={14} type="text" name="firstName" value={donorInfo.firstName} onChange={e =>  setDetails(e)}  colorScheme='pink'/>
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
                         <GridItem>
                             <FormControl isRequired>
-                                <FormLabel htmlFor='lname'>Last Name</FormLabel>
+                                <FormLabel htmlFor='lastName'>Last Name</FormLabel>
                                 <InputGroup>
                                     <InputLeftAddon height={30}>
                                         <Icon as={IdentificationBadge }  boxSize={8} weight="duotone" color="#ce2432" />
                                     </InputLeftAddon>
-                                    <Input variant='pill' height={30} fontSize={14} type="text" name="lName" value={donorInfo.lName} onChange={e =>  setDetails(e)} />
+                                    <Input variant='pill' height={30} fontSize={14} type="text" name="lastName" value={donorInfo.lastName} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
@@ -186,7 +233,7 @@ const DonateBlood = () => {
                     <Grid templateColumns='repeat(2, 1fr)' gap={12}>
                         <GridItem>
                             <FormControl isRequired>
-                                <FormLabel htmlFor='blood'>Blood Group</FormLabel>
+                                <FormLabel htmlFor='bloodGroup'>Blood Group</FormLabel>
                                 <InputGroup>
                                     <InputLeftAddon height={30}>
                                         <Icon as={Drop}  boxSize={8} weight='duotone' color='#ce2432' />
@@ -217,7 +264,7 @@ const DonateBlood = () => {
                             </FormControl>
                         </GridItem>
                         <GridItem>
-                            <FormControl isRequired>
+                            <FormControl>
                                 <FormLabel htmlFor='lastDonated'>Last Donated</FormLabel>
                                 <InputGroup>
                                     <InputLeftAddon height={30}>
@@ -256,12 +303,12 @@ const DonateBlood = () => {
                         </GridItem>
                         <GridItem>
                             <FormControl isRequired>
-                                <FormLabel htmlFor='phone'>Phone</FormLabel>
+                                <FormLabel htmlFor='phoneNumber'>Phone</FormLabel>
                                 <InputGroup>
                                     <InputLeftAddon height={30}>
                                         <Icon as={Phone} boxSize={8} weight='duotone' color='#ce2432' />
                                     </InputLeftAddon>
-                                    <Input variant='pill' height={30} fontSize={14}  type="number" name="phone" value={donorInfo.phone} onChange={e =>  setDetails(e)} />
+                                    <Input variant='pill' height={30} fontSize={14}  type="number" name="phoneNumber" value={donorInfo.phoneNumber} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
@@ -294,7 +341,7 @@ const DonateBlood = () => {
                                         height='35px'
                                         width='120px'
                                         fontSize='16px'
-                                        onClick={timer}
+                                        onClick={sendOtp}
                                         isDisabled={disability}
                                     >
                                         {changeText}
@@ -391,7 +438,7 @@ const DonateBlood = () => {
                                             </Button>
 
                                             <Button 
-                                                // onClick={handleNext} 
+                                                onClick={verifyOtp} 
                                                 color="red.500" bg="red.200" 
                                                 _hover={{color:'red.50' , bg: 'red.400'}} 
                                                 className='reg_btn'
@@ -452,7 +499,7 @@ const DonateBlood = () => {
                     <div className="donate_login">
 
                     </div>
-
+                    <ToastContainer />
                 </div>
             </div>
 
