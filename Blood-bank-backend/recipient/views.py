@@ -10,7 +10,6 @@ import uuid
 from twilio.rest import Client
 from sms import send_sms
 import jwt
-import pyotp
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
@@ -22,7 +21,6 @@ def request_blood(request):
         firstName = body['firstName']
         lastName = body['lastName']
         dob = body['dob']
-        otp = body['otp']
         bloodGroup = body['bloodGroup']
         phoneNumber = body['phoneNumber']
         email = body['email']
@@ -30,31 +28,7 @@ def request_blood(request):
         units =body['units']
         dateString = body['date']
         date_format = '%Y-%m-%d'
-
-   
-        try:
-            
-            secret_key = request.session.get('secret_key')
-            print(secret_key)
-            totp = pyotp.TOTP(secret_key,interval=300)
-            status = totp.verify(otp)
-            print(status)
-            phoneNumber = request.session.get('phoneNumber')
-            del request.session['phoneNumber']
-            del request.session['secret_key']
-            
-            request.session['member_id'] = phoneNumber
-            request.session.set_expiry(3000000)
-            
-
-        except Exception as e:
-            print(e)
-            return JsonResponse({"status" : "OTP verification Failed "  },status=400)
-  
-
-
-
-
+        
         #print(dob)
         birthDateObj = datetime.datetime.strptime(dob, date_format)
         #dateObj = datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata'))

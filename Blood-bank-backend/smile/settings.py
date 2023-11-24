@@ -156,7 +156,7 @@ DATABASES = {
             'NAME': 'blood_bank',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'mongodb+srv://gdas:abcdefgh@smile1.lbmzkff.mongodb.net/?retryWrites=true&w=majority',
+                'host': env('HOST'),
                 'username' :'gdas',
                 'password' : 'abcdefgh',
                 'authSource' : 'admin'
