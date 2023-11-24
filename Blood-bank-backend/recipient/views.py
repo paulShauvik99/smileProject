@@ -114,7 +114,7 @@ def request_blood(request):
                     #     from_=from_
                     # )
                         
-                    matched_donor = MatchedDonor(recipient=new_recipient.id, donor=donor.id)
+                    matched_donor = MatchedDonor(recipient=new_recipient.id, donor=donor.id,date=date)
                     matched_donor.save()
                     dateObj = Calender.objects.filter(date = date).first()
                     if dateObj:
@@ -149,3 +149,41 @@ def get_available_dates(request):
             return JsonResponse({"error" : "Something Went Wrong"},status=500)
         return JsonResponse({"status" : "success","dates" : data},status=200)
     return JsonResponse({"error" : "Invalid request method"},status =400)
+
+
+@csrf_exempt
+def get_recipient_records(request):
+    if request.method == "GET":
+        phoneNumber = request.session.get('member_id')
+        if phoneNumber is None:
+            return JsonResponse({"error" : "Invalid Session Id"},status =401)
+        
+        recipient = Recipient.objects.filter(phoneNumber = phoneNumber).first()
+      
+        try :
+            donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", recipient = recipient.id).order_by("-date").all()
+            pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", recipient = recipient.id).first()
+            pendingDonor = Donor.objects.filter(id = pendingDonation.donor).first()
+            pendingDonorJson = {
+                "name" : pendingDonor.firstName +" " +  pendingDonor.lastName,
+                "address" : pendingDonor.address,
+                "phoneNumber" : pendingDonor.phoneNumber,
+            }
+            data = []
+            for obj in donationList:
+                donor = Donor.objects.filter(id = obj.donor).first()
+                data.append({
+                    "recipient_name" : donor.firstName +" "+ donor.lastName,
+                    "bloodGroup" : donor.bloodGroup,
+                    "address" : donor.address,
+                    "date" : obj.date
+                    
+    
+                })
+            
+            return JsonResponse({"status" : "Data fetched","pastRecord" :data,"pendingDonation" : pendingDonorJson },status=200)
+        except Exception as e:
+            print(e)
+            JsonResponse({"error" : "Error while fetching data"},status=500)
+    
+    return JsonResponse({"error" : "Invalid Request Method"},status = 400)

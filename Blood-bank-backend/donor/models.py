@@ -35,7 +35,7 @@ class MatchedDonor(models.Model):
     donor = models.UUIDField( null=True,default=None)
     status = models.CharField(default="Pending",max_length=10)
     donated = models.CharField(default="No",max_length=10)
-
+    date = models.DateField(timezone.now)
     def __str__(self):
         return self.id
 
