@@ -39,3 +39,7 @@ class MatchedDonor(models.Model):
     def __str__(self):
         return self.id
 
+class Calender(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    date = models.DateField()
+    quantity = models.IntegerField(default=10)

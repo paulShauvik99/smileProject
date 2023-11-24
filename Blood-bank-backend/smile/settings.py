@@ -11,16 +11,29 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+
+env = environ.Env()
+
+
+environ.Env.read_env()
+
+
+SECRET_KEY = env("SECRET_KEY")
+#SESSION_SAVE_EVERY_REQUEST = True
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1i&!f7cipita@ep7%hvmq&e)x&(@(s1zq5t47%b=yifc62j+50'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -56,23 +69,29 @@ MIDDLEWARE = [
 ]
 
 
-CSRF_TRUSTED_ORIGINS = ['https://*.127.0.0.1', ]
+CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1:3000', ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+#CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_AGE = 1800
+
 
 
 
 # custom added
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'https://*',
-    'http://*'
+   
+    'http://127.0.0.1:3000'
+    
 
   ]
 CSRF_TRUSTED_ORIGINS = [
-    'https://*',
-    'http://*'
+ 
 ]
+
+
 
 CORS_ALLOW_METHODS = [
     'GET',
@@ -123,13 +142,25 @@ WSGI_APPLICATION = 'smile.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# print(type(env('HOST')))
+# print(type(env('PASSWORD')))
+# print(env('AUTHSOURCE'))
+# print(type('mongodb+srv://gdas:abcdefgh@smile1.lbmzkff.mongodb.net/?retryWrites=true&w=majority'))
+# host =str(env('HOST'))
+# user = str(env('USERNAME'))
+# password = str(env('PASSWORD'))
+
 DATABASES = {
         'default': {
             'ENGINE': 'djongo',
             'NAME': 'blood_bank',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': 'mongodb://127.0.0.1:27017/'
+                'host': 'mongodb+srv://gdas:abcdefgh@smile1.lbmzkff.mongodb.net/?retryWrites=true&w=majority',
+                'username' :'gdas',
+                'password' : 'abcdefgh',
+                'authSource' : 'admin'
+
             }  
         }
 }
@@ -184,8 +215,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Twilio Account SID and Auth Token
-TWILIO_ACCOUNT_SID = 'AC2ef3fffdc6f6d22ec7066a4f347aac5c'
-TWILIO_AUTH_TOKEN = '0cdb5c0bc65f4293cae67f035a871834'
+TWILIO_ACCOUNT_SID = env('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = env('TWILIO_AUTH_TOKEN')
 
 # Twilio Phone Number (from which you'll send SMS)
-TWILIO_PHONE_NUMBER = '+12568249842'
+TWILIO_PHONE_NUMBER = env('TWILIO_PHONE_NUMBER')
