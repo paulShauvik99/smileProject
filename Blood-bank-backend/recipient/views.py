@@ -155,6 +155,7 @@ def get_available_dates(request):
 def get_recipient_records(request):
     if request.method == "GET":
         phoneNumber = request.session.get('member_id')
+        print(phoneNumber)
         if phoneNumber is None:
             return JsonResponse({"error" : "Invalid Session Id"},status =401)
         

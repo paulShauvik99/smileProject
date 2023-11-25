@@ -181,7 +181,7 @@ function CircularProgressWithLabel(props) {
 
 // Main Export Function
 export default function RequestDashboard() {
-
+    axios.defaults.withCredentials = true
     //State Variables
     //Progress of Circular Progress
     const [progress, setProgress] = useState(0);
@@ -384,6 +384,12 @@ export default function RequestDashboard() {
             if(res.data.status === 'success'){
                 console.log(res.data.dates)
             }
+
+            const res2 = await axios.get('http://127.0.0.1:8000/recipient/get_recipient_records/')
+            console.log(res2.data)
+
+
+
         } catch (error) {
             toast.error(error.resoponse.data.message, {
                 position : toast.POSITION.TOP_RIGHT
