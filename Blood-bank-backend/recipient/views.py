@@ -159,6 +159,9 @@ def get_recipient_records(request):
             return JsonResponse({"error" : "Invalid Session Id"},status =401)
         
         recipient = Recipient.objects.filter(phoneNumber = phoneNumber).first()
+
+        if recipient is None:
+            return JsonResponse({"status" : "error" , "msg" : "No records Found"},status = 500)
       
         try :
             donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", recipient = recipient.id).order_by("-date").all()
