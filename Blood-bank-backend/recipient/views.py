@@ -22,7 +22,7 @@ def request_blood(request):
         lastName = body['lastName']
         dob = body['dob']
         bloodGroup = body['bloodGroup']
-        phoneNumber = body['phoneNumber']
+        alternateNumber = body['phoneNumber']
         email = body['email']
         address = body['address']
         units =body['units']
@@ -65,6 +65,7 @@ def request_blood(request):
             dob = birthDateObj.date(),
             bloodGroup = bloodGroup,
             phoneNumber = phoneNumber,
+            alternateNumber = alternateNumber,
             email = email,
             address = address,
             date = date,
