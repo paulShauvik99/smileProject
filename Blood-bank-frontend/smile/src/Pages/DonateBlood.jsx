@@ -40,6 +40,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import LoginPage from '../Components/LoginPage'
+import Swal from 'sweetalert2'
 
 
 
@@ -93,6 +94,13 @@ const DonateBlood = () => {
     
     const [n ,setN ] = useState(1)
     const [isLogin , setIsLogin] = useState(false)
+    const [isInValid , setIsInValid] = useState({
+        firstName : false,
+        lastName : false,
+        email : false,
+        phoneNumber : false,
+        address : false,
+    })
     //Handlers
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -104,6 +112,83 @@ const DonateBlood = () => {
 
     const setDetails = (e) =>{
         let name = e.target.name
+        let value = e.target.value
+        switch(name){
+            case 'firstName' : 
+                if (value.trim().length < 3){
+                    setIsInValid(prevState => ({
+                        ...prevState,
+                        [name] : true
+                    }))
+                    break
+                }else{
+                    setIsInValid(prevState => ({
+                        ...prevState,
+                        [name] : false
+                    }))
+                    break
+                }
+
+            case 'lastName' : 
+                if(value.trim().length < 3){
+                    setIsInValid(prevState => ({
+                        ...prevState,
+                        [name] : true
+                    }))
+                    break
+                }else{
+                    setIsInValid(prevState => ({
+                        ...prevState,
+                        [name] : false
+                    }))
+                    break
+                }
+                
+            case 'email' : 
+                if(value.trim().length == 0){
+                    setIsInValid(prevState => ({
+                        ...prevState,
+                        [name] : true
+                    }))
+                    break
+                }else{
+                    setIsInValid(prevState => ({
+                        ...prevState,
+                        [name] : false
+                    }))
+                    break
+                }
+            
+            case 'phoneNumber' : 
+                if(value.trim().length !== 10){
+                    setIsInValid(prevState => ({
+                        ...prevState,
+                        [name] : true
+                    }))
+                    break
+                }else{
+                    setIsInValid(prevState => ({
+                        ...prevState,
+                        [name] : false
+                    }))
+                    break
+                }
+            
+            case 'address' : 
+                if(value.trim().length < 10){
+                    setIsInValid(prevState => ({
+                        ...prevState,
+                        [name] : true
+                    }))
+                    break
+                }else{
+                    setIsInValid(prevState => ({
+                        ...prevState,
+                        [name] : false
+                    }))
+                    break
+                }
+        }
         setDonorInfo(prevState => ({
                 ...prevState , 
                 [name] : e.target.value
@@ -140,31 +225,37 @@ const DonateBlood = () => {
     //APIs
 
     const sendOtp = async () =>{
-        const phoneNumber = {
-            phoneNumber : `+91${donorInfo.phoneNumber}`
-        }
 
-        console.log(phoneNumber)
-        timer()
-        try{
-            const res =  await axios.post('http://127.0.0.1:8000/donor/send_otp/', JSON.stringify(phoneNumber))
-            if('success' in res.data){
-                toast.success(res.data.success, {
-                    position : toast.POSITION.TOP_RIGHT
-                })
-            }else{
-                toast.error(res.data.error , {
+        if(donorInfo.firstName === '' || donorInfo.lastName === '' || donorInfo.dob === '' || donorInfo.email === '' || donorInfo.phoneNumber === '' || donorInfo.address === '' || donorInfo.bloodGroup === ''){
+            Swal.fire({
+                text : 'Please Fill the Details Completely',
+                icon : 'error'
+            })
+        }else{
+            const phoneNumber = {
+                phoneNumber : `+91${donorInfo.phoneNumber}`
+            }
+
+            console.log(phoneNumber)
+            timer()
+            try{
+                const res =  await axios.post('http://127.0.0.1:8000/donor/send_otp/', JSON.stringify(phoneNumber))
+                if('success' in res.data){
+                    toast.success(res.data.success, {
+                        position : toast.POSITION.TOP_RIGHT
+                    })
+                }else{
+                    toast.error(res.data.error , {
+                        position : toast.POSITION.TOP_RIGHT
+                    })
+                }
+                console.log(res)
+                
+            }catch(err){
+                toast.error(err.response.data.error,{
                     position : toast.POSITION.TOP_RIGHT
                 })
             }
-            console.log(res)
-            
-
-
-        }catch(err){
-            toast.error(err.response.data.error,{
-                position : toast.POSITION.TOP_RIGHT
-            })
         }
 
     }
@@ -226,7 +317,7 @@ const DonateBlood = () => {
                                     <InputLeftAddon height={30}>
                                         <Icon as={IdentificationBadge } boxSize={8} weight="duotone" color="#ce2432" />
                                     </InputLeftAddon>
-                                    <Input variant='pill' height={30} fontSize={14} type="text" name="firstName" value={donorInfo.firstName} onChange={e =>  setDetails(e)}  colorScheme='pink'/>
+                                    <Input variant='outline' backgroundColor='red.50' errorBorderColor='red.400' focusBorderColor={isInValid.firstName ? 'red.400' : 'green.300'} isInvalid={isInValid.firstName} height={30} fontSize={14} type="text" name="firstName" value={donorInfo.firstName} onChange={e =>  setDetails(e)}  colorScheme='pink'/>
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
@@ -237,7 +328,7 @@ const DonateBlood = () => {
                                     <InputLeftAddon height={30}>
                                         <Icon as={IdentificationBadge }  boxSize={8} weight="duotone" color="#ce2432" />
                                     </InputLeftAddon>
-                                    <Input variant='pill' height={30} fontSize={14} type="text" name="lastName" value={donorInfo.lastName} onChange={e =>  setDetails(e)} />
+                                    <Input variant='outline' backgroundColor='red.50' errorBorderColor='red.400' focusBorderColor={isInValid.lastName ? 'red.400' : 'green.300'} isInvalid={isInValid.lastName} height={30} fontSize={14} type="text" name="lastName" value={donorInfo.lastName} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
@@ -248,7 +339,7 @@ const DonateBlood = () => {
                                     <InputLeftAddon height={30}>
                                         <Icon as={Calendar }  boxSize={8} weight="duotone" color="#ce2432" />
                                     </InputLeftAddon>
-                                    <Input variant='pill' height={30} fontSize={14}  type="date" name="dob" value={donorInfo.dob} onChange={e =>  setDetails(e)} />
+                                    <Input variant='outline' backgroundColor='red.50' height={30} fontSize={14}  type="date" name="dob" value={donorInfo.dob} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
@@ -268,7 +359,7 @@ const DonateBlood = () => {
                                     <InputLeftAddon height={30}>
                                         <Icon as={Drop}  boxSize={8} weight='duotone' color='#ce2432' />
                                     </InputLeftAddon>
-                                    <Select placeholder='Select Your Blood Group' height={30} fontSize={14} variant="pill" name='bloodGroup' value={donorInfo.bloodGroup} onChange={e =>  setDetails(e)}>
+                                    <Select placeholder='Select Your Blood Group' height={30} fontSize={14} variant="outline" backgroundColor='red.50' name='bloodGroup' value={donorInfo.bloodGroup} onChange={e =>  setDetails(e)}>
                                         <option value='A+'>A Positive (A+)</option>
                                         <option value='A-'>A Negative (A-)</option>
                                         <option value='B+'>B Positive (B+)</option>
@@ -288,7 +379,7 @@ const DonateBlood = () => {
                                     <InputLeftAddon height={30}>
                                         <Icon as={Gauge}  boxSize={8} weight='duotone' color='#ce2432' />
                                     </InputLeftAddon>
-                                    <Input variant='pill' height={30} fontSize={14}  type="number" name="weight" value={donorInfo.weight} onChange={e =>  setDetails(e)} />
+                                    <Input variant='outline' backgroundColor='red.50' height={30} fontSize={14}  type="number" name="weight" value={donorInfo.weight} onChange={e =>  setDetails(e)} />
                                     <InputRightAddon children='kg'  height={30}/>
                                 </InputGroup>
                             </FormControl>
@@ -300,7 +391,7 @@ const DonateBlood = () => {
                                     <InputLeftAddon height={30}>
                                         <Icon as={CalendarCheck } boxSize={8} weight='duotone' color='#ce2432' />
                                     </InputLeftAddon>
-                                    <Input variant='pill' height={30} fontSize={14}  type="date" name="lastDonated" value={donorInfo.lastDonated} onChange={e =>  setDetails(e)} />
+                                    <Input variant='outline' backgroundColor='red.50' height={30} fontSize={14}  type="date" name="lastDonated" value={donorInfo.lastDonated} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
@@ -327,7 +418,7 @@ const DonateBlood = () => {
                                 <InputLeftAddon height={30}>
                                     <Icon as={Envelope} boxSize={8} weight="duotone" color="#ce2432" />
                                 </InputLeftAddon>
-                                <Input variant='pill' height={30} fontSize={14}  type="email" name="email" value={donorInfo.email} onChange={e =>  setDetails(e)} />
+                                <Input variant='outline' backgroundColor='red.50' errorBorderColor='red.400' focusBorderColor={isInValid.email ? 'red.400' : 'green.300'} isInvalid={isInValid.email} height={30} fontSize={14}  type="email" name="email" value={donorInfo.email} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
@@ -338,7 +429,7 @@ const DonateBlood = () => {
                                     <InputLeftAddon height={30}>
                                         <Icon as={Phone} boxSize={8} weight='duotone' color='#ce2432' />
                                     </InputLeftAddon>
-                                    <Input variant='pill' height={30} fontSize={14}  type="number" name="phoneNumber" value={donorInfo.phoneNumber} onChange={e =>  setDetails(e)} />
+                                    <Input variant='outline' backgroundColor='red.50' errorBorderColor='red.400' focusBorderColor={isInValid.phoneNumber ? 'red.400' : 'green.300'} isInvalid={isInValid.phoneNumber} height={30} fontSize={14}  type="number" name="phoneNumber" value={donorInfo.phoneNumber} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
@@ -350,7 +441,7 @@ const DonateBlood = () => {
                                     <InputLeftAddon className='address' height={20}>
                                         <Icon as={HouseLine}  boxSize={8} weight='duotone' color='#ce2432' />
                                     </InputLeftAddon>
-                                    <Textarea variant='pill' fontSize={14} resize='none' name="address" value={donorInfo.address} onChange={e =>  setDetails(e)} />
+                                    <Textarea variant='outline' backgroundColor='red.50' errorBorderColor='red.400' focusBorderColor={isInValid.address ? 'red.400' :  'green.300'} isInvalid={isInValid.address} fontSize={14} resize='none' name="address" value={donorInfo.address} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
@@ -380,8 +471,8 @@ const DonateBlood = () => {
                                     
                                 </HStack>
                                 <HStack>
-                                    <PinInput otp variant='pill' placeholder='_' size='lg' value={otpVal}  onChange={e=>setOtpVal(e)} >
-                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
+                                    <PinInput otp variant='outline' backgroundColor='red.50' placeholder='_' size='lg' value={otpVal}  onChange={e=>setOtpVal(e)} >
+                                        <PinInputField height={20} fontSize={22}   color='red.500' bg='red.100'/>
                                         <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
                                         <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
                                         <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>

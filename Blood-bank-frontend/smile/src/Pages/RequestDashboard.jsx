@@ -422,10 +422,20 @@ export default function RequestDashboard() {
             date : patDet.registeredDate
         }
 
-        console.log(data)
-        const res = await axios.post('http://127.0.0.1:8000/recipient/request_blood/',JSON.stringify(data))
+        try {
+            const res = await axios.post('http://127.0.0.1:8000/recipient/request_blood/',JSON.stringify(data))
+            console.log(res)
+            Swal.fire({
+                text : res.data.success,
+                icon : 'success'
+            })
+        } catch (error) {
+            Swal.fire({
+                text : error.response.data.error,
+                icon : 'warning'
+            })            
+        }
 
-        console.log(res)
 
 
     }
