@@ -423,7 +423,7 @@ export default function RequestDashboard() {
         }
 
         console.log(data)
-        const res = await axios.post('http://127.0.0.1:8000/recipient/request_blood/',data)
+        const res = await axios.post('http://127.0.0.1:8000/recipient/request_blood/',JSON.stringify(data))
 
         console.log(res)
 

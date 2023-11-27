@@ -22,7 +22,10 @@ const AdminLogin = () => {
     const [isAdminInvalid, setIsAdminInvalid] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
 
-
+    const submitDetails = (data) => {
+        // code
+        
+    }
 
     return (
         <>
@@ -71,12 +74,17 @@ const AdminLogin = () => {
                                                         value={adminInfo.password} 
                                                         onChange={e =>  setAdminInfo({...adminInfo , password: e.target.value})} 
                                                 />
-                                                <InputRightElement width='4.5rem' onClick={e => setShowPassword(!showPassword)}>
+                                                <InputRightElement height={30} width={35} onClick={e => setShowPassword(!showPassword)}>
+                                                    <Button
+                                                        // width='4.5rem'
+                                                    >
+
                                                     {
                                                         showPassword ? (<Icon as={EyeSlash} boxSize={8} weight='duotone' color='#ce2432' />) : ( 
                                                             <Icon as={Eye} boxSize={8} weight='duotone' color='#ce2432' />
                                                         )
                                                     }
+                                                    </Button>
                                                 </InputRightElement>
                                             </InputGroup>
                                         </FormControl>
@@ -86,7 +94,8 @@ const AdminLogin = () => {
                                                     height='35px'
                                                     width='120px'
                                                     fontSize='16px'
-                                                    // onClick={() => sendOtp(number)}
+                                                    type='submit'
+                                                    onSubmit={() => submitDetails(adminInfo)}
                                                     // isDisabled={disability}
                                             >
                                                 LogIn
