@@ -22,7 +22,7 @@ def request_blood(request):
         lastName = body['lastName']
         dob = body['dob']
         bloodGroup = body['bloodGroup']
-        phoneNumber = body['phoneNumber']
+        alternateNumber = body['phoneNumber']
         email = body['email']
         address = body['address']
         units =body['units']
@@ -65,6 +65,7 @@ def request_blood(request):
             dob = birthDateObj.date(),
             bloodGroup = bloodGroup,
             phoneNumber = phoneNumber,
+            alternateNumber = alternateNumber,
             email = email,
             address = address,
             date = date,
@@ -144,7 +145,7 @@ def get_available_dates(request):
             dates = Calender.objects.all()
             data = {}
             for date in dates:
-                data[str(date.date.day)] =date.quantity
+                data[str(date.date.day)] =str(date.quantity)
         except Exception as e:
             return JsonResponse({"error" : "Something Went Wrong"},status=500)
         return JsonResponse({"status" : "success","dates" : data},status=200)

@@ -5,6 +5,7 @@ from recipient.models import Recipient
 from django.http import JsonResponse
 import json
 from datetime import datetime
+from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 import pyotp
 import time
@@ -167,6 +168,7 @@ def verify_otp(request):
             del request.session['secret_key']
             
             request.session['member_id'] = phoneNumber
+
             request.session.set_expiry(3000000)
             
             if status == False:
@@ -290,6 +292,8 @@ def get_matched_donors(request):
         # print(phoneNumber)
         # if phoneNumber is None:
         #     return JsonResponse({"error" : "Invalid Session Id"},status =401)
+        username  =  request.user
+        
         try:
             recipient_list = Recipient.objects.filter(status = 'Pending')
             r_list = []
@@ -482,5 +486,43 @@ def confirmDonation(request):
         
     return JsonResponse({"error" : "Invalid Request Method"},status = 400)
 
+
+@csrf_exempt
+def admin_login(request):
+    if request.method == "POST":
+        body = json.loads(request.body)
+        
+        username = body['username']
+        password = body['password']
+        # print(username)
+        # print(password)
+        
+        # Authenticate user
+        user = authenticate(request, username=username, password=password)
+        # print(user)
+        
+        try: 
+            if user is not None:
+                # Log in the authenticated user
+                login(request, user)
+              
+                is_staff = user.is_superuser
+                #newline update
+
+                isAdmin = jwt.encode({'isAdmin': is_staff}, key, algorithm='HS256')
+                print(isAdmin)
+                print(request.user)
+                # for it in request.session:
+                #     print(it)
+                    
+                
+                return JsonResponse({'success': 'Admin Login Successful','is_Admin' : isAdmin},status=200)
+            else:
+                return JsonResponse({'error': 'Invalid credentials'},status=403)
+        except Exception as e:
+            print(e)
+            return JsonResponse({"error" : "Something Went Wrong"},status =500)
+    
+    return JsonResponse({'error':'Invalid Request'},status = 400)
 
 
