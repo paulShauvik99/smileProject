@@ -144,7 +144,7 @@ def get_available_dates(request):
             dates = Calender.objects.all()
             data = {}
             for date in dates:
-                data[str(date.date)] =date.quantity
+                data[str(date.date.day)] =date.quantity
         except Exception as e:
             return JsonResponse({"error" : "Something Went Wrong"},status=500)
         return JsonResponse({"status" : "success","dates" : data},status=200)
