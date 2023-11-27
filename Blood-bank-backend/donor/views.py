@@ -5,6 +5,7 @@ from recipient.models import Recipient
 from django.http import JsonResponse
 import json
 from datetime import datetime
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 import pyotp
@@ -284,6 +285,14 @@ def get_donor_records(request):
 #ADMIN API's
 
 #Get all matched donors and recipients
+def authorize_admin(request):
+    username  =  request.user
+    user  = User.objects.filter(username = username).first()
+    if user == None or user.is_superuser == False:
+        return False
+
+
+
 
 @csrf_exempt
 def get_matched_donors(request):
@@ -292,8 +301,9 @@ def get_matched_donors(request):
         # print(phoneNumber)
         # if phoneNumber is None:
         #     return JsonResponse({"error" : "Invalid Session Id"},status =401)
-        username  =  request.user
         
+        if authorize_admin(request) == False:
+            return JsonResponse({"error" : "Unauthorized"},status = 401)
         try:
             recipient_list = Recipient.objects.filter(status = 'Pending')
             r_list = []
@@ -344,9 +354,8 @@ def get_matched_donors(request):
 @csrf_exempt
 def confirm_donor(request):
     if request.method=="POST":
-        phoneNumber = request.session.get('member_id')
-        if phoneNumber is None:
-            return JsonResponse({"error" : "Invalid Session Id"},status =401)
+        if authorize_admin(request) == False:
+            return JsonResponse({"error" : "Unauthorized"},status = 401)
         matched_id  = request.POST.get('matched_id')
         try:
 
@@ -411,9 +420,8 @@ def confirm_donor(request):
 @csrf_exempt
 def get_confirmed_donors(request):
     if (request.method =='GET'):
-        phoneNumber = request.session.get('member_id')
-        if phoneNumber is None:
-            return JsonResponse({"error" : "Invalid Session Id"},status =401)
+        if authorize_admin(request) == False:
+            return JsonResponse({"error" : "Unauthorized"},status = 401)
         try:
             recipient_list = Recipient.objects.filter(status = 'Pending')
             r_list = []
@@ -462,9 +470,8 @@ def get_confirmed_donors(request):
 @csrf_exempt
 def confirmDonation(request):
     if request.method == "POST" : 
-        phoneNumber = request.session.get('member_id')
-        if phoneNumber is None:
-            return JsonResponse({"error" : "Invalid Session Id"},status =401)
+        if authorize_admin(request) == False:
+            return JsonResponse({"error" : "Unauthorized"},status = 401)
         matched_id = request.POST.get('matched_id')
         try:
 
@@ -525,4 +532,8 @@ def admin_login(request):
     
     return JsonResponse({'error':'Invalid Request'},status = 400)
 
+@csrf_exempt
+def admin_logout(request):
+    logout(request)
+    return JsonResponse({"success": "Admin logout processed"},status=200)
 
