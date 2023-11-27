@@ -61,6 +61,9 @@ def register(request) :
             
             request.session['member_id'] = phoneNumber
             request.session.set_expiry(3000000)
+
+            if status == False:
+                return JsonResponse({"error" : "Incorrect OTP"  },status=400)
             
 
         except Exception as e:
@@ -166,10 +169,13 @@ def verify_otp(request):
             request.session['member_id'] = phoneNumber
             request.session.set_expiry(3000000)
             
-            return JsonResponse({"status" : "OTP verification status " + str(status)},status=200)
+            if status == False:
+                return JsonResponse({"error" : "Incorrect OTP"  },status=400)
+            
+            return JsonResponse({"success" : "OTP verification status " },status=200)
         except Exception as e:
             print(e)
-            return JsonResponse({"status" : "OTP verification Failed "  },status=400)
+            return JsonResponse({"error" : "OTP verification Failed"  },status=400)
             
         
     
