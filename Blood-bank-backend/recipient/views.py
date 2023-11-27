@@ -18,18 +18,7 @@ from django.views.decorators.csrf import csrf_exempt
 #matchpair view
 
 def matchpair(donor,new_recipient,date):
-    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-    # Replace 'to' with the recipient's phone number
-    to = donor.phoneNumber
     
-    # Replace 'from_' with your Twilio phone number
-    from_ = settings.TWILIO_PHONE_NUMBER
-    
-    message = client.messages.create(
-        body="Hi "+ donor.firstName + " , Some Urgently needs blood of group"+ donor.bloodGroup +"\n Kindly contact to our NGO ASAP", 
-        to=to,
-        from_=from_
-    )
         
     matched_donor = MatchedDonor(recipient=new_recipient.id, donor=donor.id,date=date)
     matched_donor.save()
@@ -39,6 +28,23 @@ def matchpair(donor,new_recipient,date):
             return JsonResponse({"error" : "Dates Not available "},status = 400)
         dateObj.quantity -= 1
         dateObj.save()
+
+    try:
+
+        client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+        # Replace 'to' with the recipient's phone number
+        to = donor.phoneNumber
+        
+        # Replace 'from_' with your Twilio phone number
+        from_ = settings.TWILIO_PHONE_NUMBER
+        
+        message = client.messages.create(
+            body="Hi "+ donor.firstName + " , Someone Urgently needs blood of group "+ donor.bloodGroup +"\n Kindly contact to our NGO ASAP", 
+            to=to,
+            from_=from_
+        )
+    except:
+        pass
 
 # Create your views here.
 @csrf_exempt
@@ -72,7 +78,7 @@ def request_blood(request):
 
 
         try:
-            recipient = Recipient.objects.filter(phoneNumber = phoneNumber).order_by("-date").first()
+            recipient = Recipient.objects.filter(phoneNumber = phoneNumber,status__in = ['Confirmed' ,'Pending']).order_by("-date").first()
             if recipient is not None:
                 #lastRecieved = datetime.datetime.strptime(recipient.date,"%Y-%m-%d").date()
                 
@@ -88,7 +94,7 @@ def request_blood(request):
         print(donors)
             
         if not donors:
-            return JsonResponse({"error" : "No donor available of this BloodGroup"},status=400)
+            return JsonResponse({"error" : "Currently no donor available of this BloodGroup, please try later or Contact our NGO!"},status=400)
 
         try:
            

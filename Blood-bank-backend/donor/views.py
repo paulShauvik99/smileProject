@@ -6,7 +6,7 @@ from django.http import JsonResponse
 import json
 from datetime import datetime
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.views.decorators.csrf import csrf_exempt
 import pyotp
 import time
@@ -62,6 +62,15 @@ def register(request) :
             del request.session['secret_key']
             
             request.session['member_id'] = phoneNumber
+
+            isDonor = True
+            isRecipient = False
+            recipient = Recipient.objects.filter(phoneNumber= phoneNumber).first()
+            if recipient is not None:
+                isRecipient = True
+
+            type = jwt.encode({'isDonor': isDonor,"isRecipient" : isRecipient}, key, algorithm='HS256')
+
             request.session.set_expiry(3000000)
 
             if status == False:
@@ -91,14 +100,14 @@ def register(request) :
             return JsonResponse({'error': 'While regestering'},status=500)
         
         
-        return JsonResponse({"success" : "Donor Registered Successfully"},status = 200)
+        return JsonResponse({"success" : "Donor Registered Successfully","user_type" : type},status = 200)
     return JsonResponse({"error" : "Invalid request method"},status =400)
  
 
 
 @csrf_exempt
 
-def logout(request):
+def user_logout(request):
     if request.method=="GET":
         try:
             del request.session["member_id"]
@@ -128,6 +137,10 @@ def send_otp(request):
         request.session['secret_key'] = secret_key
         #request.session['otp_creation_time'] = time.time()
         request.session['phoneNumber'] = phoneNumber
+        
+        
+
+
         try: 
             print(settings.TWILIO_AUTH_TOKEN)
             client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
@@ -170,12 +183,23 @@ def verify_otp(request):
             
             request.session['member_id'] = phoneNumber
 
+            isDonor = False
+            isRecipient = False
+            donor = Donor.objects.filter(phoneNumber= phoneNumber).first()
+            if donor is not None:
+                isDonor = True
+            recipient = Recipient.objects.filter(phoneNumber= phoneNumber).first()
+            if recipient is not None:
+                isRecipient = True
+
+            type = jwt.encode({'isDonor': isDonor,"isRecipient" : isRecipient}, key, algorithm='HS256')
+
             request.session.set_expiry(3000000)
             
             if status == False:
                 return JsonResponse({"error" : "Incorrect OTP"  },status=400)
             
-            return JsonResponse({"success" : "OTP verification status " },status=200)
+            return JsonResponse({"success" : "OTP verification status " ,"user_type" : type},status=200)
         except Exception as e:
             print(e)
             return JsonResponse({"error" : "OTP verification Failed"  },status=400)
@@ -240,7 +264,7 @@ def get_donor_records(request):
             return JsonResponse({"error" : "Invalid Session Id"},status =401)
         donor = Donor.objects.filter(phoneNumber = phoneNumber).first()
         if donor is None : 
-            JsonResponse({"error" : "Something Went Wrong"},status=403)
+            JsonResponse({"error" : "Something Went Wrong"},status=401)
 
         try :
             donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", donor = donor.id).all()
@@ -492,6 +516,28 @@ def confirmDonation(request):
             return JsonResponse({"error" : e},status =500)
         
     return JsonResponse({"error" : "Invalid Request Method"},status = 400)
+
+@csrf_exempt
+def reject_request(request):
+    if request.method == "POST" : 
+        if authorize_admin(request) == False:
+            return JsonResponse({"error" : "Unauthorized"},status = 401)
+        recipient_id = request.POST.get('recipient_id')
+        try:
+            recipeint = Recipient.objects.filter(id = recipient_id).first()
+            recipeint.status = "Rejected"
+            recipeint.save()
+            records = MatchedDonor.objects.filter(recipient = recipient_id , status = 'Pending')
+            if records is not None:
+                for record in records:
+                    record.delete()
+        except Exception as e:
+            return JsonResponse({"error" : "Something Went wrong"},status =500)
+        return JsonResponse({"status" : "Successfully rejected the request"},status = 200)
+    return JsonResponse({"error" : "Invalid Request Method"},status = 400)
+
+
+
 
 
 @csrf_exempt
