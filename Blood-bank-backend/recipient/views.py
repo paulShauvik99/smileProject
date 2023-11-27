@@ -20,7 +20,7 @@ from django.views.decorators.csrf import csrf_exempt
 def matchpair(donor,new_recipient,date):
     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
     # Replace 'to' with the recipient's phone number
-    to = "+91" + donor.phoneNumber
+    to = donor.phoneNumber
     
     # Replace 'from_' with your Twilio phone number
     from_ = settings.TWILIO_PHONE_NUMBER
@@ -83,6 +83,12 @@ def request_blood(request):
         except Exception as e:
             print(e)
             return JsonResponse({"error" : "Something went wrong"},status = 400)
+        
+        donors = Donor.objects.filter(bloodGroup = bloodGroup).all()
+        print(donors)
+            
+        if not donors:
+            return JsonResponse({"error" : "No donor available of this BloodGroup"},status=400)
 
         try:
            
@@ -113,21 +119,23 @@ def request_blood(request):
         
         
         try:
-            donors = Donor.objects.filter(bloodGroup = bloodGroup)
-            
-            if donors is None:
-                return JsonResponse({"error" : "No donor available of this BloodGroup"},status=400)
             for donor in donors:
+                print(donor)
                 lastDonated = donor.lastDonated
+                print(lastDonated)
                 if lastDonated:
+                    print(months_passed)
                     months_passed = (current_date.year - lastDonated.year) * 12 + (current_date.month - lastDonated.month)
                     if months_passed > 3:
                         matchpair(donor,new_recipient,date)
-                    else:
-                        matchpair(donor,new_recipient,date)
+                        
+                else:
+                    matchpair(donor,new_recipient,date)
+                    print(donor.firstName)
+                        
             
-                
-            return JsonResponse({"success" : "Request Placed Successfully"},status =201)
+            return JsonResponse({"success" : "Request Placed Successfully"},status =201)     
+            
         except Exception as e:
             print(e) 
             return JsonResponse({"error" : "No Donor Found of this Blood Group"},status=404)
