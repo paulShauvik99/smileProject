@@ -39,6 +39,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import LoginPage from '../Components/LoginPage'
 
 
 
@@ -91,7 +92,7 @@ const DonateBlood = () => {
     const [disability , setDisability] = useState(false)
     
     const [n ,setN ] = useState(1)
-    
+    const [isLogin , setIsLogin] = useState(false)
     //Handlers
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -403,138 +404,189 @@ const DonateBlood = () => {
 
     }
 
-
+    console.log(isLogin)
 
 
     return (
         <>
-            <ChakraProvider>
 
 
             <div className="donate_outer_div">
                 <div className="donate_inner_div">
-                    
-                    <div className="donate_register">
-                        <div className="donate_registration_form">
-                            <Stepper size='lg' index={activeStep} colorScheme='red' >
-                                {steps.map((step, index) => (
-                                    <Step key={index} onClick={()=> setActiveStep(index)}>
-                                        <StepIndicator>
-                                            <StepStatus
-                                                complete={<StepIcon />}
-                                                incomplete={<StepNumber />}
-                                                active={<StepNumber />}
-                                            />
-                                        </StepIndicator>
+                    {
+                        !isLogin ? (
+                            <ChakraProvider>
+                            <div className="donate_register">
+                                <motion.div className="donate_registration_form"
+                                    initial={{ x : '-100vw'}}
+                                    animate={{ x : 0 }}
+                                >
+                                    <Stepper size='lg' index={activeStep} colorScheme='red' >
+                                        {steps.map((step, index) => (
+                                            <Step key={index} onClick={()=> setActiveStep(index)}>
+                                                <StepIndicator>
+                                                    <StepStatus
+                                                        complete={<StepIcon />}
+                                                        incomplete={<StepNumber />}
+                                                        active={<StepNumber />}
+                                                    />
+                                                </StepIndicator>
 
-                                            <Box flexShrink='0'>
-                                                <StepTitle>{step.title}</StepTitle>
-                                                {/* <StepDescription>{step.description}</StepDescription> */}
-                                            </Box>
+                                                    <Box flexShrink='0'>
+                                                        <StepTitle>{step.title}</StepTitle>
+                                                        {/* <StepDescription>{step.description}</StepDescription> */}
+                                                    </Box>
 
-                                        <StepSeparator />
-                                    </Step> 
-                                ))}
-                            </Stepper>
-                            
-                            <div className="reg">
-                                        <form>
-                                            {formDetails(activeStep)}
-                                        </form>
-                            </div>
-
-
-                            {activeStep === steps.length  ? (
-
-                                <div className="redirect">
-                                    <VStack>
-                                        <HStack>    
-                                            <Button
-                                                isDisabled={activeStep === 0}
-                                                onClick={handleBack}
-                                                sx={{ mr: 1 }}
-                                                className='reg_btn'
-                                                color="red.500" 
-                                                bg="red.200"
-                                                _hover={{color:'red.50' , bg: 'red.400'}}
-                                                mt={20}
-                                                height='30px'
-                                                width='80px'
-                                                fontSize='16px'
-                                                
-                                            >
-                                                Back
-                                            </Button>
-
-                                            <Button 
-                                                onClick={verifyOtp} 
-                                                color="red.500" bg="red.200" 
-                                                _hover={{color:'red.50' , bg: 'red.400'}} 
-                                                className='reg_btn'
-                                                mt={20}
-                                                height='30px'
-                                                width='120px'
-                                                fontSize='16px'
-                                            >
-                                                Verify OTP
-                                            </Button>   
-                                        </HStack>
-                                    </VStack>
-                                </div>
-                            ) : (
-
-                                <>  
+                                                <StepSeparator />
+                                            </Step> 
+                                        ))}
+                                    </Stepper>
                                     
-                                    <div className="submit">
-                                        
-                                        <HStack>
-
-                                            <Button
-                                                isDisabled={activeStep === 0}
-                                                onClick={handleBack}
-                                                sx={{ mr: 1 }}
-                                                className='reg_btn'
-                                                color="red.500" 
-                                                bg="red.200"
-                                                _hover={{color:'red.50' , bg: 'red.400'}}
-                                                mt={20}
-                                                height='30px'
-                                                width='80px'
-                                                fontSize='16px'
-                                            >
-                                                Back
-                                            </Button>
-                                            
-                                            <Button onClick={handleNext} 
-                                                color="red.500" bg="red.200"
-                                                _hover={{color:'red.50' , bg: 'red.400'}} className='reg_btn'
-                                                mt={20}
-                                                height='30px'
-                                                width='80px'
-                                                fontSize='16px'
-                                            >
-                                                Next
-                                            </Button>
-                                                
-                                        </HStack>
+                                    <div className="reg">
+                                                <form>
+                                                    {formDetails(activeStep)}
+                                                </form>
                                     </div>
-                                </>
-                            )}       
 
 
-                        </div>
-                    </div>
+                                    {activeStep === steps.length  ? (
 
-                    <div className="donate_login">
+                                        <div className="redirect">
+                                            <VStack>
+                                                <HStack>    
+                                                    <Button
+                                                        isDisabled={activeStep === 0}
+                                                        onClick={handleBack}
+                                                        sx={{ mr: 1 }}
+                                                        className='reg_btn'
+                                                        color="red.500" 
+                                                        bg="red.200"
+                                                        _hover={{color:'red.50' , bg: 'red.400'}}
+                                                        mt={20}
+                                                        height='30px'
+                                                        width='80px'
+                                                        fontSize='16px'
+                                                        
+                                                    >
+                                                        Back
+                                                    </Button>
 
-                    </div>
+                                                    <Button 
+                                                        onClick={verifyOtp} 
+                                                        color="red.500" bg="red.200" 
+                                                        _hover={{color:'red.50' , bg: 'red.400'}} 
+                                                        className='reg_btn'
+                                                        mt={20}
+                                                        height='30px'
+                                                        width='120px'
+                                                        fontSize='16px'
+                                                    >
+                                                        Verify OTP
+                                                    </Button>   
+                                                    
+                                                </HStack>
+                                            </VStack>
+                                        </div>
+                                    ) : (
+
+                                        <>  
+                                            
+                                            <div className="submit">
+                                                
+                                                <HStack>
+
+                                                    <Button
+                                                        isDisabled={activeStep === 0}
+                                                        onClick={handleBack}
+                                                        sx={{ mr: 1 }}
+                                                        className='reg_btn'
+                                                        color="red.500" 
+                                                        bg="red.200"
+                                                        _hover={{color:'red.50' , bg: 'red.400'}}
+                                                        mt={20}
+                                                        height='30px'
+                                                        width='80px'
+                                                        fontSize='16px'
+                                                    >
+                                                        Back
+                                                    </Button>
+                                                    
+                                                    <Button onClick={handleNext} 
+                                                        color="red.500" bg="red.200"
+                                                        _hover={{color:'red.50' , bg: 'red.400'}} className='reg_btn'
+                                                        mt={20}
+                                                        height='30px'
+                                                        width='80px'
+                                                        fontSize='16px'
+                                                    >
+                                                        Next
+                                                    </Button>
+
+                                                    <Button 
+                                                        onClick={e => setIsLogin(!isLogin)} 
+                                                        color="red.500" bg="red.200" 
+                                                        _hover={{color:'red.50' , bg: 'red.400'}} 
+                                                        className='reg_btn'
+                                                        mt={20}
+                                                        height='45px'
+                                                        width='220px'
+                                                        fontSize='16px'
+                                                        ml='20rem'
+                                                    >
+                                                        Already Have an Account?
+                                                        <br />
+                                                        LogIn Here .
+                                                    </Button>   
+                                                        
+                                                </HStack>
+                                            </div>
+                                        </>
+                                    )}       
+
+
+                                </motion.div>
+                            </div>
+                            </ChakraProvider>
+                        ) : (
+                            <>
+
+                                <ChakraProvider>
+                                <div className="donate_login">
+                                    <motion.div className="donate_login_form"
+                                        initial={{ x : '100vw'}}
+                                        animate={{ x : 0 }}
+                                    >
+                                        <LoginPage 
+                                            setIsLogin={e => setIsLogin(!isLogin)}
+                                        />
+                                        <Button 
+                                            onClick={e => setIsLogin(!isLogin)} 
+                                            color="red.500" bg="red.200" 
+                                            _hover={{color:'red.50' , bg: 'red.400'}} 
+                                            className='reg_btn'
+                                            mt={20}
+                                            height='45px'
+                                            width='220px'
+                                            fontSize='16px'
+                                            ml='20rem'
+                                        >
+                                            Don't Have an Account?
+                                                <br />
+                                            SignUp Here .
+                                        </Button>
+                                    </motion.div>
+                                </div>
+                                </ChakraProvider>
+                            </>
+                        )
+                    }
+
                     <ToastContainer />
                 </div>
             </div>
 
 
 
-            </ChakraProvider>
         </>
     )
 }

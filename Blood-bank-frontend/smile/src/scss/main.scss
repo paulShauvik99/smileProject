@@ -60,9 +60,29 @@ html{
 
     & .admin_inner_div{
         z-index: 6;
-        
-        
-        
+
+        & .admin_login{    
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 80rem;
+
+                & .admin_login_form{
+
+                    width: 70rem;
+                    padding: 4rem;
+                    z-index: 7;  
+                    background-color: rgba(255, 255, 255, 0.2);
+                    border-radius: 2.5rem;
+                    border-left: 3px solid rgba(255, 255, 255, 0.7);
+                    border-bottom: 3px solid rgba(255, 255, 255, 0.7);
+                    border-top: 1px solid rgba(255, 255, 255, 0.7);
+                    border-right: 1px solid rgba(255, 255, 255, 0.7);
+                    box-shadow: inset 0px 0px 15rem 0px rgba(255, 255, 255, 0.8);
+                }            
+            }
+                
         
         & .css-10hburv-MuiTypography-root{
             font-size: 2rem;
@@ -179,6 +199,7 @@ html{
     background-color: $bg-primary;
     position: relative;
     overflow: hidden;
+    // z-index: -5;
     &::after{
         content : "";
         position: absolute;
@@ -187,7 +208,7 @@ html{
         background-color: $bg-secondary;
         top : 10rem;
         right: -15rem;
-        // z-index: -5;
+        // z-index: -2;
         rotate: 317deg;
         border-radius: 43rem 33rem 105rem 10rem;
         box-shadow: 0 0 60rem $bg-shadow,
@@ -203,7 +224,7 @@ html{
         background-color: $bg-secondary;
         top : 2rem;
         left: 2rem;
-        // z-index: -5;
+        // z-index: -3;
         rotate: 300deg;
         border-radius: 33rem 14rem 15rem 20rem;
         box-shadow: 0 0 60rem $bg-shadow,
@@ -212,7 +233,11 @@ html{
     }
 
     & .donate_inner_div, & .request_inner_div, & .req_dashboard_inner_div, & .don_dashboard_inner_div{
-    
+        display: flex;
+        // z-index: 3;
+
+
+        //Request And Donate Dashboard
         & .req_dashboard_content, & .don_dashboard_content{
             width: 100%;
             min-height: 100rem;
@@ -372,8 +397,8 @@ html{
 
 
         //Donor and Request Signup/Login Pages
-        & .donate_register, & .request_register{
-            // z-index: 3;
+        & .donate_register, & .request_register , & .donate_login{
+            // z-index: 6;
             width: 100%;
             height: 80rem;
             display: flex;
@@ -381,10 +406,10 @@ html{
             align-items: center;
 
             
-            & .donate_registration_form, & .request_registration_form {
+            & .donate_registration_form, & .request_registration_form , & .donate_login_form {
                 width: 70rem;
                 padding: 4rem;
-                z-index: 6;  
+                z-index: 7;  
                 background-color: rgba(255, 255, 255, 0.2);
                 border-radius: 2.5rem;
                 border-left: 3px solid rgba(255, 255, 255, 0.7);

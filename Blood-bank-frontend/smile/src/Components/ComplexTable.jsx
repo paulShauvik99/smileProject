@@ -6,16 +6,16 @@ import React, { forwardRef, useState } from 'react'
 
 
 
-const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
-};
 
 const ComplexTable = forwardRef((props , ref) => {
 
     const [rows , setRows] = useState(props.rows)
     const [columns , setColumns] = useState(props.columns)
     const [rowSelectionModel, setRowSelectionModel] = useState();
-
+    
+    const handleDeleteClick = (id) => () => {
+        setRows(rows.filter((row) => row.id !== id));
+    };
 
     const changeSelectionModel = (id) =>{
         setRowSelectionModel(id)
@@ -29,13 +29,14 @@ const ComplexTable = forwardRef((props , ref) => {
                     sx={{ 
                         fontSize : 16
                     }}
-                    rows={props.rows}
-                    columns={props.columns}
+                    rows={rows}
+                    columns={columns}
                     initialState={{
                         pagination: {
                             paginationModel: { page: 0, pageSize: 5 },
                         },
                     }}
+                    rowSelectionModel={rowSelectionModel}
                     pageSizeOptions={[5, 10]}
                     onRowSelectionModelChange={itm => changeSelectionModel(itm) }
                     disableColumnMenu

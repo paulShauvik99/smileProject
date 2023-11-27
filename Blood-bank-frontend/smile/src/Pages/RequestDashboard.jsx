@@ -187,13 +187,8 @@ export default function RequestDashboard() {
     const [progress, setProgress] = useState(0);
     
     //Days with Number of Slots
-    const highlightedDays =
-        {
-            20 : 9,
-            22 : 6,
-            25 : 8,
-            30 : 2
-        }
+    const [highlightedDays,setHighlightedDays] = useState({})
+
   
     // State for active steps
     const [activeStep, setActiveStep] = useState(0);
@@ -380,18 +375,19 @@ export default function RequestDashboard() {
     const loadAPI = async () =>{
         try {
             const res = await axios.get('http://127.0.0.1:8000/recipient/get_available_dates/')
-            console.log(res)
+            // console.log(res)
             if(res.data.status === 'success'){
-                console.log(res.data.dates)
+                setHighlightedDays(res.data.dates)
             }
 
             const res2 = await axios.get('http://127.0.0.1:8000/recipient/get_recipient_records/')
             console.log(res2.data)
+            console.log(res2.response.data.msg)
 
 
-
+            
         } catch (error) {
-            toast.error(error.resoponse.data.message, {
+            toast.error(error.resoponse.data.msg, {
                 position : toast.POSITION.TOP_RIGHT
             })
         }
