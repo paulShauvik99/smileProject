@@ -13,6 +13,33 @@ import jwt
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
+
+
+#matchpair view
+
+def matchpair(donor,new_recipient,date):
+    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    # Replace 'to' with the recipient's phone number
+    to = "+91" + donor.phoneNumber
+    
+    # Replace 'from_' with your Twilio phone number
+    from_ = settings.TWILIO_PHONE_NUMBER
+    
+    message = client.messages.create(
+        body="Hi "+ donor.firstName + " , Some Urgently needs blood of group"+ donor.bloodGroup +"\n Kindly contact to our NGO ASAP", 
+        to=to,
+        from_=from_
+    )
+        
+    matched_donor = MatchedDonor(recipient=new_recipient.id, donor=donor.id,date=date)
+    matched_donor.save()
+    dateObj = Calender.objects.filter(date = date).first()
+    if dateObj:
+        if dateObj.quantity <=0:
+            return JsonResponse({"error" : "Dates Not available "},status = 400)
+        dateObj.quantity -= 1
+        dateObj.save()
+
 # Create your views here.
 @csrf_exempt
 def request_blood(request):
@@ -48,6 +75,7 @@ def request_blood(request):
             recipient = Recipient.objects.filter(phoneNumber = phoneNumber).order_by("-date").first()
             if recipient is not None:
                 #lastRecieved = datetime.datetime.strptime(recipient.date,"%Y-%m-%d").date()
+                
                 if ( current_date.month-recipient.date.month)*30 + (current_date.day - recipient.date.day) <15:
                     return JsonResponse({"error" : "Cannot place request withing 15 days of last recieved"},status = 400)
             
@@ -56,58 +84,6 @@ def request_blood(request):
             print(e)
             return JsonResponse({"error" : "Something went wrong"},status = 400)
 
-        
-        
-
-
-
-        
-        
-        try:
-            donors = Donor.objects.filter(bloodGroup = bloodGroup)
-            
-            if donors is None:
-                return JsonResponse({"error" : "No donor available of this BloodGroup"},status=400)
-            for donor in donors:
-               lastDonated = donor.lastDonated
-               
-               
-               
-               if lastDonated:
-                  months_passed = (current_date.year - lastDonated.year) * 12 + (current_date.month - lastDonated.month)
-                  if months_passed > 3:
-                    #add this block later
-                    
-                    # client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-
-                    
-
-                    # # Replace 'to' with the recipient's phone number
-                    # to = "+91" + donor.phoneNumber
-                    
-                    # # Replace 'from_' with your Twilio phone number
-                    # from_ = settings.TWILIO_PHONE_NUMBER
-                    
-                    # message = client.messages.create(
-                    #     body="Hi "+ donor.firstName + " , Some Urgently needs blood of group"+ donor.bloodGroup +"\n Kindly contact to our NGO ASAP", 
-                    #     to=to,
-                    #     from_=from_
-                    # )
-                        
-                    matched_donor = MatchedDonor(recipient=new_recipient.id, donor=donor.id,date=date)
-                    matched_donor.save()
-                    dateObj = Calender.objects.filter(date = date).first()
-                    if dateObj:
-                        if dateObj.quantity <=0:
-                            return JsonResponse({"error" : "Dates Not available "},status = 400)
-                        dateObj.quantity -= 1
-                        dateObj.save()
-                
-            
-        except Exception as e:
-            print(e) 
-            return JsonResponse({"error" : "No Donor Found of this Blood Group"},status=404)
-        
         try:
            
             new_recipient = Recipient(
@@ -130,7 +106,31 @@ def request_blood(request):
         except Exception as e:
             print(e)
             return JsonResponse({'error': 'error while saving form'},status=500)
-        return JsonResponse({"success" : "Request Placed Successfully"},status =201)
+        
+
+
+
+        
+        
+        try:
+            donors = Donor.objects.filter(bloodGroup = bloodGroup)
+            
+            if donors is None:
+                return JsonResponse({"error" : "No donor available of this BloodGroup"},status=400)
+            for donor in donors:
+                lastDonated = donor.lastDonated
+                if lastDonated:
+                    months_passed = (current_date.year - lastDonated.year) * 12 + (current_date.month - lastDonated.month)
+                    if months_passed > 3:
+                        matchpair(donor,new_recipient,date)
+                    else:
+                        matchpair(donor,new_recipient,date)
+            
+                
+            return JsonResponse({"success" : "Request Placed Successfully"},status =201)
+        except Exception as e:
+            print(e) 
+            return JsonResponse({"error" : "No Donor Found of this Blood Group"},status=404)
         
     return JsonResponse({"error" : "Invalid request method"},status =400)
 
