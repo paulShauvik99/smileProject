@@ -56,28 +56,7 @@ def request_blood(request):
             print(e)
             return JsonResponse({"error" : "Something went wrong"},status = 400)
 
-        try:
-           
-            new_recipient = Recipient(
-            id= id,
-            firstName = firstName,
-            lastName = lastName,
-            dob = birthDateObj.date(),
-            bloodGroup = bloodGroup,
-            phoneNumber = phoneNumber,
-            alternateNumber = alternateNumber,
-            email = email,
-            address = address,
-            date = date,
-            units = units,
-           
-            )
-            new_recipient.save()
-
-          
-        except Exception as e:
-            print(e)
-            return JsonResponse({'error': 'error while saving form'},status=500)
+        
         
 
 
@@ -124,10 +103,34 @@ def request_blood(request):
                         dateObj.quantity -= 1
                         dateObj.save()
                 
-            return JsonResponse({"success" : "Request Placed Successfully"},status =201)
+            
         except Exception as e:
             print(e) 
             return JsonResponse({"error" : "No Donor Found of this Blood Group"},status=404)
+        
+        try:
+           
+            new_recipient = Recipient(
+            id= id,
+            firstName = firstName,
+            lastName = lastName,
+            dob = birthDateObj.date(),
+            bloodGroup = bloodGroup,
+            phoneNumber = phoneNumber,
+            alternateNumber = alternateNumber,
+            email = email,
+            address = address,
+            date = date,
+            units = units,
+           
+            )
+            new_recipient.save()
+
+          
+        except Exception as e:
+            print(e)
+            return JsonResponse({'error': 'error while saving form'},status=500)
+        return JsonResponse({"success" : "Request Placed Successfully"},status =201)
         
     return JsonResponse({"error" : "Invalid request method"},status =400)
 
