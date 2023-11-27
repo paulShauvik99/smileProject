@@ -535,5 +535,5 @@ def admin_login(request):
 @csrf_exempt
 def admin_logout(request):
     logout(request)
-    return JsonResponse("success": "Admin logout processed")
+    return JsonResponse({"success": "Admin logout processed"},status=200)
 
