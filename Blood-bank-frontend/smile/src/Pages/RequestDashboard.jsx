@@ -25,12 +25,13 @@ import {
     Textarea,
     
 } from '@chakra-ui/react'
-import { IdentificationBadge, Envelope, Phone ,Calendar, HouseLine, Drop } from '@phosphor-icons/react'
+import { IdentificationBadge, Envelope, Phone ,Calendar, HouseLine, Drop, CalendarCheck  } from '@phosphor-icons/react'
 import TableComp from '../Components/Table';
 import CalendarComp from '../Components/Calendar';
 import axios from 'axios';
 import { ToastContainer , toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2'
 
 
 
@@ -199,12 +200,11 @@ export default function RequestDashboard() {
         lastName : '',
         dob : '',
         email : '',
-        phone : '',
+        phoneNumber : '',
         address : '',
         bloodGroup : '',
-        weight : '',
-        lastDonated : '',
         isThalassemia : false,
+        registeredDate : '',
     })
 
 
@@ -225,6 +225,36 @@ export default function RequestDashboard() {
             })
         )
     }
+    
+
+    //Dates to be disabled
+    const today = new Date()
+    const tomorrow = new Date(today.setDate(today.getDate() + 1)).toISOString().split('T')[0]
+    const disable7days = new Date(today.setDate(today.getDate() + 7)).toISOString().split('T')[0]
+
+
+    const checkDisabledDates = (e) => {
+        let name = e.target.name
+        if(highlightedDays[new Date(e.target.value).getDate()] === '0'){
+            Swal.fire({
+                text : 'The Date Slot you are trying to choose is Full. Please try another date.',
+                icon : 'warning'
+            })
+            setPatientDetails(prevState => ({
+                ...prevState,
+                [name] : ''
+            }))
+        }else{
+            
+            setPatientDetails(prevState => ({
+                ...prevState,
+                [name] : e.target.value
+            }))
+            console.log('false')
+        }
+    }
+    
+    
     
     //Modal Content
     const formDetails = (activeStep) =>{
@@ -291,12 +321,12 @@ export default function RequestDashboard() {
                         </GridItem>
                         <GridItem>
                             <FormControl isRequired>
-                                <FormLabel fontSize={12} htmlFor='phone'>Patient's Phone Number</FormLabel>
+                                <FormLabel fontSize={12} htmlFor='phoneNumber'>Patient's Phone Number</FormLabel>
                                 <InputGroup>
                                     <InputLeftAddon height={30}>
                                         <Icon as={Phone} boxSize={8} weight='duotone' color='#ce2432' />
                                     </InputLeftAddon>
-                                    <Input variant='pill' height={30} fontSize={14}  type="number" name="phone" value={patientDetails.phone} onChange={e =>  setDetails(e)} />
+                                    <Input variant='pill' height={30} fontSize={14}  type="number" name="phoneNumber" value={patientDetails.phoneNumber} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
@@ -350,7 +380,17 @@ export default function RequestDashboard() {
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
-                        
+                        <GridItem>
+                                <FormControl isRequired>
+                                    <FormLabel fontSize={12} htmlFor='registeredDate'>Date of Requirement</FormLabel>
+                                    <InputGroup>
+                                        <InputLeftAddon height={30}>
+                                            <Icon as={CalendarCheck  }  boxSize={8} weight="duotone" color="#ce2432" />
+                                        </InputLeftAddon>
+                                        <Input variant='pill' height={30} fontSize={14} min={tomorrow} max={disable7days}  type="date" name="registeredDate" value={patientDetails.registeredDate} onChange={e =>  checkDisabledDates(e)} />
+                                    </InputGroup>
+                                </FormControl>
+                            </GridItem>
                         
                     </Grid>
                 </>
@@ -367,15 +407,34 @@ export default function RequestDashboard() {
 
 
     //function to submit Patient Request
-    const placeRequest = () =>{
+    const placeRequest = async (patDet) =>{
         //Complete the Function
+        const data = {
+            firstName : patDet.firstName,
+            lastName : patDet.lastName,
+            dob : patDet.dob,
+            email : patDet.email,
+            phoneNumber : `+91${patDet.phoneNumber}`,
+            address : patDet.address,
+            bloodGroup : patDet.bloodGroup,
+            isThalassemia : patDet.isThalassemia,
+            units : 1,
+            date : patDet.registeredDate
+        }
+
+        console.log(data)
+        const res = await axios.post('http://127.0.0.1:8000/recipient/request_blood/',data)
+
+        console.log(res)
+
+
     }
 
 
     const loadAPI = async () =>{
         try {
             const res = await axios.get('http://127.0.0.1:8000/recipient/get_available_dates/')
-            // console.log(res)
+            console.log(res)
             if(res.data.status === 'success'){
                 setHighlightedDays(res.data.dates)
             }
@@ -533,9 +592,9 @@ export default function RequestDashboard() {
                                         <Box sx={style}>
                                             <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
                                                 {steps.map((label) => (
-                                                <Step key={label}>
-                                                    <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-                                                </Step>
+                                                    <Step key={label}>
+                                                        <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+                                                    </Step>
                                                 ))}
                                             </Stepper>
                                             <ChakraProvider>
@@ -573,7 +632,7 @@ export default function RequestDashboard() {
                                                         
 
                                                         <Button 
-                                                            onClick={placeRequest} 
+                                                            onClick={e => placeRequest(patientDetails)} 
                                                             sx={{color:"#e3362d" , 
                                                                 background:"#f48686",
                                                                 fontWeight : 'bold',

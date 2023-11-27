@@ -341,7 +341,7 @@ html{
                             width: 3.72rem;
                             height: 3.72rem;
                             &:hover {
-                                background-color: rgba(208, 162, 83, 0.547);
+                                background-color: rgba(208, 162, 83, 0.707);
                             }
                             
                         }
@@ -350,7 +350,7 @@ html{
                             width: 3.72rem;
                             height: 3.72rem;
                             &:hover{
-                                background-color: rgba(208, 162, 83, 0.547);
+                                background-color: rgba(208, 162, 83, 0.707);
                             }
                             
                         }
@@ -359,13 +359,20 @@ html{
                             width: 3.72rem;
                             height: 3.72rem;
                             background-color: orange;
-                            
+                            opacity: 1;
                         }
                         & .css-jgls56-MuiButtonBase-root-MuiPickersDay-root{
                             font-size : 1.2rem !important;
                             width: 3.72rem;
                             height: 3.72rem;
-                            // background-color: rgba(208, 162, 83, 0.547);
+                        }
+
+                        & .css-l4pl75-MuiButtonBase-root-MuiPickersDay-root.Mui-selected{
+                            font-size : 1.2rem !important;
+                            width: 3.72rem;
+                            height: 3.72rem;
+                            background-color: orange;
+                            opacity: 1;
                         }
 
                         & .css-1mnzkq2-MuiBadge-badge{
@@ -449,7 +456,11 @@ html{
 
 
 
+// Sweet Alert Container
 
+.swal2-container {
+    z-index: 1500;
+  }
 
 
 

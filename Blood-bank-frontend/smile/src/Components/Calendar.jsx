@@ -15,6 +15,7 @@ import { Badge } from '@mui/material';
 function ServerDay(props) {
     const { highlightedDays = [], day, ...other } = props;
     const isSelected = !props.disabled && (props.day.date() in highlightedDays) ;
+
     return (
         <Badge
             key={props.day.toString()}
@@ -27,9 +28,11 @@ function ServerDay(props) {
     );
 }
 
-//Function Disables 15 Days Ahead in the Calendar
-const disable15Days = (date) => date > dayjs().add(15 , 'day') 
 
+
+//Function Disables 15 Days Ahead in the Calendar
+const disable7Days = (date) => date > dayjs().add(7 , 'day') 
+const tomorrow = dayjs().add(1 ,'day')
 
 const CalendarComp = (props) => {
 
@@ -39,6 +42,7 @@ const CalendarComp = (props) => {
     //Days with Number of Slots
     const highlightedDays = props.highlightedDays
 
+    // console.log(highlightedDays)
 
 
     return (
@@ -46,10 +50,10 @@ const CalendarComp = (props) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <StaticDatePicker
                     showDaysOutsideCurrentMonth
-                    disablePast
                     fixedWeekNumber={6}
                     defaultValue={dayjs()}
                     readOnly
+                    minDate={tomorrow}
                     loading={isLoading}
                     onMonthChange={handleMonthChange}
                     slots={{
@@ -60,7 +64,7 @@ const CalendarComp = (props) => {
                             highlightedDays,
                         },
                     }}
-                    shouldDisableDate={disable15Days}
+                    shouldDisableDate={disable7Days}
                 />
             </LocalizationProvider>
         </>
