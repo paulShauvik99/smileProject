@@ -272,7 +272,7 @@ export default function RequestDashboard() {
                                         <InputLeftAddon height={30}>
                                             <Icon as={IdentificationBadge } boxSize={8} weight="duotone" color="#ce2432" />
                                         </InputLeftAddon>
-                                        <Input variant='pill' height={30} fontSize={14} type="text" name="firstName" value={patientDetails.firstName} onChange={e =>  setDetails(e)}  colorScheme='pink'/>
+                                        <Input variant='pill' height={30} fontSize={14} type="text" name="firstName" required value={patientDetails.firstName} onChange={e =>  setDetails(e)}  colorScheme='pink'/>
                                     </InputGroup>
                                 </FormControl>
                             </GridItem>
@@ -320,8 +320,8 @@ export default function RequestDashboard() {
                             </FormControl>
                         </GridItem>
                         <GridItem>
-                            <FormControl isRequired>
-                                <FormLabel fontSize={12} htmlFor='phoneNumber'>Patient's Phone Number</FormLabel>
+                            <FormControl>
+                                <FormLabel fontSize={12} htmlFor='phoneNumber'>Alternate Phone Number</FormLabel>
                                 <InputGroup>
                                     <InputLeftAddon height={30}>
                                         <Icon as={Phone} boxSize={8} weight='duotone' color='#ce2432' />
