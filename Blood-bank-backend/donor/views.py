@@ -331,9 +331,10 @@ def get_matched_donors(request):
         try:
             recipient_list = Recipient.objects.filter(status = 'Pending')
             r_list = []
+            d_list = []
+            i=1
             for recipient in recipient_list:
-        
-                
+
                 recipient_id = recipient.id
                 recipient_details = {
                     'id' : recipient.id,
@@ -341,14 +342,14 @@ def get_matched_donors(request):
                     'phoneNumber' : recipient.phoneNumber,
                     'bloodgroup' : recipient.bloodGroup,
                     'units' : recipient.units,
-                    'address' : recipient.address
+                    'address' : recipient.address,
+                    'sl' : str(i)
 
                 }
+                r_list.append(recipient_details)
                 matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
                 donorlist = []
                 for pair in matchedDonors:
-                    
-
                     donor = Donor.objects.filter(id = pair.donor).first()
                     donorlist.append({
                         'id' : donor.id,
@@ -358,16 +359,16 @@ def get_matched_donors(request):
                         'address' : donor.address,
                         'matched_id' : pair.id
                     })
-                
-                r_list.append({
-                    
-                    'recipient' : recipient_details,
-                    'paired_donors' : donorlist
+                d_list.append({
+                    str(i) : donorlist
                 })
+                i+=1
+                
+                
 
 
 
-            return JsonResponse({'success' : 'returned successsfully', 'recipient_donor_list' : r_list},status =200)
+            return JsonResponse({'success' : 'returned successsfully', 'recipient_list' : r_list,'donor_list' : d_list},status =200)
         except Exception as e:
             print(e)
             return JsonResponse({"error" : "Failed"},status=500)
