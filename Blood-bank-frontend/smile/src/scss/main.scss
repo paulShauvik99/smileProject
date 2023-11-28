@@ -87,12 +87,42 @@ html{
         & .css-10hburv-MuiTypography-root{
             font-size: 2rem;
         }
+
+        & .css-1iyq7zh-MuiDataGrid-columnHeaders{
+            justify-content: center;
+        }
+        & .css-siqkc4-MuiDataGrid-root{
+            align-items: center;
+        }
+        & .MuiDataGrid-actionsCell{
+            & .css-15ghhi9-MuiButtonBase-root-MuiIconButton-root{
+            }
+            & .css-ptiqhd-MuiSvgIcon-root{
+                 font-size: 2rem;
+            }
+        }
+        
+        
+        
     }
-
-
-
+    
+    
+    
 }
 
+.css-1ps6pg7-MuiPaper-root{
+    & .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root{
+        font-size: 1.4rem;
+    }
+    & .css-4b67si-MuiSvgIcon-root{
+         font-size: 2rem;
+         color : #07bc0c;
+    }
+    & .css-i4bv87-MuiSvgIcon-root{
+        color : #e74c3c;
+        font-size: 2rem;
+    }
+}
 
 
 

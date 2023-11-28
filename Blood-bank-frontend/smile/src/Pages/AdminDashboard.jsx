@@ -67,148 +67,61 @@ const initialRows = [
 const drawerWidth = 240;
 
 
-
 const AdminDashboard = (props) => {
     axios.defaults.withCredentials = true
-
+    
     const ChildRef = useRef(null)
-    const [rows, setRows] = useState(initialRows);
 
-    const handleDeleteClick = (id) => () => {
-        setRows(rows.filter((row) => row.id !== id));
-    };
-
-        
-    
-
-    //Donor List Columns
-    const columns = [
-            { field: 'name', headerName: 'Name', width: 180, editable: true },
-            {
-                field: 'age',
-                headerName: 'Age',
-                // type: 'number',
-                width: 80,
-                align: 'left',
-                headerAlign: 'left',
-                editable: true,
-                sortable : false,   
-            },
-            {
-                field: 'joinDate',
-                headerName: 'Join date',
-                // type: '',
-                width: 180,
-                editable: true,
-                sortable : false,   
-            },
-            {
-                field: 'role',
-                headerName: 'Department',
-                width: 220,
-                editable: true,
-                sortable : false,   
-                // type: 'singleSelect',
-                valueOptions: ['Market', 'Finance', 'Development'],
-            },
-            {
-                field: 'actions',
-                type: 'actions',
-                headerName: 'Actions',
-                width: 100,
-                cellClassName: 'actions',
-                getActions: ({ id }) => {
-                    
-                    return [
-                    <GridActionsCellItem
-                        icon={<EditIcon color='success' />}
-                        label="Edit"
-                        className="textPrimary"
-                        // onClick={handleEditClick(id)}    
-                        color="inherit"
-                    />,
-                    <GridActionsCellItem
-                        icon={<DeleteIcon />}
-                        label="Delete"
-                        onClick={handleDeleteClick(id)}
-                        color="inherit"
-                    />,
-                    ];
-                },
-            },
-        ];
-
-
-
-
-    const columnss = [
-        { field: 'id', headerName: 'ID', width: 50, sortable: false},
-        { field: 'firstName', headerName: 'First name', width: 120, sortable: false },
-        { field: 'lastName', headerName: 'Last name', width: 120, sortable: false },
-        {
-            field: 'age',
-            headerName: 'Age',
-            type: 'number',
-    
-            width: 30,
-            sortable: false
-        },
-        {
-            field: 'fullName',
-            headerName: 'Full name',
-            description: 'This column has a value getter and is not sortable.',
-            sortable: false,
-            width: 190,
-            valueGetter: (params) =>
-                `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-        },
-        {
-            field : 'Date',
-            headerName : 'Date of Appointment',
-            width: 120,
-            sortable : false,
-            type : 'date',
-            
-        },
-        {
-            field : 'confirm',
-            headerName : '',
-            width: 120,
-            sortable : false,
-            renderCell : () => <Button variant='contained'>Confirm Donor</Button>            
-        },
-        
-        
-        
-    ];
-    
-    const rowss = [
-        { id: 1, lastName: 'Snow', firstName: 'Jon', Date : dayjs().toDate() ,age: 35 , confirm : '2' },
-        { id: 2, lastName: 'Lannister', firstName: 'Cersei', Date : dayjs().add(2, 'day').toDate() ,age: 42 , confirm : '1'},
-        { id: 3, lastName: 'Lannister', firstName: 'Jaime', Date : dayjs().add(4 , 'day').toDate() ,age: 45 , confirm : '1'},
-        { id: 4, lastName: 'Stark', firstName: 'Arya', Date : dayjs().add(5 , 'day').toDate() ,age: 16 , confirm : '1'},
-        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', Date : dayjs().add(3 , 'day').toDate() ,age: null , confirm : '1'},
-        { id: 6, lastName: 'Melisandre', firstName: null, Date : dayjs().add(6 , 'day').toDate() ,age: 150 , confirm : '1'},
-        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', Date : dayjs().add(7 , 'day').toDate() ,age: 44 , confirm : '1'},
-        { id: 8, lastName: 'Frances', firstName: 'Rossini', Date : dayjs().add( 8, 'day').toDate() ,age: 36 , confirm : '1'},
-        { id: 9, lastName: 'Roxie', firstName: 'Harvey', Date : dayjs().add(1 , 'day').toDate() ,age: 65 , confirm : '1'    },
-    ];
-    
-    
-    
-    
-
-    
-
-    
-    // console.log(rowSelectionModel)
-    
     //Drawers
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
     const [tab , setTab] = useState('Match Donors');
     const [showDonorList , setShowDonorList] = useState(false)
     const [rowSelectionModel, setRowSelectionModel] = useState();
+    const [rows, setRows] = useState(initialRows);
+    const [reqRows, setReqRows] = useState([]);
+    const [apiDonorData , setApiDonorData]  = useState({})
+    const [donorRows , setDonorRows] = useState([]);
+    
+    const handleDeleteClick = (id) => () => {
+        setRows(rows.filter((row) => row.id !== id));
+    };
+    
+    const getTableData = async () =>{
+
+        const res = await axios.get('http://127.0.0.1:8000/donor/get_matched_donors/')
+        console.log(res.data)
+        setReqRows(res.data.recipient_list)
+        setApiDonorData(res.data.donor_list)        
+
+    }
+
+    useEffect(()=>{
+        getTableData()
+    },[])
+
+    // console.log(apiDonorData)
+
+    const openDonor = (id,donorData) =>{
+        console.log(id)
+        setShowDonorList(true)
+        console.log(donorData)
+        // setDonorRows(apiData.donor_list.id)
+    }
+
+    const rejectRequest = (id, sl) => {
+        //Reject API
+        console.log(id + " " + sl)
+    }
+
+    const getMatchedDonorId = (id,matchedId) =>{
+        //API for matched donor
+    
+    }
+    
+    console.log(donorRows)
+   
+    
 
 
     const handleDrawerToggle = () => {
@@ -223,16 +136,7 @@ const AdminDashboard = (props) => {
     }
 
 
-    const getTableData = async () =>{
-
-        const res = await axios.get('http://127.0.0.1:8000/donor/get_matched_donors/')
-        console.log(res)
-    }
-
-    useEffect(()=>{
-        getTableData()
-    },[])
-
+    
     
     //Nav Drawer 
     const NavDrawer = (
@@ -259,7 +163,7 @@ const AdminDashboard = (props) => {
     );
 
     const container = window !== undefined ? () => window().document.body : undefined;
-    console.log(rowSelectionModel)
+    // console.log(rowSelectionModel)
     return (
         <>
             <div className="admin_outer_div">
@@ -332,20 +236,20 @@ const AdminDashboard = (props) => {
                                         <ComplexTable
                                             type='reqList'
                                             ref={ChildRef}
-                                            rows={rowss}
-                                            columns={columnss}
+                                            rows={reqRows}
+                                            openDonor={openDonor}
                                             setChanges={changeSelectionModel}
+                                            rejectRequest={rejectRequest}
+                                            donorData={apiDonorData}
                                         />
                                         {
                                             showDonorList ? (
-                                                <>
                                                         <ComplexTable
                                                             type='donorList'
                                                             ref={ChildRef}
-                                                            rows={rows}
-                                                            columns={columns}
+                                                            rows={donorRows}
+                                                            getMatchedDonorId={getMatchedDonorId}
                                                         />
-                                                </>
                                             ) : (
                                                 <>
 
@@ -360,7 +264,7 @@ const AdminDashboard = (props) => {
                                 ) : (
                                     <>
                                         <ComplexTable
-                                            type='donorList'
+                                            type='confirmDonations'
                                             ref={ChildRef}
                                             rows={rows}
                                             columns={columns}

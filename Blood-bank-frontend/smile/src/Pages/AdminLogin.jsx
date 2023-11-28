@@ -29,7 +29,7 @@ const AdminLogin = () => {
             const res = await axios.post('http://127.0.0.1:8000/donor/admin_login/', JSON.stringify(data))
             console.log(res)
             Swal.fire({
-                text : res.data.sucess,
+                text : res.data.success,
                 icon : 'success'
             }).then((res)=>{
                 if(res.isConfirmed || res.dismiss == 'backdrop'){

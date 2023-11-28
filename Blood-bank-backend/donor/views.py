@@ -331,7 +331,7 @@ def get_matched_donors(request):
         try:
             recipient_list = Recipient.objects.filter(status = 'Pending')
             r_list = []
-            d_list = []
+            d_list = {}
             i=1
             for recipient in recipient_list:
 
@@ -344,7 +344,7 @@ def get_matched_donors(request):
                     'units' : recipient.units,
                     'address' : recipient.address,
                     'sl' : str(i)
-
+                    
                 }
                 r_list.append(recipient_details)
                 matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
@@ -359,9 +359,8 @@ def get_matched_donors(request):
                         'address' : donor.address,
                         'matched_id' : pair.id
                     })
-                d_list.append({
-                    str(i) : donorlist
-                })
+                d_list[str(i)] = donorlist
+                
                 i+=1
                 
                 
