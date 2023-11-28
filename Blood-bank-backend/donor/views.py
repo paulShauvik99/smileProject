@@ -346,7 +346,7 @@ def get_matched_donors(request):
                 
                 matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
                 donorlist = []
-                j=0
+                j=1
                 for pair in matchedDonors:
                     donor = Donor.objects.filter(id = pair.donor).first()
                     donorlist.append({
