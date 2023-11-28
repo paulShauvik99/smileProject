@@ -337,23 +337,13 @@ def get_matched_donors(request):
         try:
             recipient_list = Recipient.objects.filter(status = 'Pending')
             r_list = []
-            d_list = {}
+            d_list = []
             i=1
             for recipient in recipient_list:
 
                 recipient_id = recipient.id
-                recipient_details = {
-                    'id' : recipient.id,
-                    'name' : recipient.firstName + recipient.lastName,
-                    'phoneNumber' : recipient.phoneNumber,
-                    'bloodgroup' : recipient.bloodGroup,
-                    'units' : recipient.units,
-                    'address' : recipient.address,
-                    'date' : recipient.date,
-                    'sl' : str(i)
-
-                }
-                r_list.append(recipient_details)
+                
+                
                 matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
                 donorlist = []
                 j=0
@@ -369,8 +359,21 @@ def get_matched_donors(request):
                         'sl' : str(j) 
                     })
                     j+=1
-                    
-                d_list[str(i)] = donorlist
+
+                recipient_details = {
+                    'id' : recipient.id,
+                    'name' : recipient.firstName + recipient.lastName,
+                    'phoneNumber' : recipient.phoneNumber,
+                    'bloodgroup' : recipient.bloodGroup,
+                    'units' : recipient.units,
+                    'address' : recipient.address,
+                    'date' : recipient.date,
+                    'sl' : str(i),
+                    'donor_list' : donorlist
+
+                }
+                r_list.append(recipient_details)
+
                      
                 i+=1
                 
@@ -378,7 +381,7 @@ def get_matched_donors(request):
 
 
 
-            return JsonResponse({'success' : 'returned successsfully', 'recipient_list' : r_list,'donor_list' : d_list},status =200)
+            return JsonResponse({'success' : 'returned successsfully', 'recipient_list' : r_list},status =200)
         except Exception as e:
             print(e)
             return JsonResponse({"error" : "Failed"},status=500)
