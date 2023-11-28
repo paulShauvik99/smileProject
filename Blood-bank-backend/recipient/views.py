@@ -181,7 +181,7 @@ def get_recipient_records(request):
 
         if recipient is None:
             return JsonResponse({"status" : "error" , "msg" : "No records Found"},status = 500)
-      
+
         try :
             donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", recipient = recipient.id).order_by("-date").all()
             pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", recipient = recipient.id).first()

@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 const AdminLogin = () => {
-
+    axios.defaults.withCredentials = true
     const navigate = useNavigate()
 
     //States
@@ -22,10 +22,28 @@ const AdminLogin = () => {
     const [isAdminInvalid, setIsAdminInvalid] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
 
-    const submitDetails = (data) => {
+    const submitDetails = async (data) => {
         // code
-        
+        console.log("Check")
+        try {
+            const res = await axios.post('http://127.0.0.1:8000/donor/admin_login/', JSON.stringify(data))
+            console.log(res)
+            Swal.fire({
+                text : res.data.sucess,
+                icon : 'success'
+            }).then((res)=>{
+                if(res.isConfirmed || res.dismiss == 'backdrop'){
+                    navigate('/admindashboard')
+                }
+            })
+        } catch (error) {
+            Swal.fire({
+                text : error.response.data.status,
+                icon : 'error'
+            })
+        }
     }
+    console.log(adminInfo)
 
     return (
         <>
@@ -95,7 +113,7 @@ const AdminLogin = () => {
                                                     width='120px'
                                                     fontSize='16px'
                                                     type='submit'
-                                                    onSubmit={() => submitDetails(adminInfo)}
+                                                    onClick={() => submitDetails(adminInfo)}
                                                     // isDisabled={disability}
                                             >
                                                 LogIn

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -22,6 +22,7 @@ import { Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import ComplexTable from '../Components/ComplexTable';
+import axios from 'axios';
 
 
 
@@ -68,6 +69,8 @@ const drawerWidth = 240;
 
 
 const AdminDashboard = (props) => {
+    axios.defaults.withCredentials = true
+
     const ChildRef = useRef(null)
     const [rows, setRows] = useState(initialRows);
 
@@ -218,6 +221,17 @@ const AdminDashboard = (props) => {
         setRowSelectionModel(id)
         setShowDonorList(true)
     }
+
+
+    const getTableData = async () =>{
+
+        const res = await axios.get('http://127.0.0.1:8000/donor/get_matched_donors/')
+        console.log(res)
+    }
+
+    useEffect(()=>{
+        getTableData()
+    },[])
 
     
     //Nav Drawer 
