@@ -23,6 +23,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import ComplexTable from '../Components/ComplexTable';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 
 
@@ -90,7 +91,6 @@ const AdminDashboard = (props) => {
     const getTableData = async () =>{
 
         const res = await axios.get('http://127.0.0.1:8000/donor/get_matched_donors/')
-        console.log(res.data)
         setReqRows(res.data.recipient_list)
         setApiDonorData(res.data.donor_list)        
 
@@ -102,24 +102,33 @@ const AdminDashboard = (props) => {
 
     // console.log(apiDonorData)
 
-    const openDonor = (id,donorData) =>{
-        console.log(id)
+    const openDonor = (id,donorRows) =>{
         setShowDonorList(true)
-        console.log(donorData)
-        // setDonorRows(apiData.donor_list.id)
+        // console.log(donorData)
+        setDonorRows(donorRows)
     }
 
     const rejectRequest = (id, sl) => {
         //Reject API
-        console.log(id + " " + sl)
+        // console.log(id + " " + sl)
     }
 
-    const getMatchedDonorId = (id,matchedId) =>{
+    const getMatchedDonorId = async (id,matchedId) =>{
         //API for matched donor
-    
+        
+        try {
+            console.log(JSON.stringify({matched_id : matchedId}))
+            const res = await axios.post('http://127.0.0.1:8000/donor/confirm_donor/',JSON.stringify({matched_id : matchedId}))
+            console.log(res)
+
+        } catch (error) {
+            Swal.fire({
+                text : error.response.data.error,
+                icon : 'error',
+            })
+        }
     }
     
-    console.log(donorRows)
    
     
 

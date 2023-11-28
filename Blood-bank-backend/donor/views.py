@@ -346,7 +346,7 @@ def get_matched_donors(request):
                 
                 matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
                 donorlist = []
-                j=0
+                j=1
                 for pair in matchedDonors:
                     donor = Donor.objects.filter(id = pair.donor).first()
                     donorlist.append({
@@ -395,9 +395,11 @@ def confirm_donor(request):
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
         matched_id  = request.POST.get('matched_id')
+        print(matched_id)
         try:
 
             pair = MatchedDonor.objects.filter(id = matched_id).first()
+            print(pair)
             pair.status = 'Confirmed'
             pair.save()
             recipient_id = pair.recipient

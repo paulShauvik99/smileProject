@@ -52,13 +52,14 @@ const ComplexTable = forwardRef((props , ref) => {
             headerAlign: 'center',
         },
         {
-            field: 'requestedDate',
+            field: 'date',
             headerName: 'Requested Date',
             type: 'date',
             width: 150,
             align : 'center',
             headerAlign: 'center',
             sortable : false,   
+            valueFormatter: ({ value }) => new Date(value).toISOString().split('T')[0]
         },
         {
             field: 'actions',
@@ -67,12 +68,13 @@ const ComplexTable = forwardRef((props , ref) => {
             width: 80,
             cellClassName: 'actions',
             getActions: (params, ind) => {
-                console.log(props.donorData)
+                // console.log(params.row.donor_list)
                 return [
                 <GridActionsCellItem
                     icon={<JoinInnerTwoToneIcon />}
                     label="Matched Donors"
-                    onClick={() => props.openDonor(params.row.sl,props.donorData)}    
+                    className='new'
+                    onClick={() => props.openDonor(params.row.sl,params.row.donor_list)}    
                     color="success"
                     showInMenu
                 />,
@@ -93,7 +95,7 @@ const ComplexTable = forwardRef((props , ref) => {
     const donorListCols = [
         { field: 'id'},
         { field: 'matched_id'},
-        // { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center' },
+        { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center' },
         { field: 'name', headerName: "Name" , width: 250, sortable : false, align : 'center', headerAlign : 'center' },
         {
             field: 'address',
@@ -112,7 +114,7 @@ const ComplexTable = forwardRef((props , ref) => {
             sortable : false,   
         },
         {
-            field: 'bloodgroup',
+            field: 'bloodGroup',
             headerName: 'Blood Group',
             width: 200,
             sortable : false,   
@@ -130,6 +132,7 @@ const ComplexTable = forwardRef((props , ref) => {
                 <GridActionsCellItem
                     icon={<CheckCircleIcon />}
                     label="Confirm Donor"
+                    className='con'
                     onClick={() => props.getMatchedDonorId(params.id , params.row.matched_id)}    
                     color="success"
                     showInMenu
@@ -189,7 +192,7 @@ const ComplexTable = forwardRef((props , ref) => {
                     slots={{
                         toolbar : GridToolbarFilterButton
                     }}
-                    
+                    disableRowSelectionOnClick
                     columnVisibilityModel={columnVisibility}
                 />
             </Box>
