@@ -394,8 +394,9 @@ def confirm_donor(request):
     if request.method=="POST":
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
-        matched_id  = request.POST.get('matched_id')
-        print(matched_id)
+         
+        body  = json.loads(request.body)
+        matched_id  = body['matched_id'] 
         try:
 
             pair = MatchedDonor.objects.filter(id = matched_id).first()
@@ -434,7 +435,7 @@ def confirm_donor(request):
             donor = Donor.objects.filter(id = donor_id ).first()
 
             # Replace 'to' with the recipient's phone number
-            to = "+91" + recipient.phoneNumber
+            to = recipient.phoneNumber
             
             # Replace 'from_' with your Twilio phone number
             from_ = settings.TWILIO_PHONE_NUMBER
@@ -449,7 +450,7 @@ def confirm_donor(request):
             
         except Exception as e:
             print(e) 
-            return JsonResponse({"error" : "error occured while sending sms"}, status=500)
+            pass
 
         
     return JsonResponse({"error" : "Invalid request method"},status = 400)
@@ -512,7 +513,8 @@ def confirmDonation(request):
     if request.method == "POST" : 
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
-        matched_id = request.POST.get('matched_id')
+        body  = json.loads(request.body)
+        matched_id  = body['matched_id'] 
         try:
 
             pair = MatchedDonor.objects.filter(id = matched_id).first()

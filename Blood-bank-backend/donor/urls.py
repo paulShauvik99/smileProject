@@ -11,6 +11,7 @@ urlpatterns = [
     path('get_donor_records/',views.get_donor_records),
     path('get_matched_donors/',views.get_matched_donors),
     path('get_confirmed_donors/',views.get_confirmed_donors),
+    path('confirm_donation/',views.confirmDonation),
     path('reject_reject/',views.reject_request),
     path('admin_login/',views.admin_login),
     path('admin_logout/',views.admin_logout)
