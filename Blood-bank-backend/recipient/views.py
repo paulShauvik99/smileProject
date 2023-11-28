@@ -148,7 +148,7 @@ def request_blood(request):
         
     return JsonResponse({"error" : "Invalid request method"},status =400)
 
-# add JWT token verification
+
 
 
 
@@ -178,14 +178,18 @@ def get_recipient_records(request):
             return JsonResponse({"error" : "Invalid Session Id"},status =401)
         
         recipient = Recipient.objects.filter(phoneNumber = phoneNumber).first()
+        print(recipient)
 
         if recipient is None:
             return JsonResponse({"status" : "error" , "msg" : "No records Found"},status = 500)
 
         try :
             donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", recipient = recipient.id).order_by("-date").all()
+            print(donationList)
             pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", recipient = recipient.id).first()
+            print(pendingDonation)
             pendingDonor = Donor.objects.filter(id = pendingDonation.donor).first()
+            print(pendingDonor)
             pendingDonorJson = {
                 "name" : pendingDonor.firstName +" " +  pendingDonor.lastName,
                 "address" : pendingDonor.address,
@@ -206,6 +210,6 @@ def get_recipient_records(request):
             return JsonResponse({"status" : "Data fetched","pastRecord" :data,"pendingDonation" : pendingDonorJson },status=200)
         except Exception as e:
             print(e)
-            JsonResponse({"error" : "Error while fetching data"},status=500)
+            return JsonResponse({"error" : "No Donor has not Confirmed yet"},status=500)
     
     return JsonResponse({"error" : "Invalid Request Method"},status = 400)

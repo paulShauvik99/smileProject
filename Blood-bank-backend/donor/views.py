@@ -217,9 +217,15 @@ def verify_otp(request):
 
 
 @csrf_exempt
-def resend_otp(request):
+def donor_send_otp(request):
     if request.method== "GET": 
-        phoneNumber = request.session.get('phoneNumber')
+        body  = json.loads(request.body)
+        phoneNumber  = body['phoneNumber'] 
+        if not phoneNumber:
+            return JsonResponse({'status': 'Mobile number is required.'}, status=400)
+        donor = Donor.objects.filter(phoneNumber= phoneNumber).first()
+        if donor is None:
+            return JsonResponse({"error" : "Donor Not Registered"},status = 401)
         secret_key = pyotp.random_base32()
         print(secret_key)
         totp = pyotp.TOTP(secret_key, interval=300)  
@@ -336,19 +342,11 @@ def get_matched_donors(request):
             for recipient in recipient_list:
 
                 recipient_id = recipient.id
-                recipient_details = {
-                    'id' : recipient.id,
-                    'name' : recipient.firstName + recipient.lastName,
-                    'phoneNumber' : recipient.phoneNumber,
-                    'bloodgroup' : recipient.bloodGroup,
-                    'units' : recipient.units,
-                    'address' : recipient.address,
-                    'sl' : str(i)
-                    
-                }
-                r_list.append(recipient_details)
+                
+                
                 matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
                 donorlist = []
+                j=0
                 for pair in matchedDonors:
                     donor = Donor.objects.filter(id = pair.donor).first()
                     donorlist.append({
@@ -357,17 +355,33 @@ def get_matched_donors(request):
                         'bloodGroup' : donor.bloodGroup,
                         'phoneNumber' : donor.phoneNumber,
                         'address' : donor.address,
-                        'matched_id' : pair.id
+                        'matched_id' : pair.id,
+                        'sl' : str(j) 
                     })
-                d_list[str(i)] = donorlist
-                
+                    j+=1
+
+                recipient_details = {
+                    'id' : recipient.id,
+                    'name' : recipient.firstName + recipient.lastName,
+                    'phoneNumber' : recipient.phoneNumber,
+                    'bloodgroup' : recipient.bloodGroup,
+                    'units' : recipient.units,
+                    'address' : recipient.address,
+                    'date' : recipient.date,
+                    'sl' : str(i),
+                    'donor_list' : donorlist
+
+                }
+                r_list.append(recipient_details)
+
+                     
                 i+=1
                 
                 
 
 
 
-            return JsonResponse({'success' : 'returned successsfully', 'recipient_list' : r_list,'donor_list' : d_list},status =200)
+            return JsonResponse({'success' : 'returned successsfully', 'recipient_list' : r_list},status =200)
         except Exception as e:
             print(e)
             return JsonResponse({"error" : "Failed"},status=500)
