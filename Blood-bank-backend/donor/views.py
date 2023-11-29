@@ -12,6 +12,7 @@ import pyotp
 import time
 from sms import send_sms
 from twilio.rest import Client
+
 import random
 from django.conf import settings
 import uuid
@@ -396,7 +397,8 @@ def confirm_donor(request):
             return JsonResponse({"error" : "Unauthorized"},status = 401)
          
         body  = json.loads(request.body)
-        matched_id  = body['matched_id'] 
+        id  = body['matched_id'] 
+        matched_id = uuid.uuid4(id)
         try:
 
             pair = MatchedDonor.objects.filter(id = matched_id).first()
@@ -513,7 +515,8 @@ def confirmDonation(request):
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
         body  = json.loads(request.body)
-        matched_id  = body['matched_id'] 
+        id  = body['matched_id'] 
+        matched_id = uuid.uuid4(id) 
         try:
 
             pair = MatchedDonor.objects.filter(id = matched_id).first()
