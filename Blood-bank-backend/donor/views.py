@@ -219,7 +219,7 @@ def verify_otp(request):
 
 @csrf_exempt
 def donor_send_otp(request):
-    if request.method== "GET": 
+    if request.method== "POST": 
         body  = json.loads(request.body)
         phoneNumber  = body['phoneNumber'] 
         if not phoneNumber:
@@ -278,17 +278,21 @@ def get_donor_records(request):
             donorJson ={}
             pendingRecipientJson={}
             donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", donor = donor.id).all()
-            
+            print(donationList)
             pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", donor = donor.id).first()
-            pendingRecipient = Recipient.objects.filter(id = pendingDonation.recipient).first()
-            if pendingRecipientJson is not None:
+            if pendingDonation is not None:
+                pendingRecipient = Recipient.objects.filter(id = pendingDonation.recipient).first()
+                print(pendingRecipient)
+                
                 pendingRecipientJson = {
                     "name" : pendingRecipient.firstName +" " +  pendingRecipient.lastName,
                     "address" : pendingRecipient.address,
                     "date" : pendingRecipient.date
                 }
-            if donationList is not None:
+            print(donationList)
+            if donationList:
                 for obj in donationList:
+                    print(obj)
                     
                     recipient = Recipient.objects.filter(id = obj.recipient).first()
                     data.append({
@@ -296,7 +300,7 @@ def get_donor_records(request):
                         "bloodGroup" : recipient.bloodGroup,
                         "address" : recipient.address,
                         "date" : recipient.date
-        
+
                     })
 
             #
