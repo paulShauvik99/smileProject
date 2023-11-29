@@ -466,43 +466,22 @@ def get_confirmed_donors(request):
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
         try:
-            recipient_list = Recipient.objects.filter(status = 'Pending')
-            r_list = []
-            for recipient in recipient_list:
-        
-                
-                recipient_id = recipient.id
-                recipient_details = {
-                    'name' : recipient.firstName + recipient.lastName,
-                    'phoneNumber' : recipient.phoneNumber,
-                    'bloodgroup' : recipient.bloodGroup,
-                    'units' : recipient.units,
-                    'address' : recipient.address
+            matchedDonors = MatchedDonor.objects.filter(status = 'Confirmed',donated = "No").order_by("-date").all()
+            list = []
+            for pair in matchedDonors:
+                recipient = Recipient.objects.filter(id = pair.recipient,status= "Confirmed").first()
+                donor  = Donor.objects.filter(id = pair.donor).first()
+                list.append({
+                    'recipient_name' : recipient.firstName + recipient.lastName,
+                    'donor_name' : donor.firstName + donor.lastName,
+                    'donor_phoneNumber' : donor.phoneNumber,
+                    'recipient_phonenumber': recipient.phoneNumber,
+                    'bloodgroup' : recipient.bloodGroup
 
-                }
-                matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
-                donorlist = []
-                for pair in matchedDonors:
-                    
-
-                    donor = Donor.objects.filter(id = pair.donor).first()
-                    donorlist.append({
-                        'name' : donor.firstName +" "+donor.lastName,
-                        'bloodGroup' : donor.bloodGroup,
-                        'phoneNumber' : donor.phoneNumber,
-                        'address' : donor.address,
-                        'matched_id' : pair.id
-                    })
-                
-                r_list.append({
-                    
-                    'recipient' : recipient_details,
-                    'paired_donors' : donorlist
                 })
-
-
-
-            return JsonResponse({'success' : 'returned successsfully', 'recipient_donor_list' : r_list},status =200)
+                
+                
+            return JsonResponse({'success' : 'returned successsfully', 'list' : list},status =200)
         except Exception as e:
             print(e)
             return JsonResponse({"error" : "Failed"},status=500)
