@@ -184,28 +184,31 @@ def get_recipient_records(request):
             return JsonResponse({"status" : "error" , "msg" : "No records Found"},status = 500)
 
         try :
+            data = []
             donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", recipient = recipient.id).order_by("-date").all()
             print(donationList)
             pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", recipient = recipient.id).first()
             print(pendingDonation)
-            pendingDonor = Donor.objects.filter(id = pendingDonation.donor).first()
-            print(pendingDonor)
-            pendingDonorJson = {
-                "name" : pendingDonor.firstName +" " +  pendingDonor.lastName,
-                "address" : pendingDonor.address,
-                "phoneNumber" : pendingDonor.phoneNumber,
-            }
-            data = []
-            for obj in donationList:
-                donor = Donor.objects.filter(id = obj.donor).first()
-                data.append({
-                    "recipient_name" : donor.firstName +" "+ donor.lastName,
-                    "bloodGroup" : donor.bloodGroup,
-                    "address" : donor.address,
-                    "date" : obj.date
-                    
-    
-                })
+            if pendingDonation is not None:
+                pendingDonor = Donor.objects.filter(id = pendingDonation.donor).first()
+                print(pendingDonor)
+                pendingDonorJson = {
+                    "name" : pendingDonor.firstName +" " +  pendingDonor.lastName,
+                    "address" : pendingDonor.address,
+                    "phoneNumber" : pendingDonor.phoneNumber,
+                }
+            
+            if donationList:
+                for obj in donationList:
+                    donor = Donor.objects.filter(id = obj.donor).first()
+                    data.append({
+                        "recipient_name" : donor.firstName +" "+ donor.lastName,
+                        "bloodGroup" : donor.bloodGroup,
+                        "address" : donor.address,
+                        "date" : obj.date
+                        
+        
+                    })
             
             return JsonResponse({"status" : "Data fetched","pastRecord" :data,"pendingDonation" : pendingDonorJson },status=200)
         except Exception as e:
