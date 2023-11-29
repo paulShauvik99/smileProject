@@ -29,7 +29,7 @@ const TableComp = (props) => {
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead >
                             <TableRow>
-                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}}>Dessert </TableCell>
+                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}}>Patient's Name </TableCell>
                                 <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="right">Calories</TableCell>
                                 <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="right">Fat&nbsp;(g)</TableCell>
                                 <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="right">Carbs&nbsp;(g)</TableCell>

@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 
 
 const DonorDashboard = () => {
-    axios.defaults.withCredentials=true
+    axios.defaults.withCredentials=true 
 
     const getDonorRecords = async () =>{
         try {
