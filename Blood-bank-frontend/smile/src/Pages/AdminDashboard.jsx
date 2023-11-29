@@ -74,7 +74,7 @@ const AdminDashboard = (props) => {
     const [tab , setTab] = useState('Match Donors');
     const [showDonorList , setShowDonorList] = useState(false)
     const [rowSelectionModel, setRowSelectionModel] = useState();
-    const [rows, setRows] = useState(initialRows);
+    const [conDonationsRows, setconDonationsRows] = useState();
     const [reqRows, setReqRows] = useState([]);
     const [apiDonorData , setApiDonorData]  = useState({})
     const [donorRows , setDonorRows] = useState([]);
@@ -94,6 +94,8 @@ const AdminDashboard = (props) => {
     const getConfirmDonationsData = async () => {
         const res = await axios.get('http://127.0.0.1:8000/donor/get_confirmed_donors/')
         console.log(res)
+        setconDonationsRows(res.data.list)
+        
     }
 
 
@@ -278,7 +280,7 @@ const AdminDashboard = (props) => {
                                         <ComplexTable
                                             type='confirmDonations'
                                             ref={ChildRef}
-                                            rows={donorRows}
+                                            rows={conDonationsRows}
                                         />
                                     </>
                                 )
