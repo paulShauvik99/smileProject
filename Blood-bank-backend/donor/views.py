@@ -398,7 +398,7 @@ def confirm_donor(request):
          
         body  = json.loads(request.body)
         id  = body['matched_id'] 
-        matched_id = uuid.uuid4(id)
+        matched_id = uuid.UUID(id)
         try:
 
             pair = MatchedDonor.objects.filter(id = matched_id).first()
@@ -516,7 +516,7 @@ def confirmDonation(request):
             return JsonResponse({"error" : "Unauthorized"},status = 401)
         body  = json.loads(request.body)
         id  = body['matched_id'] 
-        matched_id = uuid.uuid4(id) 
+        matched_id = uuid.UUID(id) 
         try:
 
             pair = MatchedDonor.objects.filter(id = matched_id).first()
