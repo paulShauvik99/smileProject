@@ -91,8 +91,15 @@ const AdminDashboard = (props) => {
 
     }
 
+    const getConfirmDonationsData = async () => {
+        const res = await axios.get('http://127.0.0.1:8000/donor/get_confirmed_donors/')
+        console.log(res)
+    }
+
+
     useEffect(()=>{
         getTableData()
+        getConfirmDonationsData()
     },[])
 
     // console.log(apiDonorData)
