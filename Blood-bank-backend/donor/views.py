@@ -274,7 +274,11 @@ def get_donor_records(request):
             JsonResponse({"error" : "Something Went Wrong"},status=401)
 
         try :
+            data = []
+            donorJson ={}
+            pendingRecipientJson={}
             donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", donor = donor.id).all()
+            
             pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", donor = donor.id).first()
             print(pendingDonation)
             data = []
@@ -283,23 +287,26 @@ def get_donor_records(request):
             if pendingDonation is None:
                 pass
             pendingRecipient = Recipient.objects.filter(id = pendingDonation.recipient).first()
-            
-            pendingRecipientJson = {
-                "name" : pendingRecipient.firstName +" " +  pendingRecipient.lastName,
-                "address" : pendingRecipient.address,
-                "date" : pendingRecipient.date
-            }
-            for obj in donationList:
-                recipient = Recipient.objects.filter(id = obj.recipient).first()
-                data.append({
-                    "recipient_name" : recipient.firstName +" "+ recipient.lastName,
-                    "bloodGroup" : recipient.bloodGroup,
-                    "address" : recipient.address,
-                    "date" : recipient.date
-    
-                })
+            if pendingRecipientJson is not None:
+                pendingRecipientJson = {
+                    "name" : pendingRecipient.firstName +" " +  pendingRecipient.lastName,
+                    "address" : pendingRecipient.address,
+                    "date" : pendingRecipient.date
+                }
+            if donationList is not None:
+                for obj in donationList:
+                    
+                    recipient = Recipient.objects.filter(id = obj.recipient).first()
+                    data.append({
+                        "recipient_name" : recipient.firstName +" "+ recipient.lastName,
+                        "bloodGroup" : recipient.bloodGroup,
+                        "address" : recipient.address,
+                        "date" : recipient.date
+        
+                    })
 
-            # donorObj = Donor.objects.filter(id = donor.id).first()
+            #
+            
             donorJson = {
                 "name" : donor.firstName +" "+ donor.lastName,
                 "bloodGroup" : donor.bloodGroup,
