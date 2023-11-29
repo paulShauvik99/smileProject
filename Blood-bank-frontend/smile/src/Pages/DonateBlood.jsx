@@ -239,7 +239,7 @@ const DonateBlood = () => {
             console.log(phoneNumber)
             timer()
             try{
-                const res =  await axios.post('http://127.0.0.1:8000/donor/send_otp/', JSON.stringify(phoneNumber))
+                const res =  await axios.post('http://127.0.0.1:8000/donor/donor_send_otp/', JSON.stringify(phoneNumber))
                 if('success' in res.data){
                     toast.success(res.data.success, {
                         position : toast.POSITION.TOP_RIGHT

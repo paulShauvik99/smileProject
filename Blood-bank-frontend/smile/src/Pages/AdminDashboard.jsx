@@ -84,7 +84,7 @@ const AdminDashboard = (props) => {
     };
     
     const getTableData = async () =>{
-
+        
         const res = await axios.get('http://127.0.0.1:8000/donor/get_matched_donors/')
         setReqRows(res.data.recipient_list)
         setApiDonorData(res.data.donor_list)        
@@ -111,6 +111,21 @@ const AdminDashboard = (props) => {
         // console.log(donorData)
         setDonorRows(donorRows)
     }
+
+    const donationConfirmed = async (matched_id) =>{
+        console.log(matched_id)
+        try {
+            const res = await axios.post('http://127.0.0.1:8000/donor/confirm_donation/', JSON.stringify({ matched_id : matched_id}))
+            console.log(res)
+        } catch (error) {
+            Swal.fire({
+                text : error.response.data.error,
+                icon : 'error'
+            })
+        }
+
+    }
+
 
     const rejectRequest = (id, sl) => {
         //Reject API
@@ -281,6 +296,7 @@ const AdminDashboard = (props) => {
                                             type='confirmDonations'
                                             ref={ChildRef}
                                             rows={conDonationsRows}
+                                            donationConfirmed={donationConfirmed}
                                         />
                                     </>
                                 )

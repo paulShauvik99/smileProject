@@ -276,13 +276,19 @@ def get_donor_records(request):
         try :
             donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", donor = donor.id).all()
             pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", donor = donor.id).first()
+            print(pendingDonation)
+            data = []
+            pendingRecipientJson = {}
+            donorJson = {}
+            if pendingDonation is None:
+                pass
             pendingRecipient = Recipient.objects.filter(id = pendingDonation.recipient).first()
+            
             pendingRecipientJson = {
                 "name" : pendingRecipient.firstName +" " +  pendingRecipient.lastName,
                 "address" : pendingRecipient.address,
                 "date" : pendingRecipient.date
             }
-            data = []
             for obj in donationList:
                 recipient = Recipient.objects.filter(id = obj.recipient).first()
                 data.append({
@@ -293,7 +299,7 @@ def get_donor_records(request):
     
                 })
 
-            donorObj = Donor.objects.filter(id = donor.id).first()
+            # donorObj = Donor.objects.filter(id = donor.id).first()
             donorJson = {
                 "name" : donor.firstName +" "+ donor.lastName,
                 "bloodGroup" : donor.bloodGroup,
@@ -302,11 +308,11 @@ def get_donor_records(request):
 
             }
             
-            return JsonResponse({"status" : "Data fetched","pastRecord" :data,"donorDetails" : donorJson,"pendingDonation" : pendingRecipientJson },status=200)
+            
         except Exception as e:
             print(e)
             JsonResponse({"error" : "Error while fetching data"},status=500)
-    
+        return JsonResponse({"status" : "Data fetched","pastRecord" :data,"donorDetails" : donorJson,"pendingDonation" : pendingRecipientJson },status=200)
     return JsonResponse({"error" : "Invalid Request Method"},status = 400)
         
 
@@ -478,7 +484,7 @@ def get_confirmed_donors(request):
                     'donor_phoneNumber' : donor.phoneNumber,
                     'recipient_phonenumber': recipient.phoneNumber,
                     'bloodgroup' : recipient.bloodGroup,
-                    'matched_id' : pair.id,
+                    'id' : pair.id,
                     'sl' : str(sl)
 
                 })

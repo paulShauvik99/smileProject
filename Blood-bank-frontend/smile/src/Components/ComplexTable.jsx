@@ -182,12 +182,13 @@ const ComplexTable = forwardRef((props , ref) => {
             width: 100,
             cellClassName: 'actions',
             getActions: (params) => {
+                console.log(params)
                 return [
                 <GridActionsCellItem
                     icon={<CheckCircleIcon />}
                     label="Donation Confirmed"
                     className='con'
-                    // onClick={() => props.donationConfirmed(params.id , params.row.matched_id)}    
+                    onClick={() => props.donationConfirmed(params.id)}    
                     color="success"
                     showInMenu
                 />,

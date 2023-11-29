@@ -2,13 +2,31 @@ import React, { useEffect, useState } from 'react'
 import { Badge, Typography , Stack, Button, Modal, Backdrop, Fade, Stepper, Step, StepLabel, StepContent, Paper, Box } from '@mui/material';
 import TableComp from '../Components/Table'
 import CalendarComp from '../Components/Calendar';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 
 
 
 const DonorDashboard = () => {
+    axios.defaults.withCredentials=true
+
+    const getDonorRecords = async () =>{
+        try {
+            const res = await axios.get('http://127.0.0.1:8000/donor/get_donor_records/')
+            console.log(res)
+        } catch (error) {
+            Swal.fire({
+                text : error.response.data.error,
+                icon : 'error'
+            })
+        }
+    }
 
 
+    useEffect(()=>{
+        getDonorRecords()
+    },[])
 
     
 
