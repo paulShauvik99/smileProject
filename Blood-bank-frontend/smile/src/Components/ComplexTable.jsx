@@ -94,7 +94,7 @@ const ComplexTable = forwardRef((props , ref) => {
     //Donor Columns
     const donorListCols = [
         { field: 'id'},
-        { field: 'matched_id'},
+        { field: 'matched_id', },
         { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center' },
         { field: 'name', headerName: "Name" , width: 250, sortable : false, align : 'center', headerAlign : 'center' },
         {

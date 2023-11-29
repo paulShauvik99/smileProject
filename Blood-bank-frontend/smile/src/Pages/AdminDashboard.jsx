@@ -118,7 +118,7 @@ const AdminDashboard = (props) => {
         
         try {
             console.log(JSON.stringify({matched_id : matchedId}))
-            const res = await axios.post('http://127.0.0.1:8000/donor/confirm_donor/',JSON.stringify({matched_id : matchedId}))
+            const res = await axios.post('http://127.0.0.1:8000/donor/confirm_donor/',{matched_id : matchedId})
             console.log(res)
 
         } catch (error) {

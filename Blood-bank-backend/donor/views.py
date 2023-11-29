@@ -397,6 +397,7 @@ def confirm_donor(request):
          
         body  = json.loads(request.body)
         matched_id  = body['matched_id'] 
+        print(matched_id)
         try:
 
             pair = MatchedDonor.objects.filter(id = matched_id).first()
