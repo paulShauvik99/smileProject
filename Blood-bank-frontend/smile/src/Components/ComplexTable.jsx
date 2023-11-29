@@ -142,6 +142,68 @@ const ComplexTable = forwardRef((props , ref) => {
         },
     ]
 
+    //Confirm Donations
+
+
+    const conDonationCols = [
+        // { field: 'id'},
+        // { field: 'matched_id', },
+        { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center' },
+        { field: 'recName', headerName: "Recipient's Name" , width: 200, sortable : false, align : 'center', headerAlign : 'center' },
+        {
+            field: 'recPhone',
+            headerName: "Recipient's Phone Number",
+            width: 200,
+            align: 'center',
+            headerAlign: 'center',
+            sortable : false,   
+        },
+        { field: 'donName', headerName: "Donor's Name" , width: 200, sortable : false, align : 'center', headerAlign : 'center' },
+        {
+            field: 'donPhone',
+            headerName: "Donor's Phone Number",
+            width: 200,
+            align: 'center',
+            headerAlign: 'center',
+            sortable : false,   
+        },
+        {
+            field: 'bloodGroup',
+            headerName: 'Blood Group',
+            width: 200,
+            sortable : false,   
+            align : 'center',
+            headerAlign: 'center',
+        },
+        {
+            field: 'actions',
+            type: 'actions',
+            headerName: 'Actions',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: (params) => {
+                return [
+                <GridActionsCellItem
+                    icon={<CheckCircleIcon />}
+                    label="Donation Confirmed"
+                    className='con'
+                    // onClick={() => props.donationConfirmed(params.id , params.row.matched_id)}    
+                    color="success"
+                    showInMenu
+                />,
+                <GridActionsCellItem
+                    icon={<CancelRoundedIcon />}
+                    label="Not Donated"
+                    // className='con'
+                    // onClick={() => props.getMatchedDonorId(params.id , params.row.matched_id)}    
+                    // color="success"
+                    showInMenu
+                />
+                ];
+            },
+        },
+    ]
+
     useEffect(()=>{
         switch(props.type){
             case 'reqList': 
@@ -153,7 +215,7 @@ const ComplexTable = forwardRef((props , ref) => {
                 break
             
             case 'confirmDonations' : 
-                setColumns(props.columns)
+                setColumns(conDonationCols)
                 break
         }
     },[])

@@ -16,11 +16,6 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { DataGrid,  GridActionsCellItem, GridToolbarFilterButton, } from '@mui/x-data-grid';
-import dayjs from 'dayjs';
-import { Button } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import ComplexTable from '../Components/ComplexTable';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -272,11 +267,11 @@ const AdminDashboard = (props) => {
                                     </>
                                 ) : (
                                     <>
+                                        Confirm Table
                                         <ComplexTable
                                             type='confirmDonations'
                                             ref={ChildRef}
-                                            rows={rows}
-                                            columns={columns}
+                                            rows={donorRows}
                                         />
                                     </>
                                 )
