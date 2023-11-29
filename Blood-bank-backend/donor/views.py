@@ -280,12 +280,6 @@ def get_donor_records(request):
             donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", donor = donor.id).all()
             
             pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", donor = donor.id).first()
-            print(pendingDonation)
-            data = []
-            pendingRecipientJson = {}
-            donorJson = {}
-            if pendingDonation is None:
-                pass
             pendingRecipient = Recipient.objects.filter(id = pendingDonation.recipient).first()
             if pendingRecipientJson is not None:
                 pendingRecipientJson = {
