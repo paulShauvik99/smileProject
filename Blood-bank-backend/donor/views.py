@@ -467,19 +467,23 @@ def get_confirmed_donors(request):
         try:
             matchedDonors = MatchedDonor.objects.filter(status = 'Confirmed',donated = "No").order_by("-date").all()
             list = []
+            sl = 1
             for pair in matchedDonors:
-                recipient = Recipient.objects.filter(id = pair.recipient,status= "Confirmed").first()
+                recipient = Recipient.objects.filter(id = pair.recipient).first()
                 donor  = Donor.objects.filter(id = pair.donor).first()
                 list.append({
                     'recipient_name' : recipient.firstName + recipient.lastName,
                     'donor_name' : donor.firstName + donor.lastName,
                     'donor_phoneNumber' : donor.phoneNumber,
                     'recipient_phonenumber': recipient.phoneNumber,
-                    'bloodgroup' : recipient.bloodGroup
+                    'bloodgroup' : recipient.bloodGroup,
+                    'matched_id' : pair.id,
+                    'sl' : str(sl)
 
                 })
+                sl+=1
                 
-                
+            print(list)
             return JsonResponse({'success' : 'returned successsfully', 'list' : list},status =200)
         except Exception as e:
             print(e)
