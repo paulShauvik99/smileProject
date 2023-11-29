@@ -185,7 +185,7 @@ def get_recipient_records(request):
 
         try :
             data = []
-            donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", recipient = recipient.id).order_by("-date").all()
+            donationList = MatchedDonor.objects.filter(status__in = ['Confirmed' ,'Rejected'],donated = "Yes", recipient = recipient.id).order_by("-date").all()
             print(donationList)
             pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", recipient = recipient.id).first()
             print(pendingDonation)
@@ -196,6 +196,7 @@ def get_recipient_records(request):
                     "name" : pendingDonor.firstName +" " +  pendingDonor.lastName,
                     "address" : pendingDonor.address,
                     "phoneNumber" : pendingDonor.phoneNumber,
+                    
                 }
             
             if donationList:
@@ -204,6 +205,7 @@ def get_recipient_records(request):
                     data.append({
                         "recipient_name" : donor.firstName +" "+ donor.lastName,
                         "bloodGroup" : donor.bloodGroup,
+                        "phoneNumber" : donor.phoneNumber,
                         "address" : donor.address,
                         "date" : obj.date
                         

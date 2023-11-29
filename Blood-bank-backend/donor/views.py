@@ -287,6 +287,7 @@ def get_donor_records(request):
                 pendingRecipientJson = {
                     "name" : pendingRecipient.firstName +" " +  pendingRecipient.lastName,
                     "address" : pendingRecipient.address,
+                    "phoneNumber" : pendingRecipient.phoneNumber,
                     "date" : pendingRecipient.date
                 }
             print(donationList)
@@ -299,7 +300,8 @@ def get_donor_records(request):
                         "recipient_name" : recipient.firstName +" "+ recipient.lastName,
                         "bloodGroup" : recipient.bloodGroup,
                         "address" : recipient.address,
-                        "date" : recipient.date
+                        "date" : recipient.date,
+                        "phoneNumber" : recipient.phoneNumber
 
                     })
 
