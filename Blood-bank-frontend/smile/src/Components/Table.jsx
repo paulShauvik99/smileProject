@@ -22,6 +22,8 @@ const tableStyle = {
 
 
 const TableComp = (props) => {
+
+
     return (
         <>
             <Box component={Paper} sx={tableStyle} >
@@ -30,25 +32,21 @@ const TableComp = (props) => {
                         <TableHead >
                             <TableRow>
                                 <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}}>Patient's Name </TableCell>
-                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="right">Calories</TableCell>
-                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="right">Fat&nbsp;(g)</TableCell>
-                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="right">Carbs&nbsp;(g)</TableCell>
-                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="right">Protein&nbsp;(g)</TableCell>
+                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="left">Donation Date</TableCell>
+                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="left">Phone Number</TableCell>
+                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="left">Blood Group</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {props.tableContent.map((row) => (
                                 <TableRow
-                                    // key={row.name}
+                                    key={row.recipient_name}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell component="th" sx={{fontSize : '16px'}} scope="row">
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell sx={{fontSize : '14px'}} align="right">{row.calories}</TableCell>
-                                    <TableCell sx={{fontSize : '14px'}} align="right">{row.fat}</TableCell>
-                                    <TableCell sx={{fontSize : '14px'}} align="right">{row.carbs}</TableCell>
-                                    <TableCell sx={{fontSize : '14px'}} align="right">{row.protein}</TableCell>
+                                    <TableCell sx={{fontSize : '14px'}} align="left">{row.recipient_name}</TableCell>
+                                    <TableCell sx={{fontSize : '14px'}} align="left">{row.date}</TableCell>
+                                    <TableCell sx={{fontSize : '14px'}} align="left">{row.address}</TableCell>
+                                    <TableCell sx={{fontSize : '14px'}} align="left">{row.bloodGroup}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

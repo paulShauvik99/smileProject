@@ -11,10 +11,15 @@ import Swal from 'sweetalert2';
 const DonorDashboard = () => {
     axios.defaults.withCredentials=true 
 
+    const [pastRecordRows, setPastRecordRows] = useState([])
+    const [donorDetails, setDonorDetails] = useState()
+
     const getDonorRecords = async () =>{
         try {
             const res = await axios.get('http://127.0.0.1:8000/donor/get_donor_records/')
             console.log(res)
+            setPastRecordRows(res.data.pastRecord)
+            setDonorDetails(res.data.donorDetails)
         } catch (error) {
             Swal.fire({
                 text : error.response.data.error,
@@ -38,69 +43,6 @@ const DonorDashboard = () => {
         30 : 2
     }
 
-
-
-
-    const rows = [
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-    ];
-
-
     return (
         <>
             <div className="don_dashboard_outer_div">
@@ -121,7 +63,7 @@ const DonorDashboard = () => {
                                     </div>
                                 <div className="requests">
                                     <TableComp
-                                        tableContent={rows}
+                                        tableContent={pastRecordRows}
                                     />
                                 </div>  
                             </div>
