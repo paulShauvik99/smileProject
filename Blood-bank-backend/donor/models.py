@@ -37,7 +37,7 @@ class MatchedDonor(models.Model):
     donated = models.CharField(default="No",max_length=10)
     date = models.DateField(timezone.now)
     def __str__(self):
-        return self.date
+        return str(self.id)
 
 class Calender(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
