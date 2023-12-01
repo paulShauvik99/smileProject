@@ -185,14 +185,11 @@ def verify_otp(request):
             request.session['member_id'] = phoneNumber
 
             isDonor = False
-            isRecipient = False
+            isRecipient = True
             donor = Donor.objects.filter(phoneNumber= phoneNumber).first()
             if donor is not None:
                 isDonor = True
-            recipient = Recipient.objects.filter(phoneNumber= phoneNumber).first()
-            if recipient is not None:
-                isRecipient = True
-
+            
             type = jwt.encode({'isDonor': isDonor,"isRecipient" : isRecipient}, key, algorithm='HS256')
 
             request.session.set_expiry(3000000)
@@ -200,7 +197,7 @@ def verify_otp(request):
             if status == False:
                 return JsonResponse({"error" : "Incorrect OTP"  },status=400)
             
-            return JsonResponse({"success" : "OTP verification status " ,"user_type" : type},status=200)
+            return JsonResponse({"success" : "OTP verification success " ,"user_type" : type},status=200)
         except Exception as e:
             print(e)
             return JsonResponse({"error" : "OTP verification Failed"  },status=400)
@@ -208,10 +205,6 @@ def verify_otp(request):
         
     
     return JsonResponse({"error" : "Invalid Request method"},status =400)
-
-
-
-
 
 
 
@@ -258,7 +251,7 @@ def donor_send_otp(request):
             print(e) 
             return JsonResponse({"error" : "error occured while sending sms"}, status=500)
         
-        return JsonResponse({"success" : "SMS sent successfully","otp" : otp},status  =200)
+        return JsonResponse({"success" : "SMS sent successfully"},status  =200)
     return JsonResponse({"error" : "Invalid request method"},status = 400)
 
 #get donor past records
@@ -288,6 +281,7 @@ def get_donor_records(request):
                     "name" : pendingRecipient.firstName +" " +  pendingRecipient.lastName,
                     "address" : pendingRecipient.address,
                     "phoneNumber" : pendingRecipient.phoneNumber,
+                    "alternatephoneNumber" : pendingRecipient.alternateNumber,
                     "date" : pendingRecipient.date
                 }
             print(donationList)
@@ -302,6 +296,7 @@ def get_donor_records(request):
                         "address" : recipient.address,
                         "date" : recipient.date,
                         "phoneNumber" : recipient.phoneNumber
+                        
 
                     })
 
@@ -353,52 +348,50 @@ def get_matched_donors(request):
             r_list = []
             d_list = {}
             i=1
-            for recipient in recipient_list:
+            if recipient_list:
+                for recipient in recipient_list:
 
-                recipient_id = recipient.id
+                    recipient_id = recipient.id
+                    
+                    
+                    matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
+                    donorlist = []
+                    j=1
+                    for pair in matchedDonors:
+                        donor = Donor.objects.filter(id = pair.donor).first()
+                        donorlist.append({
+                            'id' : donor.id,
+                            'name' : donor.firstName +" "+donor.lastName,
+                            'bloodGroup' : donor.bloodGroup,
+                            'phoneNumber' : donor.phoneNumber,
+                            'address' : donor.address,
+                            'matched_id' : pair.id,
+                            'sl' : str(j) 
+                        })
+                        j+=1
+
+                    recipient_details = {
+                        'id' : recipient.id,
+                        'name' : recipient.firstName + recipient.lastName,
+                        'phoneNumber' : recipient.phoneNumber,
+                        "alternateNumber" : recipient.alternateNumber,
+                        'bloodgroup' : recipient.bloodGroup,
+                        'units' : recipient.units,
+                        'address' : recipient.address,
+                        'date' : recipient.date,
+                        'sl' : str(i),
+                        'donor_list' : donorlist
+
+                    }
+                    r_list.append(recipient_details)
+
+                        
+                    i+=1
                 
-                
-                matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
-                donorlist = []
-                j=1
-                for pair in matchedDonors:
-                    donor = Donor.objects.filter(id = pair.donor).first()
-                    donorlist.append({
-                        'id' : donor.id,
-                        'name' : donor.firstName +" "+donor.lastName,
-                        'bloodGroup' : donor.bloodGroup,
-                        'phoneNumber' : donor.phoneNumber,
-                        'address' : donor.address,
-                        'matched_id' : pair.id,
-                        'sl' : str(j) 
-                    })
-                    j+=1
-
-                recipient_details = {
-                    'id' : recipient.id,
-                    'name' : recipient.firstName + recipient.lastName,
-                    'phoneNumber' : recipient.phoneNumber,
-                    'bloodgroup' : recipient.bloodGroup,
-                    'units' : recipient.units,
-                    'address' : recipient.address,
-                    'date' : recipient.date,
-                    'sl' : str(i),
-                    'donor_list' : donorlist
-
-                }
-                r_list.append(recipient_details)
-
-                     
-                i+=1
-                
-                
-
-
-
-            return JsonResponse({'success' : 'returned successsfully', 'recipient_list' : r_list},status =200)
         except Exception as e:
             print(e)
             return JsonResponse({"error" : "Failed"},status=500)
+        return JsonResponse({'success' : 'returned successsfully', 'recipient_list' : r_list},status =200)
     return JsonResponse({"error" : "Invalid request Method"}, status=400)
 
 #confirm donor-recipient pair
