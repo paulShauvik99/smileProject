@@ -56,14 +56,7 @@ const DonateBlood = () => {
     axios.defaults.withCredentials=true
 
     const navigate = useNavigate()
-    
-    if(localStorage.getItem('user') !== null){
-        const checkUser = jwtDecode(localStorage.getItem('user'))
-        console.log(checkUser)
-        if(checkUser.isDonor){
-            navigate('/donate/donordashboard')
-        }
-    }
+
     //Active Stepper State 
     const { activeStep , setActiveStep } = useSteps({
         index : 0,
