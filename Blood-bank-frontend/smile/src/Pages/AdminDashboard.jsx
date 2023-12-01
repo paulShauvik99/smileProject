@@ -22,43 +22,6 @@ import Swal from 'sweetalert2';
 
 
 
-const initialRows = [
-        {
-            id: 1,
-            name: 'ASjdhghhjasd',
-            age: 25,
-            joinDate: 'asdhjb',
-            role: 'roles',
-        },
-        {
-            id: 2,
-            name: 'ASjdhghhjasd',
-            age: 36,
-            joinDate: 'asdhjb',
-            role: 'roles',
-        },
-        {
-            id: 3,
-            name: 'ASjdhghhjasd',
-            age: 19,
-            joinDate: 'asdhjb',
-            role: 'roles',
-        },
-        {
-            id: 4,
-            name: 'ASjdhghhjasd',
-            age: 28,
-            joinDate: 'asdhjb',
-            role: 'roles',
-        },
-        {
-            id: 5,
-            name: 'ASjdhghhjasd',
-            age: 23,
-            joinDate: 'asdhjb',
-            role: 'roles',
-        },
-    ];
 
 const drawerWidth = 240;
 
@@ -73,19 +36,16 @@ const AdminDashboard = (props) => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [tab , setTab] = useState('Match Donors');
     const [showDonorList , setShowDonorList] = useState(false)
-    const [rowSelectionModel, setRowSelectionModel] = useState();
     const [conDonationsRows, setconDonationsRows] = useState();
     const [reqRows, setReqRows] = useState([]);
     const [apiDonorData , setApiDonorData]  = useState({})
     const [donorRows , setDonorRows] = useState([]);
-    
-    const handleDeleteClick = (id) => () => {
-        setRows(rows.filter((row) => row.id !== id));
-    };
+
     
     const getTableData = async () =>{
-        
+
         const res = await axios.get('http://127.0.0.1:8000/donor/get_matched_donors/')
+        console.log(res)
         setReqRows(res.data.recipient_list)
         setApiDonorData(res.data.donor_list)        
 
@@ -105,7 +65,10 @@ const AdminDashboard = (props) => {
     },[])
 
     // console.log(apiDonorData)
+    //Action Functions 
 
+
+    
     const openDonor = (id,donorRows) =>{
         setShowDonorList(true)
         // console.log(donorData)
@@ -127,9 +90,40 @@ const AdminDashboard = (props) => {
     }
 
 
-    const rejectRequest = (id, sl) => {
+    const rejectRequest = async (id, sl) => {
         //Reject API
-        // console.log(id + " " + sl)
+
+        Swal.fire({
+            title: "Are you sure?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Reject Request!"
+        }).then(async (res)=>{
+
+            if(res.isConfirmed){
+                try {
+                    const res = await axios.post('http://127.0.0.1:8000/donor/reject_reject/',JSON.stringify({recipient_id : id}))
+                    console.log(res)
+                    Swal.fire({
+                        text : "The Request Has Been Rejected",
+                        icon : 'warning'
+                    })
+                } catch (error) {
+                    Swal.fire({
+                        text : error.response.data.error,
+                        icon : 'error'
+                    })
+                }
+            }else if(res.isDismissed || res.dismiss === 'backdrop' ){
+                return
+            }
+
+        })
+
+
+
     }
 
     const getMatchedDonorId = async (id,matchedId) =>{
@@ -152,16 +146,9 @@ const AdminDashboard = (props) => {
     
 
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
+    const handleDrawerToggle = () => { setMobileOpen(!mobileOpen) };
 
-
-
-    const changeSelectionModel = (id) =>{
-        setRowSelectionModel(id)
-        setShowDonorList(true)
-    }
+    const changeSelectionModel = (id) =>{ setShowDonorList(true)}
 
 
     

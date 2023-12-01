@@ -45,7 +45,7 @@ const TableComp = (props) => {
                                 >
                                     <TableCell sx={{fontSize : '14px'}} align="left">{row.recipient_name}</TableCell>
                                     <TableCell sx={{fontSize : '14px'}} align="left">{row.date}</TableCell>
-                                    <TableCell sx={{fontSize : '14px'}} align="left">{row.address}</TableCell>
+                                    <TableCell sx={{fontSize : '14px'}} align="left">{row.phoneNumber}</TableCell>
                                     <TableCell sx={{fontSize : '14px'}} align="left">{row.bloodGroup}</TableCell>
                                 </TableRow>
                             ))}

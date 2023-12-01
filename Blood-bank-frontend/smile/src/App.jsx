@@ -10,9 +10,10 @@ import DonorDashboard from './Pages/DonorDashboard.jsx'
 import RequestDashboard from './Pages/RequestDashboard.jsx'
 import AdminDashboard from './Pages/AdminDashboard.jsx'
 import AdminLogin from './Pages/AdminLogin.jsx'
+import { jwtDecode } from 'jwt-decode'
 
 
-
+const check = jwtDecode(localStorage.getItem('user'))
 
 function App() {
   
@@ -31,10 +32,12 @@ function App() {
               <Routes> 
                   <Route exact path='/' element={<Home />} />       
                   <Route exact path='/about' element={<About />} />       
-                  <Route exact path='/request' element={<RequestBlood />} />       
-                  <Route exact path='/donate' element={<DonateBlood />} />       
-                  <Route exact path='/donate/donordashboard' element={<DonorDashboard />} />       
-                  <Route exact path='/request/requestdashboard' element={<RequestDashboard />} />       
+                  {localStorage.getItem('user') === null ? (<Route exact path='/request' element={<RequestBlood />} />) : (<Route exact path='/request/requestdashboard' element={<RequestDashboard />} /> ) }
+                    
+                  {
+                    localStorage.getItem('user') === null ? (<Route exact path='/donate' element={<DonateBlood />} /> ) : check.isDonor ? (<Route exact path='/donate/donordashboard' element={<DonorDashboard />} /> ) : (<Route exact path='/donate' element={<DonateBlood />} />  )
+                  }
+                  
               </Routes> 
             <Footer />
           </>

@@ -146,8 +146,6 @@ const ComplexTable = forwardRef((props , ref) => {
 
 
     const conDonationCols = [
-        // { field: 'id'},
-        // { field: 'matched_id', },
         { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center' },
         { field: 'recipient_name', headerName: "Recipient's Name" , width: 200, sortable : false, align : 'center', headerAlign : 'center' },
         {
@@ -196,7 +194,7 @@ const ComplexTable = forwardRef((props , ref) => {
                     icon={<CancelRoundedIcon />}
                     label="Not Donated"
                     // className='con'
-                    // onClick={() => props.getMatchedDonorId(params.id , params.row.matched_id)}    
+                    // onClick={() => props.reject(params.id , params.row.matched_id)}    
                     // color="success"
                     showInMenu
                 />

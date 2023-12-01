@@ -6,6 +6,8 @@ import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
+
+
 export default function LoginPage(props){
     axios.defaults.withCredentials=true
 
@@ -84,9 +86,25 @@ export default function LoginPage(props){
                     phoneNumber : `+91${number}`
                 })
                 // console.log(data)
-
+                let url = ''
                 try {
-                    const res = await axios.post('http://127.0.0.1:8000/donor/send_otp/', data)
+                    switch(props.type){
+                        case 'recipientLogin':
+                            url = 'donor/send_otp/'
+                            break
+                        
+                        case 'donorLogin' :
+                            url = 'donor/donor_send_otp/'
+                            break
+                        
+                        default:
+                            Swal.fire({
+                                text: 'Invalid URL! Please Try Again.', 
+                                icon : 'error'
+                            })
+                            break
+                    }
+                    const res = await axios.post(`http://127.0.0.1:8000/${url}`, data)
                     console.log(res)
                     toast.success("OTP Sent Successfully !",{
                         position : toast.POSITION.TOP_CENTER
@@ -119,19 +137,40 @@ export default function LoginPage(props){
                 let data = JSON.stringify({
                     otp : otpVal
                 })
-                console.log(data)
                 try {
                     const res = await axios.post('http://127.0.0.1:8000/donor/verify_otp/',data)
                     console.log(res)
-                    Swal.fire({
-                        title : 'OTP Successfully verified',
-                        icon : 'success'
-                    }).then((res) =>{
-                        if(res.isConfirmed || res.dismiss==='backdrop'){
-                            navigate('/request/requestdashboard')
-                        }
-                    })
-                    setIsLoading(false)
+                    if( 'success' in res.data){
+                        localStorage.setItem('user',res.data.user_type)
+                        Swal.fire({
+                            title : 'OTP Successfully verified',
+                            icon : 'success'
+                        }).then((res) =>{
+                            if(res.isConfirmed || res.dismiss==='backdrop'){
+                                switch(props.type){
+                                case 'recipientLogin' :
+                                    navigate('/request/requestdashboard')
+                                    break
+
+                                case 'donorLogin':
+                                    navigate('/donate/donordashboard')
+                                    break
+                                
+                                default :
+                                    Swal.fire({
+                                        text : 'Something Went Wrong',
+                                        icon : 'error'
+                                    })
+                                }
+                            }
+                        })
+                        setIsLoading(false)
+                    }else{
+                        Swal.fire({
+                            text : res.data.error,
+                            icon : 'error'
+                        })
+                    }
                 } catch (error) {
                     toast.error(error.response.data.status,{
                         position : toast.POSITION.TOP_CENTER

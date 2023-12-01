@@ -32,8 +32,7 @@ import axios from 'axios';
 import { ToastContainer , toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2'
-
-
+import { useNavigate } from 'react-router-dom';
 
 
 // Steps for Requesting Blood
@@ -180,9 +179,15 @@ function CircularProgressWithLabel(props) {
 }
 
 
+
+
+
 // Main Export Function
 export default function RequestDashboard() {
     axios.defaults.withCredentials = true
+
+
+
     //State Variables
     //Progress of Circular Progress
     const [progress, setProgress] = useState(0);
@@ -450,7 +455,7 @@ export default function RequestDashboard() {
             }
 
             const res2 = await axios.get('http://127.0.0.1:8000/recipient/get_recipient_records/')
-            console.log(res2.data)
+            console.log(res2)
             console.log(res2.response.data.msg)
 
 

@@ -1,35 +1,26 @@
-import { ChakraProvider,  FormHelperText, Heading } from '@chakra-ui/react'
 import React, {  useState } from 'react'
-import {
-    Button,
-    FormControl,
-    FormLabel,
-    Input,
-    Icon,
-    InputGroup,
-    InputLeftAddon,
-    PinInput,
-    PinInputField,
-    HStack,
-    VStack,
-    Text
-} from '@chakra-ui/react'
-import { Phone } from '@phosphor-icons/react'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useNavigate} from 'react-router-dom'
 import LoginPage from '../Components/LoginPage'
+import {jwtDecode} from 'jwt-decode'
+
+
 
 
 const RequestBlood = () => {
-
     axios.defaults.withCredentials=true
-
     
-
-
-
+    const navigate = useNavigate()
+    
+    if(localStorage.getItem('user') !== null){
+        const checkUser = jwtDecode(localStorage.getItem('user'))
+        console.log(checkUser)
+        if(checkUser.isRecipient){
+            navigate('/request/requestdashboard')
+        }
+    }
 
     return (
         <>
@@ -38,7 +29,9 @@ const RequestBlood = () => {
                     <div className="request_inner_div">
                         <div className="request_register">
                             <div className="request_registration_form">
-                                <LoginPage />
+                                <LoginPage 
+                                    type="recipientLogin"
+                                />
                                 <ToastContainer />
                             </div>
                         </div>

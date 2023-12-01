@@ -56,7 +56,14 @@ const DonateBlood = () => {
     axios.defaults.withCredentials=true
 
     const navigate = useNavigate()
-
+    
+    if(localStorage.getItem('user') !== null){
+        const checkUser = jwtDecode(localStorage.getItem('user'))
+        console.log(checkUser)
+        if(checkUser.isDonor){
+            navigate('/donate/donordashboard')
+        }
+    }
     //Active Stepper State 
     const { activeStep , setActiveStep } = useSteps({
         index : 0,
@@ -279,28 +286,28 @@ const DonateBlood = () => {
         try {
             const res = await axios.post('http://127.0.0.1:8000/donor/register/',JSON.stringify(donorDet))
             if('success' in res.data){
-                toast.success(res.data.success , {
-                    position : toast.POSITION.TOP_RIGHT
+                Swal.fire({
+                    text : res.data.success,
+                    icon : 'success'
+                }).then((response) => {
+                    localStorage.setItem('user',res.data.user_type)
+                    if(response.isConfirmed || response.dismiss === 'backdrop'){
+                        navigate("/donate/donordashboard")
+                    }
                 })
-                navigate("/donate/donordashboard")
             }else{
-                toast.error(res.data.error , {
-                    position : toast.POSITION.TOP_RIGHT
+                Swal.fire({
+                    text : res.data.error,
+                    icon : 'error'
                 })
             }
-            
-            
-            console.log(res.data)
         } catch (err) {
-            toast.error(err.response.data.error,{
-                position : toast.POSITION.TOP_RIGHT
+            Swal.fire({
+                text : err.response.data.error,
+                icon : 'error'
             })
-            // console.log()
         }
     }
-
-    // console.log(donorInfo)
-
 
     const formDetails = (activeStep) =>{
 
@@ -649,6 +656,7 @@ const DonateBlood = () => {
                                     >
                                         <LoginPage 
                                             setIsLogin={e => setIsLogin(!isLogin)}
+                                            type="donorLogin"
                                         />
                                         <Button 
                                             onClick={e => setIsLogin(!isLogin)} 
