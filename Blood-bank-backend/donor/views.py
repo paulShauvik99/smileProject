@@ -185,14 +185,11 @@ def verify_otp(request):
             request.session['member_id'] = phoneNumber
 
             isDonor = False
-            isRecipient = False
+            isRecipient = True
             donor = Donor.objects.filter(phoneNumber= phoneNumber).first()
             if donor is not None:
                 isDonor = True
-            recipient = Recipient.objects.filter(phoneNumber= phoneNumber).first()
-            if recipient is not None:
-                isRecipient = True
-
+            
             type = jwt.encode({'isDonor': isDonor,"isRecipient" : isRecipient}, key, algorithm='HS256')
 
             request.session.set_expiry(3000000)
@@ -208,10 +205,6 @@ def verify_otp(request):
         
     
     return JsonResponse({"error" : "Invalid Request method"},status =400)
-
-
-
-
 
 
 
