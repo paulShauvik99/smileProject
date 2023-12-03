@@ -23,7 +23,7 @@ const tableStyle = {
 
 const TableComp = (props) => {
 
-
+    console.log(props)
     return (
         <>
             {
@@ -35,7 +35,9 @@ const TableComp = (props) => {
                                 <TableHead >
                                     <TableRow>
                                         {props.tableColumn.map((column)=>{
-                                            <TableCell sx={{fontSize : '16px' , fontWeight : 'bold'}} align='left'> {column} </TableCell>
+                                            return(
+                                                <TableCell sx={{fontSize : '16px' ,width : '20rem', fontWeight : 'bold'}} align='left'> {column} </TableCell>
+                                            )
                                         })}
                                     </TableRow>
                                 </TableHead>
