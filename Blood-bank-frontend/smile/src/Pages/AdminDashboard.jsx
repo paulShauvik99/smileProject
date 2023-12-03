@@ -6,13 +6,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import JoinLeftTwoToneIcon from '@mui/icons-material/JoinLeftTwoTone';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
+import WaterDropTwoToneIcon from '@mui/icons-material/WaterDropTwoTone';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -29,7 +29,7 @@ const drawerWidth = 240;
 const AdminDashboard = (props) => {
     axios.defaults.withCredentials = true
     
-    const ChildRef = useRef(null)
+    
 
     //Drawers
     const { window } = props;
@@ -45,7 +45,7 @@ const AdminDashboard = (props) => {
     const getTableData = async () =>{
 
         const res = await axios.get('http://127.0.0.1:8000/donor/get_matched_donors/')
-        console.log(res)
+        // console.log(res)
         setReqRows(res.data.recipient_list)
         setApiDonorData(res.data.donor_list)        
 
@@ -53,26 +53,25 @@ const AdminDashboard = (props) => {
 
     const getConfirmDonationsData = async () => {
         const res = await axios.get('http://127.0.0.1:8000/donor/get_confirmed_donors/')
-        console.log(res)
+        // console.log(res)
         setconDonationsRows(res.data.list)
         
     }
 
+    const getMatchedDonorId = async (id,matchedId) =>{
+        //API for matched donor
+        
+        try {
+            console.log(JSON.stringify({matched_id : matchedId}))
+            const res = await axios.post('http://127.0.0.1:8000/donor/confirm_donor/',{matched_id : matchedId})
+            console.log(res)
 
-    useEffect(()=>{
-        getTableData()
-        getConfirmDonationsData()
-    },[])
-
-    // console.log(apiDonorData)
-    //Action Functions 
-
-
-    
-    const openDonor = (id,donorRows) =>{
-        setShowDonorList(true)
-        // console.log(donorData)
-        setDonorRows(donorRows)
+        } catch (error) {
+            Swal.fire({
+                text : error.response.data.error,
+                icon : 'error',
+            })
+        }
     }
 
     const donationConfirmed = async (matched_id) =>{
@@ -89,10 +88,9 @@ const AdminDashboard = (props) => {
 
     }
 
-
     const rejectRequest = async (id, sl) => {
         //Reject API
-
+        console.log(id)
         Swal.fire({
             title: "Are you sure?",
             icon: "warning",
@@ -121,26 +119,29 @@ const AdminDashboard = (props) => {
             }
 
         })
-
-
-
     }
 
-    const getMatchedDonorId = async (id,matchedId) =>{
-        //API for matched donor
-        
-        try {
-            console.log(JSON.stringify({matched_id : matchedId}))
-            const res = await axios.post('http://127.0.0.1:8000/donor/confirm_donor/',{matched_id : matchedId})
-            console.log(res)
+  
 
-        } catch (error) {
-            Swal.fire({
-                text : error.response.data.error,
-                icon : 'error',
-            })
-        }
+    
+    useEffect(()=>{
+        getTableData()
+        getConfirmDonationsData()
+    },[])
+
+    // console.log(apiDonorData)
+    //Action Functions 
+
+
+    
+    const openDonor = (id,donorRows) =>{
+        setShowDonorList(true)
+        // console.log(donorData)
+        setDonorRows(donorRows)
     }
+
+    
+
     
    
     
@@ -166,7 +167,7 @@ const AdminDashboard = (props) => {
                 <ListItem key={text} disablePadding onClick={e => setTab(e.target.innerHTML)}>
                     <ListItemButton>
                     <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon fontSize='large' /> : <MailIcon fontSize='large' />}
+                        {index % 2 === 0 ? <JoinLeftTwoToneIcon fontSize='large' /> : <WaterDropTwoToneIcon fontSize='large' />}
                     </ListItemIcon>
                     <ListItemText primary={text}/>
                     </ListItemButton>
@@ -248,9 +249,9 @@ const AdminDashboard = (props) => {
                             {
                                 tab === 'Match Donors' ? (
                                     <>  
+                                        <h1>Request Lists</h1> 
                                         <ComplexTable
                                             type='reqList'
-                                            ref={ChildRef}
                                             rows={reqRows}
                                             openDonor={openDonor}
                                             setChanges={changeSelectionModel}
@@ -259,29 +260,25 @@ const AdminDashboard = (props) => {
                                         />
                                         {
                                             showDonorList ? (
-                                                        <ComplexTable
-                                                            type='donorList'
-                                                            ref={ChildRef}
-                                                            rows={donorRows}
-                                                            getMatchedDonorId={getMatchedDonorId}
-                                                        />
+                                                        <>
+                                                            <h1>Match Donors</h1>
+                                                            <ComplexTable
+                                                                type='donorList'
+                                                                rows={donorRows}
+                                                                getMatchedDonorId={getMatchedDonorId}
+                                                            />
+                                                        </>
                                             ) : (
                                                 <>
-
                                                 </>
                                             )
                                         }
-
-
-
-
                                     </>
                                 ) : (
                                     <>
-                                        Confirm Table
+                                        <h1>Confirm Donations</h1>
                                         <ComplexTable
                                             type='confirmDonations'
-                                            ref={ChildRef}
                                             rows={conDonationsRows}
                                             donationConfirmed={donationConfirmed}
                                         />

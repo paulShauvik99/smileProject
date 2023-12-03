@@ -1,14 +1,22 @@
 import { Box } from '@mui/material';
 import { DataGrid,  GridActionsCellItem, GridToolbarFilterButton, } from '@mui/x-data-grid';
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import JoinInnerTwoToneIcon from '@mui/icons-material/JoinInnerTwoTone';
 
 
+const CustomNoRows = () =>{
+    return(
+        <>
+            <h1>No Pending Requests</h1>
+        </>
+    )
+}
 
-const ComplexTable = forwardRef((props , ref) => {
+
+
+const ComplexTable = (props) => {
 
     const rows = props.rows
     // console.log(props.donorData)
@@ -89,8 +97,6 @@ const ComplexTable = forwardRef((props , ref) => {
             },
         },
     ]
-
-
     //Donor Columns
     const donorListCols = [
         { field: 'id'},
@@ -141,9 +147,7 @@ const ComplexTable = forwardRef((props , ref) => {
             },
         },
     ]
-
     //Confirm Donations
-
 
     const conDonationCols = [
         { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center' },
@@ -251,7 +255,8 @@ const ComplexTable = forwardRef((props , ref) => {
                     onRowSelectionModelChange={itm => changeSelectionModel(itm) }
                     disableColumnMenu
                     slots={{
-                        toolbar : GridToolbarFilterButton
+                        toolbar : GridToolbarFilterButton,
+                        noRowsOverlay : CustomNoRows
                     }}
                     disableRowSelectionOnClick
                     columnVisibilityModel={columnVisibility}
@@ -260,6 +265,6 @@ const ComplexTable = forwardRef((props , ref) => {
 
         </>
     )
-})
+}
 
 export default ComplexTable

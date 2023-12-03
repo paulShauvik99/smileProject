@@ -187,8 +187,38 @@ export default function RequestDashboard() {
     axios.defaults.withCredentials = true
 
     const navigate = useNavigate()
+    //State Variables
+    //Progress of Circular Progress
+    const [progress, setProgress] = useState(0);
+    
+    //Days with Number of Slots
+    const [highlightedDays,setHighlightedDays] = useState({})
+    //Patient Records
+    const [pastRecords,setPastRecords] = useState([])
+    const [pendingRecords,setPendingRecords] = useState({})
+    const [requestRecords,setRequestRecords] = useState({})
+    // State for active steps
+    const [activeStep, setActiveStep] = useState(0);
+    //Modal Open and Close state
+    const [open, setOpen] = useState(false);
+    //Request Patient Details
+    const [patientDetails, setPatientDetails] = useState({
+        firstName : '',
+        lastName : '',
+        dob : '',
+        email : '',
+        phoneNumber : '',
+        address : '',
+        bloodGroup : '',
+        isThalassemia : false,
+        registeredDate : '',
+    })
+    //Loading Page
     const [loadingPage,setLoadingPage] = useState(true)
+    //Loading APIs
     const [loadingApi , setLoadingApi] = useState(false)
+
+
     useEffect(()=>{
         if(localStorage.getItem('check') !== null){
             
@@ -224,29 +254,6 @@ export default function RequestDashboard() {
 
 
 
-    //State Variables
-    //Progress of Circular Progress
-    const [progress, setProgress] = useState(0);
-    
-    //Days with Number of Slots
-    const [highlightedDays,setHighlightedDays] = useState({})
-
-  
-    // State for active steps
-    const [activeStep, setActiveStep] = useState(0);
-    //Modal Open and Close state
-    const [open, setOpen] = useState(false);
-    const [patientDetails, setPatientDetails] = useState({
-        firstName : '',
-        lastName : '',
-        dob : '',
-        email : '',
-        phoneNumber : '',
-        address : '',
-        bloodGroup : '',
-        isThalassemia : false,
-        registeredDate : '',
-    })
 
 
     //Handlers
@@ -487,7 +494,12 @@ export default function RequestDashboard() {
         setLoadingPage(true)
         try {
             const res = await axios.all(urls.map(url => axios.get(url)))
-            console.log(res)            
+            console.log(res)       
+            
+            setPastRecords(res[1].data.pastRecord)
+            setRequestRecords(res[1].data.requestPlaced)
+            setPendingRecords(res[1].data.pendingDonation)
+
         } catch (error) {
             console.log(error)
             toast.error(error.resoponse.data.msg, {
@@ -621,7 +633,9 @@ export default function RequestDashboard() {
                                                 <TableComp
                                                     type='recipient'
                                                     tableColumn={tableColumn}
-                                                    tableContent={rows}
+                                                    pastRecords={pastRecords}
+                                                    pendingRecords={pendingRecords}
+                                                    requestRecords={requestRecords}
                                                 />
                                             </div>
                                         </div>
