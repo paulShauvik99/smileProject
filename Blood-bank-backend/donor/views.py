@@ -533,16 +533,18 @@ def reject_request(request):
     if request.method == "POST" : 
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
-        recipient_id = request.POST.get('recipient_id')
+        body  = json.loads(request.body)
+        recipient_id = body['recipient_id']
         try:
-            recipeint = Recipient.objects.filter(id = recipient_id).first()
-            recipeint.status = "Rejected"
-            recipeint.save()
+            recipient = Recipient.objects.filter(id = recipient_id).first()
+            recipient.status = "Rejected"
+            recipient.save()
             records = MatchedDonor.objects.filter(recipient = recipient_id , status = 'Pending')
-            if records is not None:
+            if records:
                 for record in records:
                     record.delete()
         except Exception as e:
+            print(e)
             return JsonResponse({"error" : "Something Went wrong"},status =500)
         return JsonResponse({"status" : "Successfully rejected the request"},status = 200)
     return JsonResponse({"error" : "Invalid Request Method"},status = 400)
