@@ -16,8 +16,6 @@ class Donor(models.Model):
     lastDonated = models.DateField(null=True)
     address  = models.TextField(default="",max_length=500)
     
-    
-
     def __str__(self) :
         return self.firstName
     
