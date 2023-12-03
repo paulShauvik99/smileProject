@@ -186,11 +186,12 @@ def get_recipient_records(request):
         if phoneNumber is None:
             return JsonResponse({"error" : "Invalid Session Id"},status =401)
         
-        recipients = Recipient.objects.filter(phoneNumber = phoneNumber,status__in = ['Confirmed','Rejected']).all()
+        recipients = Recipient.objects.filter(phoneNumber = phoneNumber,status__in = ['Confirmed','Pending','Rejected']).all()
         print(recipients)
         data = []
         pendingDonation = {}
         pendingDonorJson ={}
+        requestPlaced = {}
         
         if recipients:
             try :
@@ -198,30 +199,47 @@ def get_recipient_records(request):
                     if recipient.status == "Rejected" :
                         data.append(
                             {
-                                "donor_name" : "",
-                                "donor_address" : "",
-                                "donor_phoneNumber" : "",
+                                "donor_name" : "-",
+                                "donor_address" : "-",
+                                "donor_phoneNumber" : "-",
                                 "bloodGroup" : recipient.bloodGroup,
                                 "date" : recipient.date, 
-                                "status" : recipient.status
+                                "status" : recipient.status,
+                                "recipient_name" : recipient.firstName +" " + recipient.lastName
                             }
                         )
                     else:
                         donationObj = MatchedDonor.objects.filter(status__in = ['Confirmed'],donated = "Yes", recipient = recipient.id).order_by("-date").first()
                         print(donationObj)
                         pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", recipient = recipient.id).first()
+                        request_placed = MatchedDonor.objects.filter(status = "Pending",donated = "No", recipient = recipient.id).first()
                         print(pendingDonation)
                         if pendingDonation is not None:
                             pendingDonor = Donor.objects.filter(id = pendingDonation.donor).first()
-                            
+                            pendingRecipient = Recipient.objects.filter(id = pendingDonation.recipient).first()
                             print(pendingDonor)
                             pendingDonorJson = {
-                                "name" : pendingDonor.firstName +" " +  pendingDonor.lastName,
-                                "address" : pendingDonor.address,
-                                "phoneNumber" : pendingDonor.phoneNumber,
-                                "date" : pendingDonation.date
+                                "donor_name" : pendingDonor.firstName +" " +  pendingDonor.lastName,
+                                "donor_address" : pendingDonor.address,
+                                "donor_phoneNumber" : pendingDonor.phoneNumber,
+                                "bloodGroup" : pendingDonor.bloodGroup,
+                                "date" : pendingDonation.date,
+                                "status" : "Donor Matched",
+                                "recipient_name" : recipient.firstName+ " "+ recipient.lastName,
+                                
                                 
                             }
+
+                        if request_placed :
+                            requestPlaced = {
+                                "donor_name" : "-",
+                                "donor_address" : "-",
+                                "bloodGroup" : recipient.bloodGroup,
+                                "donor_phoneNumber" : "-",
+                                "status" : request_placed.status,
+                                "recipient_name" : recipient.firstName+" "+ recipient.lastName,
+                                "date" : recipient.date
+                            } 
                         
                         if donationObj:
                             
@@ -229,9 +247,11 @@ def get_recipient_records(request):
                             data.append({
                                 "donor_name" : donor.firstName +" "+ donor.lastName,
                                 "bloodGroup" : donor.bloodGroup,
-                                "phoneNumber" : donor.phoneNumber,
-                                "address" : donor.address,
-                                "date" : donationObj.date
+                                "donor_phoneNumber" : donor.phoneNumber,
+                                "donor_address" : donor.address,
+                                "date" : donationObj.date,
+                                "status" : donationObj.status,
+                                "recipient_name" : recipient.firstName+ " "+ recipient.lastName,
                                 
                 
                             })
@@ -241,6 +261,6 @@ def get_recipient_records(request):
             except Exception as e:
                 print(e)
                 return JsonResponse({"error" : "No Donor has not Confirmed yet"},status=500)
-        return JsonResponse({"status" : "Data fetched","pastRecord" :data,"pendingDonation" : pendingDonorJson },status=200)
+        return JsonResponse({"status" : "Data fetched","pastRecord" :data,"pendingDonation" : pendingDonorJson, "requestPlaced" : requestPlaced },status=200)
     
     return JsonResponse({"error" : "Invalid Request Method"},status = 400)

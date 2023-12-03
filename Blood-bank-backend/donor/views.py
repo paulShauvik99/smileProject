@@ -273,6 +273,7 @@ def get_donor_records(request):
             donationList = MatchedDonor.objects.filter(status = "Confirmed",donated = "Yes", donor = donor.id).all()
             print(donationList)
             pendingDonation = MatchedDonor.objects.filter(status = "Confirmed",donated = "No", donor = donor.id).first()
+            
             if pendingDonation is not None:
                 pendingRecipient = Recipient.objects.filter(id = pendingDonation.recipient).first()
                 print(pendingRecipient)
