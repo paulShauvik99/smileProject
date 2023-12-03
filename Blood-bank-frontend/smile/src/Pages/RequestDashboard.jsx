@@ -10,7 +10,7 @@ import ContactPageIcon from '@mui/icons-material/ContactPage';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import PropTypes from 'prop-types';
 import DoneIcon from '@mui/icons-material/Done';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, HStack, Skeleton, VStack } from '@chakra-ui/react';
 import {
     FormControl,
     FormLabel,
@@ -185,6 +185,42 @@ function CircularProgressWithLabel(props) {
 // Main Export Function
 export default function RequestDashboard() {
     axios.defaults.withCredentials = true
+
+    const navigate = useNavigate()
+    const [loadingPage,setLoadingPage] = useState(true)
+    const [loadingApi , setLoadingApi] = useState(false)
+    useEffect(()=>{
+        if(localStorage.getItem('check') !== null){
+            
+            const now  =  new Date().getTime()
+            if(JSON.parse(localStorage.getItem('check')).expire < now){
+                setLoadingPage(true)
+                Swal.fire({
+                    title : 'Session Expired! Please Login Again!',
+                    icon : 'warning'
+                }).then((res)=>{
+                    if(res.isConfirmed || res.dismiss==='backdrop'){
+                        localStorage.removeItem('check')
+                        navigate('/request')
+                    }
+                })
+            } 
+            setLoadingApi(true)
+        }else{
+            setLoadingPage(true)
+            Swal.fire({
+                title : 'You are not authorized to view this page.',
+                text : 'Please Login to Continue.',
+                icon : 'warning'
+            }).then((res)=>{
+                if(res.isConfirmed || res.dismiss==='backdrop'){
+                    navigate('/request')
+                }
+            })
+        }
+    },[])
+
+
 
 
 
@@ -445,32 +481,27 @@ export default function RequestDashboard() {
 
     }
 
+    const urls = ['http://127.0.0.1:8000/recipient/get_available_dates/', 'http://127.0.0.1:8000/recipient/get_recipient_records/']
 
     const loadAPI = async () =>{
+        setLoadingPage(true)
         try {
-            const res = await axios.get('http://127.0.0.1:8000/recipient/get_available_dates/')
-            console.log(res)
-            if(res.data.status === 'success'){
-                setHighlightedDays(res.data.dates)
-            }
-
-            const res2 = await axios.get('http://127.0.0.1:8000/recipient/get_recipient_records/')
-            console.log(res2)
-            console.log(res2.response.data.msg)
-
-
-            
+            const res = await axios.all(urls.map(url => axios.get(url)))
+            console.log(res)            
         } catch (error) {
+            console.log(error)
             toast.error(error.resoponse.data.msg, {
                 position : toast.POSITION.TOP_RIGHT
             })
         }
+        setLoadingPage(false)
     }
 
 
     useEffect(() => {
-
-        loadAPI()
+        if(loadingApi){
+            loadAPI()
+        }
 
         const timer = setInterval(() => {
             setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 25));
@@ -480,7 +511,7 @@ export default function RequestDashboard() {
         };
 
 
-    }, []);
+    }, [loadingApi]);
 
 
 
@@ -543,6 +574,8 @@ export default function RequestDashboard() {
         },
     ];
 
+    const tableColumn = ["Patient's Name", "Requested Date", "Status" , "Blood Group" ,"Donor's Name", "Donor's Phone Number"]
+
     //Main Return
     return (
         <>
@@ -550,42 +583,98 @@ export default function RequestDashboard() {
                     <div className="req_dashboard_inner_div">
                         <div className="req_dashboard_content">
                             <div className="actual_content">
-                                <div className="grid_container">
-                                    <div className="main">
-                                        <div className="remaining_units">
-                                            <CircularProgressWithLabel value={progress} />
-                                            <Typography variant="h4" component="h4"> Your Next available Unit is in 12 days </Typography>
-                                        </div>
-                                        <div className="register_patient">
-                                            <Stack direction="row" spacing={8}>
-                                                <Typography variant='h4' sx={{display : 'flex', alignItems : 'center'}} component='h4'>
-                                                    Request For An Unit ?
+                            {
+                                !loadingPage ? (
+                                    <>
+
+                                        <div className="grid_container">
+                                            <div className="main">
+                                                <div className="remaining_units">
+                                                    <CircularProgressWithLabel value={progress} />
+                                                    <Typography variant="h4" component="h4"> Your Next available Unit is in 12 days </Typography>
+                                                </div>
+                                                <div className="register_patient">
+                                                    <Stack direction="row" spacing={8}>
+                                                        <Typography variant='h4' sx={{display : 'flex', alignItems : 'center'}} component='h4'>
+                                                            Request For An Unit ?
+                                                        </Typography>
+                                                        <Button variant="contained" size='large' onClick={handleOpen} startIcon={<CreateIcon />}>
+                                                            Register Patient
+                                                        </Button>
+                                                    </Stack>
+                                                </div>
+                                            </div>
+
+
+                                            <div className="calendar">
+                                                <Typography variant='h2' mb={10} component='h2' textAlign='center'>
+                                                    Available Days                                            
                                                 </Typography>
-                                                <Button variant="contained" size='large' onClick={handleOpen} startIcon={<CreateIcon />}>
-                                                    Register Patient
-                                                </Button>
-                                            </Stack>
+                                                <CalendarComp 
+                                                    highlightedDays={highlightedDays}
+                                                />
+                                            </div>
+
+
+                                            
+                                            <div className="requests">
+                                                <TableComp
+                                                    type='recipient'
+                                                    tableColumn={tableColumn}
+                                                    tableContent={rows}
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
+                                    </> 
+                                ) : (
+                                    <ChakraProvider>
+                                            <Grid 
+                                                templateRows='repeat(2,1fr)'
+                                                templateColumns='repeat(3,1fr)'
+                                                gap={4}
+                                                p={5}
 
+                                            >
+                                                <GridItem
+                                                    colSpan={2}
+                                                >
+                                                    <Skeleton
+                                                        height='40rem'
+                                                        // width='70rem'
+                                                    >
 
-                                    <div className="calendar">
-                                        <Typography variant='h2' mb={10} component='h2' textAlign='center'>
-                                            Available Days                                            
-                                        </Typography>
-                                        <CalendarComp 
-                                            highlightedDays={highlightedDays}
-                                        />
-                                    </div>
+                                                    </Skeleton>
+                                                    
+                                                </GridItem>
+                                                <GridItem
+                                                    colSpan={1}
+                                                    rowSpan={2}
+                                                >
+                                                    <Skeleton
 
+                                                        height='100%'
+                                                        // width='70rem'
+                                                    >
 
-                                    
-                                    <div className="requests">
-                                        <TableComp
-                                            tableContent={rows}
-                                        />
-                                    </div>
-                                </div>
+                                                    </Skeleton>
+
+                                                </GridItem>
+                                                <GridItem
+                                                    colSpan={2}
+                                                >
+
+                                                    <Skeleton
+                                                        height='40rem'
+                                                        // width='70rem'
+                                                    >
+
+                                                    </Skeleton>
+                                                </GridItem>
+                                            </Grid>
+
+                                    </ChakraProvider>
+                                )
+                            }
 
 
                                 {/* Function to Open A Modal For Registering a Patient in need of Blood Units */}

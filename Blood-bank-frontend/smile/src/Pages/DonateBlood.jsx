@@ -41,6 +41,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import LoginPage from '../Components/LoginPage'
 import Swal from 'sweetalert2'
+import { jwtDecode } from 'jwt-decode'
 
 
 
@@ -56,6 +57,24 @@ const DonateBlood = () => {
     axios.defaults.withCredentials=true
 
     const navigate = useNavigate()
+
+
+    useEffect(()=>{
+        if(localStorage.getItem('check')!== null){
+            const now = new Date().getTime()
+            if(JSON.parse(localStorage.getItem('check')).expire > now ) {
+                if(jwtDecode(JSON.parse(localStorage.getItem('check')).user).isDonor){
+                    navigate('/donate/donordashboard')
+                }
+            }else{
+                localStorage.removeItem('check')
+            }
+        }
+    },[])
+
+
+
+
 
     //Active Stepper State 
     const { activeStep , setActiveStep } = useSteps({
@@ -239,7 +258,7 @@ const DonateBlood = () => {
             console.log(phoneNumber)
             timer()
             try{
-                const res =  await axios.post('http://127.0.0.1:8000/donor/donor_send_otp/', JSON.stringify(phoneNumber))
+                const res =  await axios.post('http://127.0.0.1:8000/donor/send_otp/', JSON.stringify(phoneNumber))
                 if('success' in res.data){
                     toast.success(res.data.success, {
                         position : toast.POSITION.TOP_RIGHT

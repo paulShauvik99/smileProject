@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { ChakraProvider,  FormHelperText, Heading, Button, FormControl, FormLabel, Input, Icon, InputGroup, InputLeftAddon, PinInput, PinInputField, HStack, VStack, Text} from '@chakra-ui/react'
 import { Phone } from '@phosphor-icons/react'
 import axios from 'axios'
@@ -141,7 +141,12 @@ export default function LoginPage(props){
                     const res = await axios.post('http://127.0.0.1:8000/donor/verify_otp/',data)
                     console.log(res)
                     if( 'success' in res.data){
-                        localStorage.setItem('user',res.data.user_type)
+                        const now = new Date().getTime()
+                        let check = {
+                            user : res.data.user_type,
+                            expire : now + 30*60000
+                        }
+                        localStorage.setItem('check',JSON.stringify(check))
                         Swal.fire({
                             title : 'OTP Successfully verified',
                             icon : 'success'
@@ -172,15 +177,13 @@ export default function LoginPage(props){
                         })
                     }
                 } catch (error) {
+                    console.log(error)
                     toast.error(error.response.data.status,{
                         position : toast.POSITION.TOP_CENTER
                     })                
                     setIsLoading(false)
                 }
     
-                // localStorage.setItem("token" , JSON.stringify({token : "checkingifthisworks"}))
-    
-                // navigate("/request/requestdashboard")
             }
         }
 
@@ -194,9 +197,6 @@ export default function LoginPage(props){
                 setNumber(num)
             }
         }
-
-
-
 
     return(
         <>

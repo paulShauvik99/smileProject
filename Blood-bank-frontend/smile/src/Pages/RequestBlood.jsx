@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,13 +14,18 @@ const RequestBlood = () => {
     
     const navigate = useNavigate()
     
-    if(localStorage.getItem('user') !== null){
-        const checkUser = jwtDecode(localStorage.getItem('user'))
-        console.log(checkUser)
-        if(checkUser.isRecipient){
-            navigate('/request/requestdashboard')
+    useEffect(()=>{
+        const now = new Date().getTime()
+        if(localStorage.getItem('check') !== null){
+            if(JSON.parse(localStorage.getItem('check')).expire > now ) {
+                if(jwtDecode(JSON.parse(localStorage.getItem('check')).user).isRecipient){
+                    navigate('/request/requestdashboard')
+                }
+            }else{
+                localStorage.removeItem('check')
+            }
         }
-    }
+    },[])
 
     return (
         <>

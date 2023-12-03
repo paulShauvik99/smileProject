@@ -23,36 +23,70 @@ const tableStyle = {
 
 const TableComp = (props) => {
 
-
     return (
         <>
-            <Box component={Paper} sx={tableStyle} >
-                <TableContainer sx={{maxHeight : 400 }}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead >
-                            <TableRow>
-                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}}>Patient's Name </TableCell>
-                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="left">Donation Date</TableCell>
-                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="left">Phone Number</TableCell>
-                                <TableCell sx={{fontSize : '16px', fontWeight : 'bold'}} align="left">Blood Group</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {props.tableContent.map((row) => (
-                                <TableRow
-                                    key={row.recipient_name}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell sx={{fontSize : '14px'}} align="left">{row.recipient_name}</TableCell>
-                                    <TableCell sx={{fontSize : '14px'}} align="left">{row.date}</TableCell>
-                                    <TableCell sx={{fontSize : '14px'}} align="left">{row.phoneNumber}</TableCell>
-                                    <TableCell sx={{fontSize : '14px'}} align="left">{row.bloodGroup}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Box>
+            {
+                props.type === 'donor' ? (
+
+                    <Box component={Paper} sx={tableStyle} >
+                        <TableContainer sx={{maxHeight : 400 }}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableHead >
+                                    <TableRow>
+                                        {props.tableColumn.map((column)=>{
+                                            <TableCell sx={{fontSize : '16px' , fontWeight : 'bold'}} align='left'> {column} </TableCell>
+                                        })}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {props.tableContent.map((row) => (
+                                        <TableRow
+                                            key={row.recipient_name}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell sx={{fontSize : '14px'}} align="left">{row.recipient_name}</TableCell>
+                                            <TableCell sx={{fontSize : '14px'}} align="left">{row.date}</TableCell>
+                                            <TableCell sx={{fontSize : '14px'}} align="left">{row.phoneNumber}</TableCell>
+                                            <TableCell sx={{fontSize : '14px'}} align="left">{row.bloodGroup}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Box>
+                ) : (
+                    
+                    <Box component={Paper} sx={tableStyle} >
+                        <TableContainer sx={{maxHeight : 400 }}>
+                            <Table  aria-label="simple table" >
+                                <TableHead >
+                                    <TableRow>
+                                        {props.tableColumn.map((column,ind)=>{
+                                            return(
+                                                <TableCell key={ind} sx={{fontSize : '16px' ,fontWeight : 'bold' , width : '20rem'}} align='left'> {column} </TableCell>
+                                            )
+                                        })}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {props.tableContent.map((row) => (
+                                        <TableRow
+                                            key={row.recipient_name}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell sx={{fontSize : '14px'}} align="left">{row.recipient_name}</TableCell>
+                                            <TableCell sx={{fontSize : '14px'}} align="left">{row.date}</TableCell>
+                                            <TableCell sx={{fontSize : '14px'}} align="left">{row.phoneNumber}</TableCell>
+                                            <TableCell sx={{fontSize : '14px'}} align="left">{row.bloodGroup}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Box>
+
+                )
+            }
         </>
     )
 }
