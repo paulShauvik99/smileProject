@@ -45,7 +45,7 @@ const AdminDashboard = (props) => {
     const getTableData = async () =>{
 
         const res = await axios.get('http://127.0.0.1:8000/donor/get_matched_donors/')
-        // console.log(res)
+        console.log(res)
         setReqRows(res.data.recipient_list)
         setApiDonorData(res.data.donor_list)        
 
@@ -53,7 +53,7 @@ const AdminDashboard = (props) => {
 
     const getConfirmDonationsData = async () => {
         const res = await axios.get('http://127.0.0.1:8000/donor/get_confirmed_donors/')
-        // console.log(res)
+        console.log(res)
         setconDonationsRows(res.data.list)
         
     }

@@ -19,7 +19,7 @@ const CustomNoRows = () =>{
 const ComplexTable = (props) => {
 
     const rows = props.rows
-    // console.log(props.donorData)
+    console.log(props.rows)
     const [columns , setColumns] = useState([])
     const [rowSelectionModel, setRowSelectionModel] = useState();
 

@@ -495,7 +495,7 @@ export default function RequestDashboard() {
         try {
             const res = await axios.all(urls.map(url => axios.get(url)))
             console.log(res)       
-            
+            setHighlightedDays(res[0].data.dates)
             setPastRecords(res[1].data.pastRecord)
             setRequestRecords(res[1].data.requestPlaced)
             setPendingRecords(res[1].data.pendingDonation)
