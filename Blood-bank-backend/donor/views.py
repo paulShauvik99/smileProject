@@ -486,7 +486,8 @@ def get_confirmed_donors(request):
                     'recipient_phonenumber': recipient.phoneNumber,
                     'bloodgroup' : recipient.bloodGroup,
                     'id' : pair.id,
-                    'sl' : str(sl)
+                    'sl' : str(sl),
+                    'date' : pair.date
 
                 })
                 sl+=1
