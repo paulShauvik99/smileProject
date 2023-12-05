@@ -114,7 +114,7 @@ def user_logout(request):
             del request.session["member_id"]
         except KeyError:
            JsonResponse({'error' : "Invalid session key"})
-        return JsonResponse("You're logged out.")
+        return JsonResponse({"status" : "You're logged out."})
     return JsonResponse({"error" : "Invalid request method"},status =400)
 
 

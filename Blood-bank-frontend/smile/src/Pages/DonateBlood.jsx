@@ -298,15 +298,20 @@ const DonateBlood = () => {
         try {
             const res = await axios.post('http://127.0.0.1:8000/donor/register/',JSON.stringify(donorDet))
             if('success' in res.data){
-                Swal.fire({
-                    text : res.data.success,
-                    icon : 'success'
-                }).then((response) => {
-                    localStorage.setItem('user',res.data.user_type)
-                    if(response.isConfirmed || response.dismiss === 'backdrop'){
-                        navigate("/donate/donordashboard")
-                    }
-                })
+                const now = new Date().getTime()
+                        let check = {
+                            user : res.data.user_type,
+                            expire : now + 20*60000
+                        }
+                        localStorage.setItem('check',JSON.stringify(check))
+                        Swal.fire({
+                            title : 'OTP Successfully verified',
+                            icon : 'success'
+                        }).then((res) =>{
+                            if(res.isConfirmed || res.dismiss==='backdrop'){
+                                navigate('/donate/donordashboard')
+                            }
+                        })
             }else{
                 Swal.fire({
                     text : res.data.error,

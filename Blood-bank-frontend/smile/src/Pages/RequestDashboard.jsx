@@ -1,5 +1,5 @@
 import React, { useState , useEffect } from 'react'
-import { Badge, Typography , Stack, Button, Modal, Backdrop, Fade, Stepper, Step, StepLabel} from '@mui/material';
+import { Typography , Stack, Button, Modal, Backdrop, Fade, Stepper, Step, StepLabel} from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import CreateIcon from '@mui/icons-material/Create';
@@ -10,7 +10,7 @@ import ContactPageIcon from '@mui/icons-material/ContactPage';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import PropTypes from 'prop-types';
 import DoneIcon from '@mui/icons-material/Done';
-import { ChakraProvider, HStack, Skeleton, VStack } from '@chakra-ui/react';
+import { ChakraProvider,  Skeleton } from '@chakra-ui/react';
 import {
     FormControl,
     FormLabel,
@@ -23,7 +23,6 @@ import {
     Checkbox,
     Select,
     Textarea,
-    
 } from '@chakra-ui/react'
 import { IdentificationBadge, Envelope, Phone ,Calendar, HouseLine, Drop, CalendarCheck  } from '@phosphor-icons/react'
 import TableComp from '../Components/Table';
@@ -33,7 +32,7 @@ import { ToastContainer , toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
-
+import {jwtDecode} from 'jwt-decode';
 
 // Steps for Requesting Blood
 const steps = ["Patient Details", "Patient Contact Details", "Patient Requirement"]
@@ -221,7 +220,6 @@ export default function RequestDashboard() {
 
     useEffect(()=>{
         if(localStorage.getItem('check') !== null){
-            
             const now  =  new Date().getTime()
             if(JSON.parse(localStorage.getItem('check')).expire < now){
                 setLoadingPage(true)
@@ -234,8 +232,20 @@ export default function RequestDashboard() {
                         navigate('/request')
                     }
                 })
+            }else if(!jwtDecode(JSON.parse(localStorage.getItem('check')).user).isRecipient){
+                setLoadingPage(true)
+                Swal.fire({
+                    title : 'You are not authorized to view this Page!',
+                    text :  'Pleaase Register, to Continue!',
+                    icon : 'warning'
+                }).then((res)=>{
+                    if(res.isConfirmed || res.dismiss === 'backdrop'){
+                        navigate('/request')
+                    }
+                })
+            }else{
+                setLoadingApi(true)
             } 
-            setLoadingApi(true)
         }else{
             setLoadingPage(true)
             Swal.fire({
@@ -509,6 +519,27 @@ export default function RequestDashboard() {
         setLoadingPage(false)
     }
 
+    const logout = () => {
+        try{
+            axios.get('http://127.0.0.1:8000/donor/logout/').then((res)=>{
+                setLoadingPage(true)
+                localStorage.removeItem('check')
+                Swal.fire({
+                    title : 'Logout Successful',
+                    icon : 'success',
+                }).then((res) =>{
+                    if(res.isConfirmed || res.dismiss === 'backdrop'){
+                        navigate('/request')
+                    }
+                })
+            })
+        }catch(err){
+            Swal.fire({
+                title : 'Something Went Wrong',
+                icon : 'error'
+            })
+        }
+    }
 
     useEffect(() => {
         if(loadingApi){
@@ -598,7 +629,11 @@ export default function RequestDashboard() {
                             {
                                 !loadingPage ? (
                                     <>
-
+                                        <div className="logout">
+                                            <Button variant='contained' onClick={logout}>
+                                                Logout
+                                            </Button>
+                                        </div>
                                         <div className="grid_container">
                                             <div className="main">
                                                 <div className="remaining_units">

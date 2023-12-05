@@ -287,12 +287,13 @@ html{
         //Request And Donate Dashboard
         & .req_dashboard_content, & .don_dashboard_content{
             width: 100%;
-            min-height: 100rem;
+            min-height: 120rem;
             display: flex;
             justify-content: center;
             align-items: center;
             & .actual_content{
                 z-index: 6;
+                height: 100rem;
                 width: 135em;
                 background-color: rgba(255, 255, 255, 0.2);
                 border-radius: 2.5rem;
@@ -302,6 +303,12 @@ html{
                 border-right: 1px solid rgba(255, 255, 255, 0.7);
                 box-shadow: inset 0px 0px 15rem 0px rgba(255, 255, 255, 0.8);
                 
+                & .logout{
+                    position: absolute;
+                    top : 12rem;
+                    right : 15rem;
+                }
+
                 & .grid_container{
                     display: grid;
                     grid-template-areas:    "main calendar"
