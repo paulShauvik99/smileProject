@@ -113,8 +113,11 @@ def request_blood(request):
                 if months_passed > 3:
                         eligibleDonors.append(donor)
             else:
-                matched_donors_list = MatchedDonor.objects.filter(status ="Confirmed" , donated = "No" ,id =donor.id).first()
+                matched_donors_list = MatchedDonor.objects.filter(status ="Confirmed" , donated = "No" ,id =donor.id)
+                print(matched_donors_list)
                 if matched_donors_list is None:
+                    print(donor.firstName)
+                    print("abbu jan")
                     eligibleDonors.append(donor)
                 
         if len(eligibleDonors) == 0 :
