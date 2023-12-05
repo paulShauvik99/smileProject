@@ -106,18 +106,15 @@ def request_blood(request):
         
         for donor in donors:
             lastDonated = donor.lastDonated
-            if lastDonated:
-                
-                months_passed = (current_date.year - lastDonated.year) * 12 + (current_date.month - lastDonated.month)
-                print(months_passed)
-                if months_passed > 3:
-                        eligibleDonors.append(donor)
-            else:
-                matched_donors_list = MatchedDonor.objects.filter(status ="Confirmed" , donated = "No" ,id =donor.id)
-                print(matched_donors_list)
-                if matched_donors_list is None:
-                    print(donor.firstName)
-                    print("abbu jan")
+            matched_donors_list = MatchedDonor.objects.filter(status ="Confirmed" , donated = "No" ,id =donor.id)
+            if matched_donors_list is None:
+                if lastDonated:
+                    
+                    months_passed = (current_date.year - lastDonated.year) * 12 + (current_date.month - lastDonated.month)
+                    print(months_passed)
+                    if months_passed > 3:
+                            eligibleDonors.append(donor)
+                else:
                     eligibleDonors.append(donor)
                 
         if len(eligibleDonors) == 0 :
