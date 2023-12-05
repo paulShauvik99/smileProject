@@ -113,7 +113,10 @@ def request_blood(request):
                 if months_passed > 3:
                         eligibleDonors.append(donor)
             else:
-                eligibleDonors.append(donor)
+                matched_donors_list = MatchedDonor.objects.filter(status ="Confirmed" , donated = "No").first()
+                if matched_donors_list is None:
+                    eligibleDonors.append(donor)
+                
         if len(eligibleDonors) == 0 :
             return JsonResponse({"error" : "Currently no donor available of this BloodGroup, please try later or Contact our NGO!"},status=400)
 
