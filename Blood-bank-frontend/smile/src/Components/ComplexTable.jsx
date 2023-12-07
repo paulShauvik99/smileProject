@@ -19,7 +19,6 @@ const CustomNoRows = () =>{
 const ComplexTable = (props) => {
 
     const rows = props.rows
-    // console.log(props.donorData)
     const [columns , setColumns] = useState([])
     const [rowSelectionModel, setRowSelectionModel] = useState();
 
@@ -32,9 +31,9 @@ const ComplexTable = (props) => {
 
 
     const reqListCols = [
-        { field: 'id'},
-        { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center' },
-        { field: 'name', headerName: "Patient's Name" , width: 200, sortable : false, align : 'center', headerAlign : 'center' },
+        // { field: 'id'},
+        { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center', filterable : false },
+        { field: 'name', headerName: "Patient's Name" , width: 200, sortable : false, align : 'center', headerAlign : 'center' , filterable : false },
         {
             field: 'address',
             headerName: "Patient's Address",
@@ -42,6 +41,8 @@ const ComplexTable = (props) => {
             align: 'center',
             headerAlign: 'center',
             sortable : false,   
+            filterable : false
+
         },
         {
             field: 'phoneNumber',
@@ -50,6 +51,8 @@ const ComplexTable = (props) => {
             align: 'center',
             headerAlign: 'center',
             sortable : false,   
+            filterable : false
+
         },
         {
             field: 'bloodgroup',
@@ -58,6 +61,8 @@ const ComplexTable = (props) => {
             sortable : false,   
             align : 'center',
             headerAlign: 'center',
+            filterable : false
+
         },
         {
             field: 'date',
@@ -67,6 +72,7 @@ const ComplexTable = (props) => {
             align : 'center',
             headerAlign: 'center',
             sortable : false,   
+            
             valueFormatter: ({ value }) => new Date(value).toISOString().split('T')[0]
         },
         {
@@ -99,10 +105,10 @@ const ComplexTable = (props) => {
     ]
     //Donor Columns
     const donorListCols = [
-        { field: 'id'},
+        // { field: 'id'},
         { field: 'matched_id', },
-        { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center' },
-        { field: 'name', headerName: "Name" , width: 250, sortable : false, align : 'center', headerAlign : 'center' },
+        { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center' , filterable : false},
+        { field: 'name', headerName: "Name" , width: 250, sortable : false, align : 'center', headerAlign : 'center' , filterable : false },
         {
             field: 'address',
             headerName: "Address",
@@ -110,6 +116,7 @@ const ComplexTable = (props) => {
             align: 'center',
             headerAlign: 'center',
             sortable : false,   
+            filterable : false,
         },
         {
             field: 'phoneNumber',
@@ -118,6 +125,7 @@ const ComplexTable = (props) => {
             align: 'center',
             headerAlign: 'center',
             sortable : false,   
+            filterable : false,
         },
         {
             field: 'bloodGroup',
@@ -126,6 +134,7 @@ const ComplexTable = (props) => {
             sortable : false,   
             align : 'center',
             headerAlign: 'center',
+            filterable : false,
         },
         {
             field: 'actions',
@@ -150,32 +159,45 @@ const ComplexTable = (props) => {
     //Confirm Donations
 
     const conDonationCols = [
-        { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center' },
-        { field: 'recipient_name', headerName: "Recipient's Name" , width: 200, sortable : false, align : 'center', headerAlign : 'center' },
+        { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center', filterable : false },
+        { field: 'recipient_name', headerName: "Recipient's Name" , width: 200, sortable : false, align : 'center', headerAlign : 'center', filterable : false },
         {
             field: 'recipient_phonenumber',
-            headerName: "Recipient's Phone Number",
-            width: 200,
+            headerName: "Recipient's Number",
+            width: 170,
             align: 'center',
             headerAlign: 'center',
-            sortable : false,   
+            sortable : false, 
+            filterable : false  
         },
-        { field: 'donor_name', headerName: "Donor's Name" , width: 200, sortable : false, align : 'center', headerAlign : 'center' },
+        { field: 'donor_name', headerName: "Donor's Name" , width: 190, sortable : false, align : 'center', headerAlign : 'center' ,filterable : false},
         {
             field: 'donor_phoneNumber',
-            headerName: "Donor's Phone Number",
-            width: 200,
+            headerName: "Donor's Number",
+            width: 150,
             align: 'center',
             headerAlign: 'center',
             sortable : false,   
+            filterable : false
         },
         {
             field: 'bloodgroup',
             headerName: 'Blood Group',
-            width: 200,
+            width: 120,
             sortable : false,   
             align : 'center',
             headerAlign: 'center',
+            filterable : false
+        },
+        {
+            field: 'date',
+            headerName: 'Donation Date',
+            width: 150,
+            sortable : false,   
+            type : 'date' ,
+            align : 'center',
+            headerAlign: 'center',
+            valueFormatter: ({ value }) => new Date(value).toISOString().split('T')[0],
         },
         {
             field: 'actions',
@@ -184,7 +206,7 @@ const ComplexTable = (props) => {
             width: 100,
             cellClassName: 'actions',
             getActions: (params) => {
-                console.log(params)
+                // console.log(params)
                 return [
                 <GridActionsCellItem
                     icon={<CheckCircleIcon />}
@@ -221,15 +243,8 @@ const ComplexTable = (props) => {
                 setColumns(conDonationCols)
                 break
         }
-    },[])
+    },[props.type])
     
-
-    // console.log(props.rows)
-    // console.log(rows)
-
-    // const handleDeleteClick = (id) => () => {
-    //     setRows(rows.filter((row) => row.id !== id));
-    // };
 
     const changeSelectionModel = (id) =>{
         setRowSelectionModel(id)
@@ -238,7 +253,7 @@ const ComplexTable = (props) => {
 
     return (
         <>
-            <Box sx={{ height: 400, width: '100%', backgroundImage: 'linear-gradient(135deg,rgba(235, 234, 172, 0.683) 30% , rgb(240, 130, 139))', mt : 15 }}>
+            <Box sx={{ height: 400, width: '100%', backgroundImage: 'linear-gradient(135deg,rgb(235, 234, 172) 30% , rgb(240, 130, 139))', mt : 15 }}>
                 <DataGrid
                     sx={{ 
                         fontSize : 16

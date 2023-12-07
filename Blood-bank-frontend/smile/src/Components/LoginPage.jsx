@@ -144,7 +144,7 @@ export default function LoginPage(props){
                         const now = new Date().getTime()
                         let check = {
                             user : res.data.user_type,
-                            expire : now + 30*60000
+                            expire : now + 20*60000
                         }
                         localStorage.setItem('check',JSON.stringify(check))
                         Swal.fire({
@@ -178,8 +178,9 @@ export default function LoginPage(props){
                     }
                 } catch (error) {
                     console.log(error)
-                    toast.error(error.response.data.status,{
-                        position : toast.POSITION.TOP_CENTER
+                    Swal.fire({
+                        title : error.response.data.error , 
+                        icon  : 'error'
                     })                
                     setIsLoading(false)
                 }

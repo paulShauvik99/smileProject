@@ -21,29 +21,47 @@ const AdminLogin = () => {
 
     const [isAdminInvalid, setIsAdminInvalid] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const submitDetails = async (data) => {
         // code
-        console.log("Check")
-        try {
-            const res = await axios.post('http://127.0.0.1:8000/donor/admin_login/', JSON.stringify(data))
-            console.log(res)
+        if(data.username === '' || data.password === ''){
             Swal.fire({
-                text : res.data.success,
-                icon : 'success'
-            }).then((res)=>{
-                if(res.isConfirmed || res.dismiss == 'backdrop'){
-                    navigate('/admindashboard')
+                title : 'Please enter your username/password',
+                icon : 'warning'
+            })
+        }else{
+            try {
+                setIsLoading(true)
+                const res = await axios.post('http://127.0.0.1:8000/donor/admin_login/', JSON.stringify(data))
+                console.log(res)
+                if('success' in res.data){
+                    const now = new Date().getTime()
+                    let adminCheck ={
+                        isAdmin: res.data.is_Admin,
+                        expire : now + 45*60000
+                    }
+                    localStorage.setItem('adminCheck', JSON.stringify(adminCheck))
+                    Swal.fire({
+                        text : res.data.success,
+                        icon : 'success'
+                    }).then((res)=>{
+                        if(res.isConfirmed || res.dismiss == 'backdrop'){
+                            navigate('/admindashboard')
+                        }
+                    })
+                    setIsLoading(false)
                 }
-            })
-        } catch (error) {
-            Swal.fire({
-                text : error.response.data.status,
-                icon : 'error'
-            })
+            } catch (error) {
+                Swal.fire({
+                    title : error.response.data.error,
+                    icon : 'error'
+                })
+                setIsLoading(false)
+            }
         }
     }
-    console.log(adminInfo)
+
 
     return (
         <>
@@ -109,6 +127,7 @@ const AdminLogin = () => {
                                         <HStack mt={16} mb={26}>
                                             <Button size='lg' color="red.500" bg="red.200" 
                                                     _hover={{color:'red.50' , bg: 'red.400'}} 
+                                                    isLoading={isLoading}
                                                     height='35px'
                                                     width='120px'
                                                     fontSize='16px'

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Typography } from '@mui/material';
+import { Button,Typography } from '@mui/material';
 import TableComp from '../Components/Table'
 import CalendarComp from '../Components/Calendar';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { ChakraProvider, Grid, GridItem, HStack, Skeleton, SkeletonText, VStack } from '@chakra-ui/react';
+import { ChakraProvider, Grid, GridItem, Skeleton, } from '@chakra-ui/react';
 
 
 
@@ -87,7 +87,27 @@ const DonorDashboard = () => {
         }
     },[loadApi])
 
-    
+    const logout = () => {
+        try{
+            axios.get('http://127.0.0.1:8000/donor/logout/').then((res)=>{
+                setLoadingPage(true)
+                localStorage.removeItem('check')
+                Swal.fire({
+                    title : 'Logout Successful',
+                    icon : 'success',
+                }).then((res) =>{
+                    if(res.isConfirmed || res.dismiss === 'backdrop'){
+                        navigate('/request')
+                    }
+                })
+            })
+        }catch(err){
+            Swal.fire({
+                title : 'Something Went Wrong',
+                icon : 'error'
+            })
+        }
+    }
 
     const tableColumn = ["Patient's Name", "Donation Date", "Phone Number", "Blood Group"]
 
@@ -108,7 +128,11 @@ const DonorDashboard = () => {
                         {
                                 !loadingPage ? (
                                     <>
-
+                                        <div className="logout">
+                                            <Button variant='contained' onClick={logout}>
+                                                Logout
+                                            </Button>
+                                        </div>
                                         <div className="grid_container">
                                             <div className="main">
 

@@ -1,7 +1,8 @@
 import React, { useState , useEffect } from 'react'
-import { Badge, Typography , Stack, Button, Modal, Backdrop, Fade, Stepper, Step, StepLabel} from '@mui/material';
+import { Typography , Stack, Button, Modal, Backdrop, Fade, Stepper, Step, StepLabel} from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import LoadingButton from '@mui/lab/LoadingButton';
 import CreateIcon from '@mui/icons-material/Create';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { styled } from '@mui/material/styles';
@@ -10,7 +11,7 @@ import ContactPageIcon from '@mui/icons-material/ContactPage';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import PropTypes from 'prop-types';
 import DoneIcon from '@mui/icons-material/Done';
-import { ChakraProvider, HStack, Skeleton, VStack } from '@chakra-ui/react';
+import { ChakraProvider,  Skeleton } from '@chakra-ui/react';
 import {
     FormControl,
     FormLabel,
@@ -23,7 +24,6 @@ import {
     Checkbox,
     Select,
     Textarea,
-    
 } from '@chakra-ui/react'
 import { IdentificationBadge, Envelope, Phone ,Calendar, HouseLine, Drop, CalendarCheck  } from '@phosphor-icons/react'
 import TableComp from '../Components/Table';
@@ -33,6 +33,8 @@ import { ToastContainer , toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
+
 
 
 // Steps for Requesting Blood
@@ -217,11 +219,14 @@ export default function RequestDashboard() {
     const [loadingPage,setLoadingPage] = useState(true)
     //Loading APIs
     const [loadingApi , setLoadingApi] = useState(false)
+    //Loading Button var
+    const [loadingBtn, setLoadingBtn] = useState(false)
+    //Reloading API
+    const [reload , setReloadApi] = useState(false)
 
-
+    //Page Validation
     useEffect(()=>{
         if(localStorage.getItem('check') !== null){
-            
             const now  =  new Date().getTime()
             if(JSON.parse(localStorage.getItem('check')).expire < now){
                 setLoadingPage(true)
@@ -234,8 +239,20 @@ export default function RequestDashboard() {
                         navigate('/request')
                     }
                 })
+            }else if(!jwtDecode(JSON.parse(localStorage.getItem('check')).user).isRecipient){
+                setLoadingPage(true)
+                Swal.fire({
+                    title : 'You are not authorized to view this Page!',
+                    text :  'Pleaase Register, to Continue!',
+                    icon : 'warning'
+                }).then((res)=>{
+                    if(res.isConfirmed || res.dismiss === 'backdrop'){
+                        navigate('/request')
+                    }
+                })
+            }else{
+                setLoadingApi(true)
             } 
-            setLoadingApi(true)
         }else{
             setLoadingPage(true)
             Swal.fire({
@@ -457,6 +474,7 @@ export default function RequestDashboard() {
     //function to submit Patient Request
     const placeRequest = async (patDet) =>{
         //Complete the Function
+        setLoadingBtn(true)
         const data = {
             firstName : patDet.firstName,
             lastName : patDet.lastName,
@@ -476,12 +494,25 @@ export default function RequestDashboard() {
             Swal.fire({
                 text : res.data.success,
                 icon : 'success'
+            }).then((res)=>{
+                setLoadingBtn(false)
+                if(res.isConfirmed || res.dismiss === 'backdrop'){
+                    handleClose()
+                    setReloadApi(!reload)
+                }
             })
         } catch (error) {
+            console.log(error)
             Swal.fire({
                 text : error.response.data.error,
                 icon : 'warning'
-            })            
+            }).then((res)=>{
+                setLoadingBtn(false)
+                if(res.isConfirmed || res.dismiss === 'backdrop'){
+                    setReloadApi(!reload)
+                    // handleClose()
+                }
+            })
         }
 
 
@@ -502,13 +533,34 @@ export default function RequestDashboard() {
 
         } catch (error) {
             console.log(error)
-            toast.error(error.resoponse.data.msg, {
+            toast.error(error.resoponse.data.error, {
                 position : toast.POSITION.TOP_RIGHT
             })
         }
         setLoadingPage(false)
     }
 
+    const logout = () => {
+        try{
+            axios.get('http://127.0.0.1:8000/donor/logout/').then((res)=>{
+                setLoadingPage(true)
+                localStorage.removeItem('check')
+                Swal.fire({
+                    title : 'Logout Successful',
+                    icon : 'success',
+                }).then((res) =>{
+                    if(res.isConfirmed || res.dismiss === 'backdrop'){
+                        navigate('/request')
+                    }
+                })
+            })
+        }catch(err){
+            Swal.fire({
+                title : 'Something Went Wrong',
+                icon : 'error'
+            })
+        }
+    }
 
     useEffect(() => {
         if(loadingApi){
@@ -523,68 +575,10 @@ export default function RequestDashboard() {
         };
 
 
-    }, [loadingApi]);
+    }, [loadingApi,reload]);
 
 
 
-    const rows = [
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-    ];
 
     const tableColumn = ["Patient's Name", "Requested Date", "Status" , "Blood Group" ,"Donor's Name", "Donor's Phone Number"]
 
@@ -598,7 +592,11 @@ export default function RequestDashboard() {
                             {
                                 !loadingPage ? (
                                     <>
-
+                                        <div className="logout">
+                                            <Button variant='contained' onClick={logout}>
+                                                Logout
+                                            </Button>
+                                        </div>
                                         <div className="grid_container">
                                             <div className="main">
                                                 <div className="remaining_units">
@@ -725,7 +723,7 @@ export default function RequestDashboard() {
                                                 
                                             </ChakraProvider>
 
-                                            {activeStep === steps.length ? (
+                                            {activeStep === steps.length - 1 ? (
                                                 <React.Fragment>
                                                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 , mt: 17, gap:21, ml:8}}>
                                                         <Button
@@ -749,8 +747,9 @@ export default function RequestDashboard() {
                                                         </Button>
                                                         
 
-                                                        <Button 
+                                                        <LoadingButton 
                                                             onClick={e => placeRequest(patientDetails)} 
+                                                            loading={loadingBtn}
                                                             sx={{color:"#e3362d" , 
                                                                 background:"#f48686",
                                                                 fontWeight : 'bold',
@@ -764,7 +763,7 @@ export default function RequestDashboard() {
                                                             }}
                                                         >
                                                             Place Request
-                                                        </Button>
+                                                        </LoadingButton>
                                                     </Box>
 
                                                 </React.Fragment>

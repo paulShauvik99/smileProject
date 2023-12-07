@@ -16,22 +16,21 @@ const tableStyle = {
     mr: 4,
     overflow : 'hidden',
     backgroundImage: 'linear-gradient(135deg,rgba(235, 234, 172, 0.683) 30% , rgb(240, 130, 139))',
-
+    // maxHeight : 300
 }
 
 
 
 const TableComp = (props) => {
 
-    console.log(props)
     return (
         <>
             {
                 props.type === 'donor' ? (
 
                     <Box component={Paper} sx={tableStyle} >
-                        <TableContainer sx={{maxHeight : 400 }}>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableContainer sx={{}}>
+                            <Table sx={{ minWidth: 650, maxHeight : 300  }} aria-label="simple table">
                                 <TableHead >
                                     <TableRow>
                                         {props.tableColumn.map((column)=>{

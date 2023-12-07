@@ -114,7 +114,7 @@ def user_logout(request):
             del request.session["member_id"]
         except KeyError:
            JsonResponse({'error' : "Invalid session key"})
-        return JsonResponse("You're logged out.")
+        return JsonResponse({"status" : "You're logged out."})
     return JsonResponse({"error" : "Invalid request method"},status =400)
 
 
@@ -192,7 +192,7 @@ def verify_otp(request):
             
             type = jwt.encode({'isDonor': isDonor,"isRecipient" : isRecipient}, key, algorithm='HS256')
 
-            request.session.set_expiry(3000000)
+            request.session.set_expiry(20*60)
             
             if status == False:
                 return JsonResponse({"error" : "Incorrect OTP"  },status=400)
@@ -572,7 +572,8 @@ def admin_login(request):
             if user is not None:
                 # Log in the authenticated user
                 login(request, user)
-              
+                request.session.set_expiry(45*60)
+
                 is_staff = user.is_superuser
                 #newline update
 
