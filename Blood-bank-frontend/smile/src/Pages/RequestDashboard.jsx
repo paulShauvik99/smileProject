@@ -2,6 +2,7 @@ import React, { useState , useEffect } from 'react'
 import { Typography , Stack, Button, Modal, Backdrop, Fade, Stepper, Step, StepLabel} from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import LoadingButton from '@mui/lab/LoadingButton';
 import CreateIcon from '@mui/icons-material/Create';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { styled } from '@mui/material/styles';
@@ -33,6 +34,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
+
+
 
 // Steps for Requesting Blood
 const steps = ["Patient Details", "Patient Contact Details", "Patient Requirement"]
@@ -216,8 +219,12 @@ export default function RequestDashboard() {
     const [loadingPage,setLoadingPage] = useState(true)
     //Loading APIs
     const [loadingApi , setLoadingApi] = useState(false)
+    //Loading Button var
+    const [loadingBtn, setLoadingBtn] = useState(false)
+    //Reloading API
+    const [reload , setReloadApi] = useState(false)
 
-
+    //Page Validation
     useEffect(()=>{
         if(localStorage.getItem('check') !== null){
             const now  =  new Date().getTime()
@@ -467,6 +474,7 @@ export default function RequestDashboard() {
     //function to submit Patient Request
     const placeRequest = async (patDet) =>{
         //Complete the Function
+        setLoadingBtn(true)
         const data = {
             firstName : patDet.firstName,
             lastName : patDet.lastName,
@@ -486,12 +494,25 @@ export default function RequestDashboard() {
             Swal.fire({
                 text : res.data.success,
                 icon : 'success'
+            }).then((res)=>{
+                setLoadingBtn(false)
+                if(res.isConfirmed || res.dismiss === 'backdrop'){
+                    handleClose()
+                    setReloadApi(!reload)
+                }
             })
         } catch (error) {
+            console.log(error)
             Swal.fire({
                 text : error.response.data.error,
                 icon : 'warning'
-            })            
+            }).then((res)=>{
+                setLoadingBtn(false)
+                if(res.isConfirmed || res.dismiss === 'backdrop'){
+                    setReloadApi(!reload)
+                    // handleClose()
+                }
+            })
         }
 
 
@@ -512,7 +533,7 @@ export default function RequestDashboard() {
 
         } catch (error) {
             console.log(error)
-            toast.error(error.resoponse.data.msg, {
+            toast.error(error.resoponse.data.error, {
                 position : toast.POSITION.TOP_RIGHT
             })
         }
@@ -554,68 +575,10 @@ export default function RequestDashboard() {
         };
 
 
-    }, [loadingApi]);
+    }, [loadingApi,reload]);
 
 
 
-    const rows = [
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-        {
-            name : 'Frozen yoghurt',
-            calories : 159,
-            fat :  6.0,
-            carbs : 24,
-            protein : 4.0 
-        },
-    ];
 
     const tableColumn = ["Patient's Name", "Requested Date", "Status" , "Blood Group" ,"Donor's Name", "Donor's Phone Number"]
 
@@ -760,7 +723,7 @@ export default function RequestDashboard() {
                                                 
                                             </ChakraProvider>
 
-                                            {activeStep === steps.length ? (
+                                            {activeStep === steps.length - 1 ? (
                                                 <React.Fragment>
                                                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 , mt: 17, gap:21, ml:8}}>
                                                         <Button
@@ -784,8 +747,9 @@ export default function RequestDashboard() {
                                                         </Button>
                                                         
 
-                                                        <Button 
+                                                        <LoadingButton 
                                                             onClick={e => placeRequest(patientDetails)} 
+                                                            loading={loadingBtn}
                                                             sx={{color:"#e3362d" , 
                                                                 background:"#f48686",
                                                                 fontWeight : 'bold',
@@ -799,7 +763,7 @@ export default function RequestDashboard() {
                                                             }}
                                                         >
                                                             Place Request
-                                                        </Button>
+                                                        </LoadingButton>
                                                     </Box>
 
                                                 </React.Fragment>

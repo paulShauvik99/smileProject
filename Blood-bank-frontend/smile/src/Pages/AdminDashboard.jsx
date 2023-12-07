@@ -43,7 +43,7 @@ const AdminDashboard = (props) => {
     const [donorRows , setDonorRows] = useState([]);
     const [loadingPage , setLoadingPage] = useState(true)
     const [loadingApi , setLoadingApi] = useState(false)
-
+    const [reload,setReload] = useState(false)
 
     useEffect(() => {
         if(localStorage.getItem('adminCheck') !== null){
@@ -115,9 +115,9 @@ const AdminDashboard = (props) => {
         //API for matched donor
         
         try {
-            console.log(JSON.stringify({matched_id : matchedId}))
             const res = await axios.post('http://127.0.0.1:8000/donor/confirm_donor/',{matched_id : matchedId})
             console.log(res)
+            setReload(!reload)
 
         } catch (error) {
             Swal.fire({
@@ -132,6 +132,7 @@ const AdminDashboard = (props) => {
         try {
             const res = await axios.post('http://127.0.0.1:8000/donor/confirm_donation/', JSON.stringify({ matched_id : matched_id}))
             console.log(res)
+            setReload(!reload)
         } catch (error) {
             Swal.fire({
                 text : error.response.data.error,
@@ -167,6 +168,7 @@ const AdminDashboard = (props) => {
                         icon : 'error'
                     })
                 }
+                setReload(!reload)
             }else if(res.isDismissed || res.dismiss === 'backdrop' ){
                 return
             }
@@ -182,7 +184,7 @@ const AdminDashboard = (props) => {
             getTableData()
             getConfirmDonationsData()
         }
-    },[loadingApi])
+    },[loadingApi,reload])
 
     // console.log(apiDonorData)
     //Action Functions 
@@ -217,12 +219,6 @@ const AdminDashboard = (props) => {
         }
     }
     
-
-    
-   
-    
-
-
     const handleDrawerToggle = () => { setMobileOpen(!mobileOpen) };
 
     const changeSelectionModel = (id) =>{ setShowDonorList(true)}

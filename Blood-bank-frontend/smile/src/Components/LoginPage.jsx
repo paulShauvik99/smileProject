@@ -178,8 +178,9 @@ export default function LoginPage(props){
                     }
                 } catch (error) {
                     console.log(error)
-                    toast.error(error.response.data.status,{
-                        position : toast.POSITION.TOP_CENTER
+                    Swal.fire({
+                        title : error.response.data.error , 
+                        icon  : 'error'
                     })                
                     setIsLoading(false)
                 }
