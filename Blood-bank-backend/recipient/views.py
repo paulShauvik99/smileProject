@@ -111,13 +111,14 @@ def request_blood(request):
                 if lastDonated:
                     
                     months_passed = (current_date.year - lastDonated.year) * 12 + (current_date.month - lastDonated.month)
-                    print(months_passed)
+                    # print(months_passed)
                     if months_passed > 3:
                             eligibleDonors.append(donor)
-                else:
-                    eligibleDonors.append(donor)
+            else:
+                eligibleDonors.append(donor)
                 
         if len(eligibleDonors) == 0 :
+            print(len(eligibleDonors))
             return JsonResponse({"error" : "Currently no donor available of this BloodGroup, please try later or Contact our NGO!"},status=400)
 
         try:

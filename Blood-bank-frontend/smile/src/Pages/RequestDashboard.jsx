@@ -628,6 +628,9 @@ export default function RequestDashboard() {
 
                                             
                                             <div className="requests">
+                                                <Typography variant="h3">
+                                                    Past Records
+                                                </Typography>
                                                 <TableComp
                                                     type='recipient'
                                                     tableColumn={tableColumn}

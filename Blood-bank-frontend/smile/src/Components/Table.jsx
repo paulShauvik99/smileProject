@@ -12,10 +12,10 @@ import { Box, Chip, Paper } from '@mui/material';
 // Style for table
 
 const tableStyle = {
-    mt:12,
+    mt:5,
     mr: 4,
     overflow : 'hidden',
-    backgroundImage: 'linear-gradient(135deg,rgba(235, 234, 172, 0.683) 30% , rgb(240, 130, 139))',
+    backgroundImage: 'linear-gradient(135deg,rgb(235, 234, 172) 30% , rgb(240, 130, 139))',
     // maxHeight : 300
 }
 

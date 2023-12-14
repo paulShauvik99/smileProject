@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button,Typography } from '@mui/material';
+import { Button,Typography, Avatar, Card, CardContent, Paper} from '@mui/material';
 import TableComp from '../Components/Table'
 import CalendarComp from '../Components/Calendar';
 import axios from 'axios';
@@ -135,7 +135,48 @@ const DonorDashboard = () => {
                                         </div>
                                         <div className="grid_container">
                                             <div className="main">
-
+                                                <div className="content">
+                                                    <div className="upper">
+                                                        <Card sx={{ width: 820 , display : 'flex', alignItems : 'center' ,gap : 10, p:3, pl:10 , backgroundImage : 'linear-gradient(135deg,rgb(235, 234, 172) 30% , rgb(240, 130, 139))' }}>
+                                                            <Avatar sx={{width : 100 , height : 100, fontSize : 50 , bgcolor : '#ea5d69'}}>GD</Avatar>
+                                                            <CardContent>
+                                                                <Typography variant="h3" m={0.5} mb={2} >
+                                                                    Hi there, Gourab Das.
+                                                                </Typography>
+                                                                <Typography variant="h5" m={0.5} >
+                                                                    <b>Phone Number : </b> +91 7002450760
+                                                                </Typography>
+                                                                <Typography variant="h5" m={0.5} >
+                                                                    <b>Address : </b> Somewhere in the City of Joy
+                                                                </Typography>
+                                                                <Typography variant="h5" m={0.5}>
+                                                                    <b> Sex :</b> Male
+                                                                </Typography>
+                                                                <Typography variant="h5" m={0.5}>
+                                                                    <b> Last Donated : </b> 04/12/2023
+                                                                </Typography>
+                                                            </CardContent>
+                                                        </Card>
+                                                    </div>
+                                                    <div className="lower">
+                                                        <Paper sx={{width : 820 , p : 3, mt : 2 ,backgroundImage : 'linear-gradient(135deg,rgb(235, 234, 172) 30% , rgb(240, 130, 139))'}}>
+                                                                <Typography variant="h4" m={0.5}>
+                                                                    You Have an Upcoming Appointment on 08/12/2023
+                                                                </Typography>
+                                                                <Typography variant="h4" container="div" m={0.5} sx={{display : 'flex' , justifyContent : 'space-between', mt :3}}>
+                                                                    <Typography variant="h6">
+                                                                        Patient's Name : Someone
+                                                                    </Typography>
+                                                                    <Typography variant="h6">
+                                                                        Patient's Number : +91 1234567890
+                                                                    </Typography>
+                                                                    <Typography variant="h6">
+                                                                        Patient's Address : Somewhere in this Planet
+                                                                    </Typography>
+                                                                </Typography>
+                                                        </Paper>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div className="calendar">
                                                     <Typography variant='h2' component='h2' mb={10} textAlign='center'>
@@ -146,6 +187,9 @@ const DonorDashboard = () => {
                                                     />
                                                 </div>
                                             <div className="requests">
+                                                <Typography variant="h3" >
+                                                    Previous Donations
+                                                </Typography>
                                                 <TableComp
                                                     type='donor'
                                                     tableColumn={tableColumn}

@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {useNavigate} from 'react-router-dom'
 import LoginPage from '../Components/LoginPage'
 import {jwtDecode} from 'jwt-decode'
+import {motion} from 'framer-motion'
 
 
 
@@ -33,12 +34,15 @@ const RequestBlood = () => {
                 <div className="request_outer_div">
                     <div className="request_inner_div">
                         <div className="request_register">
-                            <div className="request_registration_form">
+                            <motion.div className="request_registration_form"
+                                initial={{x : '-100vw'}}
+                                animate={{x : 0}}
+                            >
                                 <LoginPage 
                                     type="recipientLogin"
                                 />
                                 <ToastContainer />
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
                 </div>
