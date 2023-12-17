@@ -195,11 +195,37 @@ html{
 //Home Page
 
 
-.home_outer{
+.home_outer, .about{
 
     position: relative;
     min-height: $main-height;
     width: $main-width;
+
+    & .right{
+        position: absolute;
+        right: 0;
+        background-color: $about-overlay;
+        height : 100%;
+        width : 70rem;
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        justify-content: center;
+        row-gap: 4rem;
+        color : rgb(24, 23, 23);
+        & h5{
+            font-size: 6rem;
+            padding: 0 7rem;
+            text-align: left;
+        }
+
+        & p{
+            font-size: 2rem;
+            padding: 0 10rem;
+            text-align: left;
+        }   
+    }
+
 
     & .left{
         position: absolute;
@@ -208,7 +234,7 @@ html{
         width: 75rem;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        // align-items: center;
         justify-content: center;
         row-gap: 4rem;
         & h5{
@@ -437,6 +463,7 @@ html{
                     & .requests{
                         grid-area: requests;
                         height: 100%;
+                        margin-top: 5rem;
                     }
                 }
 
