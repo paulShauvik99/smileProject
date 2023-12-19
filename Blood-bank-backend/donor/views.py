@@ -38,6 +38,8 @@ def register(request) :
         email = body['email']
         otp = body['otp']
         address = body['address']
+        thalassemia = body['thalassemia']
+        weight = body['weight']
 
         isDonor = Donor.objects.filter(phoneNumber  = phoneNumber).first()
         if isDonor is not None:
@@ -93,7 +95,9 @@ def register(request) :
                 phoneNumber = phoneNumber,
                 email = email,
                 address = address,
-                id = id
+                id = id,
+                weight = weight,
+                thalassemia = thalassemia
             )
             new_donor.save()
         except Exception as e:
