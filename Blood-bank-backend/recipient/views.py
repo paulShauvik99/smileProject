@@ -272,3 +272,5 @@ def get_recipient_records(request):
         return JsonResponse({"status" : "Data fetched","pastRecord" :data,"pendingDonation" : pendingDonorJson, "requestPlaced" : requestPlaced },status=200)
     
     return JsonResponse({"error" : "Invalid Request Method"},status = 400)
+
+

@@ -301,9 +301,8 @@ def get_donor_records(request):
                         "address" : recipient.address,
                         "date" : recipient.date,
                         "phoneNumber" : recipient.phoneNumber
-                        
-
-                    })
+          
+                      })
 
             #
             

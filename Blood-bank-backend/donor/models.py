@@ -15,7 +15,8 @@ class Donor(models.Model):
     email = models.TextField(default="",max_length=30,null=True)
     lastDonated = models.DateField(null=True)
     address  = models.TextField(default="",max_length=500)
-    
+    weight = models.CharField(default ="",max_length=4)
+    thalassemia = models.CharField(default ="",max_length=4)
     def __str__(self) :
         return self.firstName
     
