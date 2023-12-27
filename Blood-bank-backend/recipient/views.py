@@ -67,6 +67,9 @@ def request_blood(request):
         units =body['units']
         dateString = body['date']
         date_format = '%Y-%m-%d'
+        thalassemia = body['thalassemia']
+        cancer = body['cancer']
+        
         phoneNumber = request.session.get('member_id')
         if phoneNumber is None:
             return JsonResponse({"error" : "Invalid Session Id"},status =401)
@@ -269,3 +272,5 @@ def get_recipient_records(request):
         return JsonResponse({"status" : "Data fetched","pastRecord" :data,"pendingDonation" : pendingDonorJson, "requestPlaced" : requestPlaced },status=200)
     
     return JsonResponse({"error" : "Invalid Request Method"},status = 400)
+
+

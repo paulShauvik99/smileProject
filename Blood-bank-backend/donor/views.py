@@ -38,6 +38,8 @@ def register(request) :
         email = body['email']
         otp = body['otp']
         address = body['address']
+        thalassemia = body['thalassemia']
+        weight = body['weight']
 
         isDonor = Donor.objects.filter(phoneNumber  = phoneNumber).first()
         if isDonor is not None:
@@ -93,7 +95,9 @@ def register(request) :
                 phoneNumber = phoneNumber,
                 email = email,
                 address = address,
-                id = id
+                id = id,
+                weight = weight,
+                thalassemia = thalassemia
             )
             new_donor.save()
         except Exception as e:
@@ -297,9 +301,8 @@ def get_donor_records(request):
                         "address" : recipient.address,
                         "date" : recipient.date,
                         "phoneNumber" : recipient.phoneNumber
-                        
-
-                    })
+          
+                      })
 
             #
             
@@ -503,6 +506,37 @@ def get_confirmed_donors(request):
 
 @csrf_exempt
 def confirmDonation(request):
+    if request.method == "POST" : 
+        if authorize_admin(request) == False:
+            return JsonResponse({"error" : "Unauthorized"},status = 401)
+        body  = json.loads(request.body)
+        id  = body['matched_id'] 
+        matched_id = uuid.UUID(id) 
+        try:
+
+            pair = MatchedDonor.objects.filter(id = matched_id,donated = "No", status = "Confirmed").first()
+            donor  = Donor.objects.filter(id = pair.donor).first()
+            recipient = Recipient.objects.filter(id= pair.recipient).first()
+            
+            pair.save()
+            donor_id = pair.donor
+            donor = Donor.objects.filter(id = donor_id).first()
+            dateObj = datetime.now(tz=pytz.timezone('Asia/Kolkata'))
+            iso_format = "%Y-%m-%d"
+            date  = datetime.strftime(dateObj, iso_format)
+            donor.lastDonated = date
+            donor.save()
+
+            return JsonResponse({"status" : "Request saved successfully"},status=200)
+
+        except Exception as e:
+            return JsonResponse({"error" : e},status =500)
+        
+    return JsonResponse({"error" : "Invalid Request Method"},status = 400)
+
+
+@csrf_exempt
+def rejectDonation(request):
     if request.method == "POST" : 
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
