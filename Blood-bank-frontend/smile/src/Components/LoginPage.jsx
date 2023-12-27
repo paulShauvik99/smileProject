@@ -144,7 +144,7 @@ export default function LoginPage(props){
                         const now = new Date().getTime()
                         let check = {
                             user : res.data.user_type,
-                            expire : now + 20*60000
+                            expire : now + 24*60*60000
                         }
                         localStorage.setItem('check',JSON.stringify(check))
                         Swal.fire({

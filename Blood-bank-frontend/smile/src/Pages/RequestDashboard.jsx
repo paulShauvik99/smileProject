@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react'
+import React, { useState , useEffect} from 'react'
 import { Typography , Stack, Button, Modal, Backdrop, Fade, Stepper, Step, StepLabel} from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -34,11 +34,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
-
+import DynamicFormIcon from '@mui/icons-material/DynamicForm';
 
 
 // Steps for Requesting Blood
-const steps = ["Patient Details", "Patient Contact Details", "Patient Requirement"]
+const steps = ["Patient Details", "Patient Contact Details", "Patient Requirement", "Requisition Form"]
 
 //Style for Modal
 const style = {
@@ -118,6 +118,7 @@ function ColorlibStepIcon(props) {
             1: <AccountBoxIcon fontSize='large' />,
             2: <ContactPageIcon fontSize='large'/>,
             3: <VaccinesIcon fontSize='large'/>,
+            4: <DynamicFormIcon fontSize='large'/>,
             };
     
         return (
@@ -213,6 +214,7 @@ export default function RequestDashboard() {
         address : '',
         bloodGroup : '',
         isThalassemia : false,
+        hasCancer : false,
         registeredDate : '',
     })
     //Loading Page
@@ -223,6 +225,8 @@ export default function RequestDashboard() {
     const [loadingBtn, setLoadingBtn] = useState(false)
     //Reloading API
     const [reload , setReloadApi] = useState(false)
+    //Control Step
+    const [controlStep, setControlStep] = useState(false)
 
     //Page Validation
     useEffect(()=>{
@@ -282,6 +286,17 @@ export default function RequestDashboard() {
     const handleNext = () => {setActiveStep((prevActiveStep) => prevActiveStep + 1)}
     const handleBack = () => {setActiveStep((prevActiveStep) => prevActiveStep - 1)}
 
+    const controlStepper = () =>{
+        setControlStep(prev => !prev)
+        console.log(controlStep)
+        if(!controlStep){
+            steps.splice(3,1)
+        }else{
+            steps.push("Requisition Form")
+        }
+    }
+    
+
     const setDetails = (e) =>{
         let name = e.target.name
         setPatientDetails(prevState => ({
@@ -291,33 +306,6 @@ export default function RequestDashboard() {
         )
     }
     
-
-    //Dates to be disabled
-    const today = new Date()
-    const tomorrow = new Date(today.setDate(today.getDate() + 1)).toISOString().split('T')[0]
-    const disable7days = new Date(today.setDate(today.getDate() + 7)).toISOString().split('T')[0]
-
-
-    const checkDisabledDates = (e) => {
-        let name = e.target.name
-        if(highlightedDays[new Date(e.target.value).getDate()] === '0'){
-            Swal.fire({
-                text : 'The Date Slot you are trying to choose is Full. Please try another date.',
-                icon : 'warning'
-            })
-            setPatientDetails(prevState => ({
-                ...prevState,
-                [name] : ''
-            }))
-        }else{
-            
-            setPatientDetails(prevState => ({
-                ...prevState,
-                [name] : e.target.value
-            }))
-            console.log('false')
-        }
-    }
     
     
     
@@ -429,7 +417,7 @@ export default function RequestDashboard() {
                                         <option value='B-'>B Negative (B-)</option>
                                         <option value='O+'>O Positive (O+)</option>
                                         <option value='O-'>O Negative (O-)</option>
-                                        <option value='AB+'>AB Positive (B+)</option>
+                                        <option value='AB+'>AB Positive (AB+)</option>
                                         <option value='AB-'>AB Negative (AB-)</option>
                                     </Select>
                                 </InputGroup>
@@ -441,11 +429,27 @@ export default function RequestDashboard() {
                             <FormControl isRequired paddingTop={10}> 
                                 <InputGroup>
                                     <FormLabel htmlFor='isThalassemia' fontSize={15}>Does Patient have  Thalassemia?</FormLabel>
-                                    <Checkbox size='lg'  colorScheme='orange' border="red" paddingLeft={5} name='isThalassemia'   onChange={e => setPatientDetails(prevState => ({...prevState, isThalassemia : !prevState.isThalassemia}))} />
+                                    <Checkbox size='lg'  colorScheme='orange' border="red" paddingLeft={5} name='isThalassemia' isChecked={patientDetails.isThalassemia}  onChange={e => setPatientDetails(prevState => ({...prevState, isThalassemia : !prevState.isThalassemia}))} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
-                        <GridItem>
+                        <GridItem >
+                            <FormControl isRequired paddingTop={10}> 
+                                <InputGroup>
+                                    <FormLabel htmlFor='hasCancer' fontSize={15}>Does Patient have Cancer?</FormLabel>
+                                    <Checkbox size='lg'  colorScheme='orange' border="red" paddingLeft={5} name='hasCancer' isChecked={patientDetails.hasCancer}  onChange={e => setPatientDetails(prevState => ({...prevState, hasCancer : !prevState.hasCancer}))} />
+                                </InputGroup>
+                            </FormControl>
+                        </GridItem>
+                        <GridItem >
+                            <FormControl isRequired paddingTop={10}> 
+                                <InputGroup>
+                                    <FormLabel htmlFor='controlStep' fontSize={15}>Is First Donation?</FormLabel>
+                                    <Checkbox size='lg'  colorScheme='orange' border="red" paddingLeft={5} name='controlStep' isChecked={controlStep}  onChange={controlStepper} />
+                                </InputGroup>
+                            </FormControl>
+                        </GridItem>
+                        {/* <GridItem>
                                 <FormControl isRequired>
                                     <FormLabel fontSize={12} htmlFor='registeredDate'>Date of Requirement</FormLabel>
                                     <InputGroup>
@@ -455,7 +459,7 @@ export default function RequestDashboard() {
                                         <Input variant='pill' height={30} fontSize={14} min={tomorrow} max={disable7days}  type="date" name="registeredDate" value={patientDetails.registeredDate} onChange={e =>  checkDisabledDates(e)} />
                                     </InputGroup>
                                 </FormControl>
-                            </GridItem>
+                            </GridItem> */}
                         
                     </Grid>
                 </>
@@ -469,6 +473,8 @@ export default function RequestDashboard() {
     
     
     }
+
+    
 
 
     //function to submit Patient Request
@@ -586,7 +592,7 @@ export default function RequestDashboard() {
     return (
         <>
                 <div className="req_dashboard_outer_div">
-                    <div className="req_dashboard_inner_div">
+                    
                         <div className="req_dashboard_content">
                             <div className="actual_content">
                             {
@@ -617,12 +623,19 @@ export default function RequestDashboard() {
 
 
                                             <div className="calendar">
-                                                <Typography variant='h2' mb={10} component='h2' textAlign='center'>
-                                                    Available Days                                            
-                                                </Typography>
-                                                <CalendarComp 
-                                                    highlightedDays={highlightedDays}
-                                                />
+                                                <div className="date_time">
+                                                    <div className="date">
+                                                        <p>
+                                                            25<sup>th</sup>
+                                                        </p>
+                                                        <p>
+                                                            December
+                                                        </p>
+                                                    </div>
+                                                    <div className="time">
+                                                        02:00:00 AM                                                    
+                                                    </div>
+                                                </div>
                                             </div>
 
 
@@ -710,11 +723,12 @@ export default function RequestDashboard() {
                                         <Fade in={open}>
                                         <Box sx={style}>
                                             <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-                                                {steps.map((label) => (
-                                                    <Step key={label}>
-                                                        <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-                                                    </Step>
-                                                ))}
+                                                {steps.map((label,ind) => (
+                                                        <Step key={label}>
+                                                            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+                                                        </Step>
+                                                    )
+                                                )}
                                             </Stepper>
                                             <ChakraProvider>
 
@@ -821,7 +835,7 @@ export default function RequestDashboard() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    
                 </div>
         </>
     )

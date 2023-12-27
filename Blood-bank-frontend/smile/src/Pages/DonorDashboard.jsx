@@ -122,7 +122,6 @@ const DonorDashboard = () => {
     return (
         <>
                         <div className="don_dashboard_outer_div">
-                            <div className="don_dashboard_inner_div">
                                 <div className="don_dashboard_content">
                                     <div className="actual_content">
                         {
@@ -253,7 +252,6 @@ const DonorDashboard = () => {
                                 }
                                     </div>
                                 </div>
-                            </div>
                         </div>
                             
         </>

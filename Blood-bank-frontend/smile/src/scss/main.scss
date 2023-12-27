@@ -1,18 +1,23 @@
 
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100;8..144,200;8..144,300;8..144,400;8..144,500;8..144,600;8..144,700;8..144,800;8..144,900;8..144,1000&display=swap');
 @import 'vars';
+
 
 *{
     padding : 0;
     margin: 0;
     box-sizing: border-box;
-    
+    font-family: 'Roboto Flex', sans-serif;
 }
 
 html{
     font-size : 62.5%;
 }
 
-
+body{
+    // background-color: $bg-secondary;
+}
 
 
 //Admin , Admin Dashboard
@@ -147,25 +152,26 @@ html{
 //Navbar
 
 .outer_nav{
-
+    position: fixed;
+    margin-top: 0 !important;
+    width: 100%;
+    z-index: 9;
     height: 10rem;
-    background-color: $theme-main;
+    background-color: $bg;
     display: grid;
     grid-template-columns: 1fr 40rem 20rem 80rem 1fr;
-
+    align-items: center;
+    box-shadow: 0 0 5rem rgba(0 , 0 , 0 , 0.2);
     & .logo{
         max-height: 8rem;
         grid-column: 2/3;
         display: flex;
         justify-content: center;
         & img{
-            margin-top: -2.8rem;
-            height: 200%;
-            width: auto;
-
+            // margin-top: -2.8rem;
+            height: 8rem;
+            // width: auto;
         }
-
-        // font-size: 0.2rem;
     }
 
 
@@ -179,10 +185,15 @@ html{
 
         & .nav-link{
             font-size: 1.8rem;
+            font-weight: 600;
             text-decoration: none;
             color: $text-primary;
-        }
 
+        }
+        
+        & .active{
+            color: $text-active;
+        }
     }
 
 
@@ -195,63 +206,148 @@ html{
 //Home Page
 
 
-.home_outer, .about{
-
-    position: relative;
+.home_outer{
+    padding-top: 10rem;
     min-height: $main-height;
     width: $main-width;
-
-    & .right{
-        position: absolute;
-        right: 0;
-        background-color: $about-overlay;
-        height : 100%;
-        width : 70rem;
-        display: flex;
-        flex-direction: column;
-        // align-items: center;
-        justify-content: center;
-        row-gap: 4rem;
-        color : rgb(24, 23, 23);
-        & h5{
-            font-size: 6rem;
-            padding: 0 7rem;
-            text-align: left;
+    
+    & .landing{
+        margin-top: 1rem;
+        box-shadow: 0 0 8rem rgba(0,0,0,0.5);
+        z-index: 2;
+        position: relative;
+        & .right{
+            position: absolute;
+            right: 0;
+            background-color: $about-overlay;
+            height : 100%;
+            width : 70rem;
+            display: flex;
+            flex-direction: column;
+            // align-items: center;
+            justify-content: center;
+            row-gap: 4rem;
+            color : rgb(24, 23, 23);
+          
         }
-
-        & p{
-            font-size: 2rem;
-            padding: 0 10rem;
-            text-align: left;
-        }   
+    
+    
+        & .left{
+            position: absolute;
+            background-color: $home-svg;
+            height: 100%;
+            width: 75rem;
+            display: flex;
+            flex-direction: column;
+            // align-items: center;
+            justify-content: center;
+            row-gap: 4rem;
+            & h5{
+                font-size: 6rem;
+                padding: 0 7rem;
+                text-align: right;
+            }
+            
+            & p{
+                font-size: 2rem;
+                padding: 0 8rem;
+                text-align: right;
+            }
+        }
     }
+    
+    & .about{
+        height: 100rem;
+        background-color: $bg;
+        position: relative;
+        & .about_content{
+            display: grid;        
+            height: 100%;
+            width: 100%;
+            grid-template-columns: repeat(2,1fr) ;
+            
+            & .photo_gallery{
+                grid-column: 1/2;
+                position: relative; 
+                left: 10rem;    
+                & img{
+                    position: absolute;
+                    border-radius: 13px;
+                    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+                    width: auto;
+                    
+                    &:nth-child(1){
+                        top: 18rem;
+                        left: -7rem;
+                        z-index: 3;
+                        height: 25rem;
+                        // aspect-ratio: 6/9;                        
+                    }
+                    &:nth-child(2){
+                        z-index: 4;
+                        top:70rem;
+                        left: 18rem;
+                        height: 30rem;
+                    }
+                    &:nth-child(3){
+                        z-index: 3;
+                        top: 48rem;
+                        left: -7rem;
+                        height: 30rem;
+                        
+                    }
+                    &:nth-child(4){
+                        top: 5rem;
+                        left: 16rem;
+                        z-index:1;
+                        height: 35rem;
+                    }
+                    &:nth-child(5){
+                        top: 34rem;
+                        left: 10rem;
+                        z-index: 2;
+                        height: 40rem;
+                    }
 
+                }           
+            }
 
-    & .left{
-        position: absolute;
-        background-color: $home-svg;
-        height: 100%;
-        width: 75rem;
-        display: flex;
-        flex-direction: column;
-        // align-items: center;
-        justify-content: center;
-        row-gap: 4rem;
-        & h5{
-            font-size: 6rem;
-            padding: 0 7rem;
-            text-align: right;
+            & .about_smile{
+                grid-column: 2/3;
+                position: relative;
+                height: 100%;
+                & .container{
+                    top : 20rem;
+                    right: 0;
+                    width: 127%;
+                    z-index: 0;
+                    height: 50rem;
+                    background-color: $about-bg;
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+                    & h5{
+                        font-size: 6rem;
+                        padding: 0 7rem;
+                        text-align: right;
+                        color : $text-light;
+                    }
+                    
+                    & p{
+                        color : $text-light;
+                        margin-top: 3rem;
+                        font-size: 2rem;
+                        padding: 0 8rem 0 20rem;
+                        text-align: right;
+                    }
+                }
+
+            }
+
         }
-
-        & p{
-            font-size: 2rem;
-            padding: 0 10rem;
-            text-align: right;
-        }
-
     }
-
-
 }
 
 
@@ -269,58 +365,99 @@ html{
 .donate_outer_div, .request_outer_div , .req_dashboard_outer_div , .don_dashboard_outer_div {
     min-height: $main-height;
     width: $main-width;
-    background-color: $bg-primary;
+    background-color: $bg;
     position: relative;
     overflow: hidden;
     // z-index: -5;
-    &::after{
-        content : "";
-        position: absolute;
-        width: 100rem;
-        height: 150rem;
-        background-color: $bg-secondary;
-        top : 10rem;
-        right: -15rem;
-        // z-index: -2;
-        rotate: 317deg;
-        border-radius: 43rem 33rem 105rem 10rem;
-        box-shadow: 0 0 60rem $bg-shadow,
-                    0 0 1rem $bg-secondary;
+    // &::after{
+    //     content : "";
+    //     position: absolute;
+    //     width: 100rem;
+    //     height: 150rem;
+    //     background-color: $bg-secondary;
+    //     top : 10rem;
+    //     right: -15rem;
+    //     // z-index: -2;
+    //     rotate: 317deg;
+    //     border-radius: 43rem 33rem 105rem 10rem;
+    //     box-shadow: 0 0 60rem $bg-shadow,
+    //                 0 0 1rem $bg-secondary;
 
         
-    }
-    &::before{
-        content : "";
-        position: absolute;
-        width: 40rem;
-        height: 50rem;
-        background-color: $bg-secondary;
-        top : 2rem;
-        left: 2rem;
-        // z-index: -3;
-        rotate: 300deg;
-        border-radius: 33rem 14rem 15rem 20rem;
-        box-shadow: 0 0 60rem $bg-shadow,
-                    0 0 1rem $bg-secondary;
+    // }
+    // &::before{
+    //     content : "";
+    //     position: absolute;
+    //     width: 40rem;
+    //     height: 50rem;
+    //     background-color: $bg-secondary;
+    //     top : 2rem;
+    //     left: 2rem;
+    //     // z-index: -3;
+    //     rotate: 300deg;
+    //     border-radius: 33rem 14rem 15rem 20rem;
+    //     box-shadow: 0 0 60rem $bg-shadow,
+    //                 0 0 1rem $bg-secondary;
         
-    }
+    // }
 
-    & .donate_inner_div, & .request_inner_div, & .req_dashboard_inner_div, & .don_dashboard_inner_div{
+
+    //Donor and Request Signup/Login Pages
+    & .donate_register, & .request_register , & .donate_login{
+        // z-index: 6;
+        width: 100%;
+        height: 80rem;
         display: flex;
-        // z-index: 3;
+        justify-content: center;
+        align-items: center;
+
+        
+        & .donate_registration_form, & .request_registration_form , & .donate_login_form {
+            width: 70rem;
+            padding: 4rem;
+            z-index: 7;  
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 2.5rem;
+            border-left: 3px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 3px solid rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.7);
+            border-right: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: inset 0px 0px 15rem 0px rgba(255, 255, 255, 0.8);
+        
+        
+            & .reg form {
+
+                & .chakra-form-control{
+                    &:nth-child(1){
+                        margin-top: 3rem;
+                        // height: 2rem;
+                    }
+
+                    & .chakra-form__label{
+
+                        font-size: 1.4rem;
+                    }
+                    
+                }
+            }       
+        }
+    }
+
 
 
         //Request And Donate Dashboard
         & .req_dashboard_content, & .don_dashboard_content{
             width: 100%;
             min-height: 120rem;
+            padding-top: 10rem;
             display: flex;
             justify-content: center;
             align-items: center;
             & .actual_content{
+                position: relative;
                 z-index: 6;
-                height: 100rem;
-                width: 135em;
+                height: 90rem;
+                width: 135rem;
                 background-color: rgba(255, 255, 255, 0.2);
                 border-radius: 2.5rem;
                 border-left: 3px solid rgba(255, 255, 255, 0.7);
@@ -331,8 +468,8 @@ html{
                 
                 & .logout{
                     position: absolute;
-                    top : 12rem;
-                    right : 15rem;
+                    top : 3rem;
+                    right : 7rem;
                 }
 
                 & .grid_container{
@@ -361,103 +498,48 @@ html{
                         & .register_patient{
                             place-self: flex-start;
                             margin-left: 2rem ;
-
                             
-
                         }
                     }
 
 
                     & .calendar{
                         grid-area: calendar;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        & .css-4pax7l-MuiPickersLayout-root{
-                            height: 50rem;
-                            background-image: $check-main;
-                            border-bottom: 2px solid $bg-shadow;
-                            border-right: 2px solid $bg-shadow;
-                            box-shadow: 0 0 9rem rgba(0 , 0 , 0 , 0.2);
-                            & .css-16b5y55-MuiPickersLayout-contentWrapper{
-                                justify-content: center;
-                            }
-                        }
-
-                        & .css-1hbyad5-MuiTypography-root, .css-15jcv2p-MuiPickersToolbar-content, .css-knqc4i-MuiDialogActions-root, .css-12mkn7b-MuiButtonBase-root-MuiIconButton-root-MuiPickersCalendarHeader-switchViewButton, .css-9reuh9-MuiPickersArrowSwitcher-root , .css-1eurbeq-MuiPickersToolbar-root-MuiDatePickerToolbar-root {
-                            display: none !important; 
-                        }
-                        & .css-nk89i7-MuiPickersCalendarHeader-root{
-                            margin-bottom: 3rem;
+                        & .date_time{
+                            width: 100%;
+                            display: flex;
+                            flex-direction: column;
+                            height: 100%;
+                            align-items: center;
                             justify-content: center;
-                            
-                            & .css-cyfsxc-MuiPickersCalendarHeader-labelContainer{
-                                margin-right: 0 !important;
-                            }
-                            & .css-dplwbx-MuiPickersCalendarHeader-label{
-                                font-size: 2.6rem;
-                                
-                            }
-
-                            
-                        }
-                        & .css-1q04gal-MuiDateCalendar-root{
-                            margin-top: -1rem;
-                        }
-
-                        & .css-4pax7l-MuiPickersLayout-root{
-                            border-radius: 2rem !important;
-                        }
-
-                        & .css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel{
-                            font-size : 1.6rem !important;
-                            font-weight: 500;
-                            width: 3.72rem;
-                            height: 3.72rem;
-                        }
-                        
-                        & .css-18wn1yb-MuiButtonBase-root-MuiPickersDay-root{
-                            font-size : 1.2rem !important;
-                            width: 3.72rem;
-                            height: 3.72rem;
-                            &:hover {
-                                background-color: rgba(208, 162, 83, 0.707);
+                            & .date{
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                width: 25rem;
+                                height: 15rem;
+                                font-size: 3.5rem;
+                                background-color: #b62b3c;
+                                color: $text-light;
+                                box-shadow: 0 -1rem 5rem rgba(0 , 0 , 0 , 0.6);
                             }
                             
-                        }
-                        & .css-1u23akw-MuiButtonBase-root-MuiPickersDay-root{
-                            font-size : 1.2rem !important;
-                            width: 3.72rem;
-                            height: 3.72rem;
-                            &:hover{
-                                background-color: rgba(208, 162, 83, 0.707);
+                            & .time{
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                background-color: #daccca;
+                                font-size: 3rem;
+                                height: 10rem;
+                                width: 25rem;
+                                box-shadow: 0 1rem 5rem rgba(0 , 0 , 0 , 0.6);
                             }
-                            
-                        }
-                        & .css-jgls56-MuiButtonBase-root-MuiPickersDay-root.Mui-selected{
-                            font-size : 1.2rem !important;
-                            width: 3.72rem;
-                            height: 3.72rem;
-                            background-color: orange;
-                            opacity: 1;
-                        }
-                        & .css-jgls56-MuiButtonBase-root-MuiPickersDay-root{
-                            font-size : 1.2rem !important;
-                            width: 3.72rem;
-                            height: 3.72rem;
+
                         }
 
-                        & .css-l4pl75-MuiButtonBase-root-MuiPickersDay-root.Mui-selected{
-                            font-size : 1.2rem !important;
-                            width: 3.72rem;
-                            height: 3.72rem;
-                            background-color: orange;
-                            opacity: 1;
-                        }
 
-                        & .css-1mnzkq2-MuiBadge-badge{
-                            background-color: #ff610c;
-                        }
 
                     }
                     & .requests{
@@ -482,49 +564,6 @@ html{
 
 
         }
-
-
-        //Donor and Request Signup/Login Pages
-        & .donate_register, & .request_register , & .donate_login{
-            // z-index: 6;
-            width: 100%;
-            height: 80rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            
-            & .donate_registration_form, & .request_registration_form , & .donate_login_form {
-                width: 70rem;
-                padding: 4rem;
-                z-index: 7;  
-                background-color: rgba(255, 255, 255, 0.2);
-                border-radius: 2.5rem;
-                border-left: 3px solid rgba(255, 255, 255, 0.7);
-                border-bottom: 3px solid rgba(255, 255, 255, 0.7);
-                border-top: 1px solid rgba(255, 255, 255, 0.7);
-                border-right: 1px solid rgba(255, 255, 255, 0.7);
-                box-shadow: inset 0px 0px 15rem 0px rgba(255, 255, 255, 0.8);
-            
-            
-                & .reg form {
-
-                    & .chakra-form-control{
-                        &:nth-child(1){
-                            margin-top: 3rem;
-                            // height: 2rem;
-                        }
-
-                        & .chakra-form__label{
-
-                            font-size: 1.4rem;
-                        }
-                        
-                    }
-                }       
-            }
-        }
-    }
 }
 
 
@@ -541,7 +580,7 @@ html{
 
 .swal2-container {
     z-index: 1500;
-  }
+}
 
 
 
@@ -557,62 +596,49 @@ html{
 
 .footer_outer{
 
-    background-color: $footer-main;
-    height: 33rem;
+    background-color: $bg;
+    height: 20rem;
     z-index: 0;
-    overflow: hidden;
+    // overflow: hidden;
     & .footer_inner{
         position: relative;
         display: flex;
+        height: 100%;
         & img{
             position: absolute;
+            bottom : 0;
         }
         
         & .footer_details{
             width: 100%;
             display: grid;
-            grid-template-columns: 0.5fr repeat(3,40rem) 1fr;
+            grid-template-columns: 0.5fr repeat(3,5fr) 1fr;
             
             & .part1{
                 grid-column: 2/3;
                 width: 100%;
-                height: 33rem;
+                // height: 33rem;
                 display: flex;
                 justify-content: center;
                 align-items : center;
                 & img{
-                    
-                    max-height: 20rem;
+                    bottom: 7rem;
+                    max-height: 8rem;
                     width: auto;
                 }
             }
             & .part2{
                 position: relative;
-                top: 6rem;
+                // top: 6rem;
                 grid-column: 3/4;
                 width: 100%;
-                height: 33rem;
+                // height: 33rem;
                 display: flex;
                 flex-direction: column;
-                // justify-content: center;
-                align-items : center;
+                justify-self: center;
+                align-self : center;
                 row-gap: 8rem;
-                & h6{
-                    font-size: 3rem;
-                    position: relative;
-                    &::after{
-                        position: absolute;
-                        top: 4.5rem;
-                        left: -1rem;
-
-                        content: "";
-                        width: 60%;
-                        background-color: black;
-                        height: 0.2rem;
-
-                    }
-
-                }
+                
                 
 
                 & .social_links{
@@ -626,38 +652,17 @@ html{
             
             & .part3{
                 position: relative;
-                top: 6rem;
                 grid-column: 4/5;
                 width: 100%;
-                height: 33rem;
                 display: flex;
                 flex-direction: column;
-                // justify-content: center;
                 align-items : center;
-                // row-gap: rem;
-                & h6{
-                    font-size: 3rem;
-                    position: relative;
-                    &::after{
-                        position: absolute;
-                        top: 4.5rem;
-                        left: -1rem;
-
-                        content: "";
-                        width: 60%;
-                        background-color: black;
-                        height: 0.2rem;
-
-                    }
-
-                }
-                
 
                 & .contact_info{
                     z-index: 4;
-                    font-size: 1.8rem;
+                    font-size: 1.4rem;
                     padding-left: 7rem;
-                    margin-top: 4rem;
+                    // margin-top: 4rem;
                     & .con{
                         display: flex;
                         column-gap: 2rem;
@@ -665,15 +670,26 @@ html{
                         & .con_icons{
                             min-width: 2.6rem;
                         }
-                        // justify-content:space-around;
                     }
                 }
-
-
             }
-        }
-
-
-    
+        }   
     }
+}
+
+
+
+
+::-webkit-scrollbar{
+    width: 0.4rem;
+    height: 0.4rem;
+}
+
+::-webkit-scrollbar-thumb{
+    background: $about-bg;
+    border-radius: 10rem;
+}
+
+::-webkit-scrollbar-track{
+    background: $bg;
 }
