@@ -4,7 +4,7 @@ from donor.models import Donor,MatchedDonor
 from recipient.models import Recipient
 from django.http import JsonResponse
 import json
-from datetime import datetime
+from datetime import datetime,timedelta
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
 from django.views.decorators.csrf import csrf_exempt
@@ -12,6 +12,7 @@ import pyotp
 import time
 from sms import send_sms
 from twilio.rest import Client
+
 
 import random
 from django.conf import settings
@@ -38,8 +39,6 @@ def register(request) :
         email = body['email']
         otp = body['otp']
         address = body['address']
-        thalassemia = body['thalassemia']
-        weight = body['weight']
 
         isDonor = Donor.objects.filter(phoneNumber  = phoneNumber).first()
         if isDonor is not None:
@@ -95,9 +94,7 @@ def register(request) :
                 phoneNumber = phoneNumber,
                 email = email,
                 address = address,
-                id = id,
-                weight = weight,
-                thalassemia = thalassemia
+                id = id
             )
             new_donor.save()
         except Exception as e:
@@ -301,8 +298,9 @@ def get_donor_records(request):
                         "address" : recipient.address,
                         "date" : recipient.date,
                         "phoneNumber" : recipient.phoneNumber
-          
-                      })
+                        
+
+                    })
 
             #
             
@@ -338,7 +336,7 @@ def authorize_admin(request):
 
 
 @csrf_exempt
-def get_matched_donors(request):
+def get_donor_list(request):
     if (request.method =='GET'):
         # phoneNumber = request.session.get('member_id')
         # print(phoneNumber)
@@ -348,54 +346,32 @@ def get_matched_donors(request):
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
         try:
-            recipient_list = Recipient.objects.filter(status = 'Pending')
-            r_list = []
-            d_list = {}
-            i=1
-            if recipient_list:
-                for recipient in recipient_list:
 
-                    recipient_id = recipient.id
-                    
-                    
-                    matchedDonors = MatchedDonor.objects.filter(recipient = recipient_id , status  = 'Pending')
-                    donorlist = []
-                    j=1
-                    for pair in matchedDonors:
-                        donor = Donor.objects.filter(id = pair.donor).first()
-                        donorlist.append({
-                            'id' : donor.id,
-                            'name' : donor.firstName +" "+donor.lastName,
-                            'bloodGroup' : donor.bloodGroup,
-                            'phoneNumber' : donor.phoneNumber,
-                            'address' : donor.address,
-                            'matched_id' : pair.id,
-                            'sl' : str(j) 
-                        })
-                        j+=1
-
-                    recipient_details = {
-                        'id' : recipient.id,
-                        'name' : recipient.firstName + recipient.lastName,
-                        'phoneNumber' : recipient.phoneNumber,
-                        "alternateNumber" : recipient.alternateNumber,
-                        'bloodgroup' : recipient.bloodGroup,
-                        'units' : recipient.units,
-                        'address' : recipient.address,
-                        'date' : recipient.date,
-                        'sl' : str(i),
-                        'donor_list' : donorlist
-
+           
+            current_date_string= datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
+            current_date = datetime.strptime(current_date_string, "%Y-%m-%d").date()
+            three_months_ago = current_date - timedelta(days=3*30)
+            print(three_months_ago)
+            donor_list_obj  = Donor.objects.filter(lastDonated__lte = three_months_ago).all()
+            donor_list =[]
+            for donor in donor_list_obj:
+                donor_list.append(
+                    {
+                        "donorName" : donor.firstName +  ' ' + donor.lastName,
+                        "bloodGroup" : donor.bloodGroup,
+                        "lastDonated" : donor.lastDonated,
+                        "addess" : donor.address,
+                        "phoneNumber" : donor.phoneNumber,
+                        "emailId": donor.email
                     }
-                    r_list.append(recipient_details)
+                )
 
-                        
-                    i+=1
+            return JsonResponse({'success' : 'returned successsfully', 'donor_list' : donor_list},safe=False ,status =200)
                 
         except Exception as e:
             print(e)
             return JsonResponse({"error" : "Failed"},status=500)
-        return JsonResponse({'success' : 'returned successsfully', 'recipient_list' : r_list},status =200)
+        return JsonResponse({'success' : 'returned successsfully', 'recipient_list' : r_list})
     return JsonResponse({"error" : "Invalid request Method"}, status=400)
 
 #confirm donor-recipient pair
@@ -506,37 +482,6 @@ def get_confirmed_donors(request):
 
 @csrf_exempt
 def confirmDonation(request):
-    if request.method == "POST" : 
-        if authorize_admin(request) == False:
-            return JsonResponse({"error" : "Unauthorized"},status = 401)
-        body  = json.loads(request.body)
-        id  = body['matched_id'] 
-        matched_id = uuid.UUID(id) 
-        try:
-
-            pair = MatchedDonor.objects.filter(id = matched_id,donated = "No", status = "Confirmed").first()
-            donor  = Donor.objects.filter(id = pair.donor).first()
-            recipient = Recipient.objects.filter(id= pair.recipient).first()
-            
-            pair.save()
-            donor_id = pair.donor
-            donor = Donor.objects.filter(id = donor_id).first()
-            dateObj = datetime.now(tz=pytz.timezone('Asia/Kolkata'))
-            iso_format = "%Y-%m-%d"
-            date  = datetime.strftime(dateObj, iso_format)
-            donor.lastDonated = date
-            donor.save()
-
-            return JsonResponse({"status" : "Request saved successfully"},status=200)
-
-        except Exception as e:
-            return JsonResponse({"error" : e},status =500)
-        
-    return JsonResponse({"error" : "Invalid Request Method"},status = 400)
-
-
-@csrf_exempt
-def rejectDonation(request):
     if request.method == "POST" : 
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
