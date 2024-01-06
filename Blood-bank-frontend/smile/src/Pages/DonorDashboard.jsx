@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button,Typography, Avatar, Card, CardContent, Paper} from '@mui/material';
+import { Button,Typography, Avatar, Card, CardContent, Paper, Divider} from '@mui/material';
 import TableComp from '../Components/Table'
 import CalendarComp from '../Components/Calendar';
 import axios from 'axios';
@@ -7,6 +7,38 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { ChakraProvider, Grid, GridItem, Skeleton, } from '@chakra-ui/react';
+
+// Avatar Color
+function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    for (i = 0; i < string.length; i += 1) {
+        hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = '#';
+
+    for (i = 0; i < 3; i += 1) {
+        const value = (hash >> (i * 8)) & 0xff;
+        color += `00${value.toString(16)}`.slice(-2);
+    }
+    return color;
+}
+
+function stringAvatar(name) {
+    return {
+        sx: {
+            bgcolor: stringToColor(name),
+            width : 75, 
+            height : 75, 
+            fontSize : 28,
+            boxShadow : '0 0 2rem rgba(0,0,0,0.5)'
+
+        },
+        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+}
 
 
 
@@ -17,6 +49,7 @@ const DonorDashboard = () => {
     const [loadingPage,setLoadingPage] = useState(true)
     const [loadApi, setLoadApi] = useState(false)
 
+    //Page Validation
     useEffect(()=>{
         if(localStorage.getItem('check') !== null){
             const now  =  new Date().getTime()
@@ -63,7 +96,13 @@ const DonorDashboard = () => {
 
     const [pastRecordRows, setPastRecordRows] = useState([])
     const [donorDetails, setDonorDetails] = useState()
+    //Set Time
+    const [time, setTime] = useState(['','',''])
+    //Set Date
+    const [date, setDate] = useState(['','',''])
 
+
+    //Fetch Donor Records 
     const getDonorRecords = async () =>{
         setLoadingPage(true)
         try {
@@ -80,13 +119,22 @@ const DonorDashboard = () => {
         setLoadingPage(false)
     }
 
-    console.log(loadApi)
+    //Page loading API
     useEffect(()=>{
+        // Date and Time for Display
+        setInterval(()=>{
+            let date = new Date()
+            setTime(date.toLocaleTimeString('en-US',{hour12: true, hour : '2-digit', minute : '2-digit'}).split(/[\s:]/))
+            setDate(date.toLocaleDateString('en-US', {weekday : 'short', day : '2-digit', month : 'long'}).split(' '))
+        },1000)
+
+
         if(loadApi){
             getDonorRecords()
         }
     },[loadApi])
 
+    // Logout API call
     const logout = () => {
         try{
             axios.get('http://127.0.0.1:8000/donor/logout/').then((res)=>{
@@ -111,14 +159,6 @@ const DonorDashboard = () => {
 
     const tableColumn = ["Patient's Name", "Donation Date", "Phone Number", "Blood Group"]
 
-    const highlightedDays = {
-        26 : 9,
-        28 : 6,
-        25 : 8,
-        30 : 2
-    }
-    console.log(loadingPage)
-
     return (
         <>
                         <div className="don_dashboard_outer_div">
@@ -128,20 +168,31 @@ const DonorDashboard = () => {
                                 !loadingPage ? (
                                     <>
                                         <div className="logout">
-                                            <Button variant='contained' onClick={logout}>
+                                            <Button variant='contained' onClick={logout}
+                                                sx={{
+                                                    backgroundColor : '#d71414',
+                                                    borderRadius : '2.5rem',
+                                                    color : '#f0e3e4',
+                                                    fontWeight : 'bold',
+                                                    fontSize : '1rem',
+                                                    "&:hover" : {
+                                                        backgroundColor : '#d71414',
+                                                        color : '#f0e3e4',
+                                                    }
+                                                }}
+                                            >
                                                 Logout
                                             </Button>
                                         </div>
                                         <div className="grid_container">
                                             <div className="main">
-                                                <div className="content">
-                                                    <div className="upper">
-                                                        <Card sx={{ width: 820 , display : 'flex', alignItems : 'center' ,gap : 10, p:3, pl:10 , backgroundImage : 'linear-gradient(135deg,rgb(235, 234, 172) 30% , rgb(240, 130, 139))' }}>
-                                                            <Avatar sx={{width : 100 , height : 100, fontSize : 50 , bgcolor : '#ea5d69'}}>GD</Avatar>
-                                                            <CardContent>
-                                                                <Typography variant="h3" m={0.5} mb={2} >
-                                                                    Hi there, Gourab Das.
-                                                                </Typography>
+                                                    <div className="upper">     
+                                                        <div className="first">
+                                                            <Avatar {...stringAvatar('Gourab Das')}/>
+                                                            <Typography variant="h3" >
+                                                                Hi there, Gourab Das.
+                                                            </Typography>
+                                                        </div>                                                   
                                                                 <Typography variant="h5" m={0.5} >
                                                                     <b>Phone Number : </b> +91 7002450760
                                                                 </Typography>
@@ -154,37 +205,32 @@ const DonorDashboard = () => {
                                                                 <Typography variant="h5" m={0.5}>
                                                                     <b> Last Donated : </b> 04/12/2023
                                                                 </Typography>
-                                                            </CardContent>
-                                                        </Card>
                                                     </div>
+                                                    <Divider />
                                                     <div className="lower">
-                                                        <Paper sx={{width : 820 , p : 3, mt : 2 ,backgroundImage : 'linear-gradient(135deg,rgb(235, 234, 172) 30% , rgb(240, 130, 139))'}}>
-                                                                <Typography variant="h4" m={0.5}>
-                                                                    You Have an Upcoming Appointment on 08/12/2023
+                                                                <Typography variant="h4" m={0.5} mt='1rem' sx={{padding : '0.5rem' , backgroundColor : '#f0e3e4' , borderRadius : '1rem' , fontSize : '2rem', textAlign : 'center', color : '#d71414' }} >
+                                                                    You Have an Upcoming Appointment on <b> 26/01/2024 </b>
+                                                                </Typography>                                                               
+                                                        
+                                                                <Typography variant="h5" mt={2} fontSize={24}>
+                                                                    You're Eligible for Donating.
                                                                 </Typography>
-                                                                <Typography variant="h4" container="div" m={0.5} sx={{display : 'flex' , justifyContent : 'space-between', mt :3}}>
-                                                                    <Typography variant="h6">
-                                                                        Patient's Name : Someone
-                                                                    </Typography>
-                                                                    <Typography variant="h6">
-                                                                        Patient's Number : +91 1234567890
-                                                                    </Typography>
-                                                                    <Typography variant="h6">
-                                                                        Patient's Address : Somewhere in this Planet
-                                                                    </Typography>
-                                                                </Typography>
-                                                        </Paper>
+                                                    </div>
+                                            </div>
+                                            <div className="calendar">
+                                                <div className="date_time">
+                                                    <div className="date">
+                                                        <p>{`${date[0]} ${date[2]}`}</p>   
+                                                        <p>{date[1]}</p>   
+                                                    </div>
+                                                    <div className="time">
+                                                        <p>{time[0]}</p>
+                                                        <p> : </p>
+                                                        <p>{time[1]}</p>
+                                                        <p> {time[2].toLowerCase()} </p>                                                        
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="calendar">
-                                                    <Typography variant='h2' component='h2' mb={10} textAlign='center'>
-                                                        Your Appoinment Date                                            
-                                                    </Typography>
-                                                    <CalendarComp
-                                                        highlightedDays={highlightedDays}
-                                                    />
-                                                </div>
                                             <div className="requests">
                                                 <Typography variant="h3" >
                                                     Previous Donations

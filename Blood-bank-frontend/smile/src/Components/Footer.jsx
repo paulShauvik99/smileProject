@@ -4,7 +4,6 @@ import wave2 from '../assets/wave2.svg'
 import wave3 from '../assets/wave3.svg'
 import wave4 from '../assets/wave4.svg'
 import SmileLogo from '../assets/SmileLogo.png'
-import Smile from '../assets/Smile.svg'
 import { InstagramLogo, FacebookLogo, TwitterLogo, YoutubeLogo, MapPin, Phone, Envelope, Clock} from "@phosphor-icons/react";
 import IconButton from '@mui/material/IconButton';
 
