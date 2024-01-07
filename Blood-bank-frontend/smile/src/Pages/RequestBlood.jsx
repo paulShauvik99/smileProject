@@ -32,7 +32,7 @@ const RequestBlood = () => {
         <>
 
                 <div className="request_outer_div">
-                    <div className="request_inner_div">
+             
                         <div className="request_register">
                             <motion.div className="request_registration_form"
                                 initial={{x : '-100vw'}}
@@ -44,7 +44,7 @@ const RequestBlood = () => {
                                 <ToastContainer />
                             </motion.div>
                         </div>
-                    </div>
+                   
                 </div>
         </>
     )

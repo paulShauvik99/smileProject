@@ -76,7 +76,7 @@ const TableComp = (props) => {
                                                 <TableRow>
                                                     <TableCell sx={{fontSize : '14px'}} align="left">{props.requestRecords.recipient_name}</TableCell>
                                                     <TableCell sx={{fontSize : '14px'}} align="left">{props.requestRecords.date}</TableCell>
-                                                    <TableCell sx={{fontSize : '14px'}} align="center">
+                                                    {/* <TableCell sx={{fontSize : '14px'}} align="center">
                                                         <Chip 
                                                             label={props.requestRecords.status}
                                                             size='small'
@@ -88,10 +88,10 @@ const TableComp = (props) => {
                                                                 border : '1px solid #ff8800'
                                                             }}
                                                         />
-                                                    </TableCell>
+                                                    </TableCell> */}
                                                     <TableCell sx={{fontSize : '14px'}} align="left">{props.requestRecords.bloodGroup}</TableCell>
-                                                    <TableCell sx={{fontSize : '14px'}} align="left">{props.requestRecords.donor_name}</TableCell>
-                                                    <TableCell sx={{fontSize : '14px'}} align="left">{props.requestRecords.donor_phoneNumber}</TableCell>
+                                                    {/* <TableCell sx={{fontSize : '14px'}} align="left">{props.requestRecords.donor_name}</TableCell>
+                                                    <TableCell sx={{fontSize : '14px'}} align="left">{props.requestRecords.donor_phoneNumber}</TableCell> */}
                                                 </TableRow>
                                             )
                                         }
@@ -100,7 +100,7 @@ const TableComp = (props) => {
                                                 <TableRow>
                                                     <TableCell sx={{fontSize : '14px'}} align="left">{props.pendingRecords.recipient_name}</TableCell>
                                                     <TableCell sx={{fontSize : '14px'}} align="left">{props.pendingRecords.date}</TableCell>
-                                                    <TableCell sx={{fontSize : '14px'}} align="left">
+                                                    {/* <TableCell sx={{fontSize : '14px'}} align="left">
                                                         <Chip 
                                                             label={props.pendingRecords.status}
                                                             size='small'
@@ -112,10 +112,10 @@ const TableComp = (props) => {
                                                                 border : '1px solid #00ffae'
                                                             }}
                                                         />
-                                                    </TableCell>
+                                                    </TableCell> */}
                                                     <TableCell sx={{fontSize : '14px'}} align="left">{props.pendingRecords.bloodGroup}</TableCell>
-                                                    <TableCell sx={{fontSize : '14px'}} align="left">{props.pendingRecords.donor_name}</TableCell>
-                                                    <TableCell sx={{fontSize : '14px'}} align="left">{props.pendingRecords.donor_phoneNumber}</TableCell>
+                                                    {/* <TableCell sx={{fontSize : '14px'}} align="left">{props.pendingRecords.donor_name}</TableCell>
+                                                    <TableCell sx={{fontSize : '14px'}} align="left">{props.pendingRecords.donor_phoneNumber}</TableCell> */}
                                                 </TableRow>
                                             )
                                         }
@@ -126,7 +126,7 @@ const TableComp = (props) => {
                                         >
                                             <TableCell sx={{fontSize : '14px'}} align="left">{row.recipient_name}</TableCell>
                                             <TableCell sx={{fontSize : '14px'}} align="left">{row.date}</TableCell>
-                                            <TableCell sx={{fontSize : '14px'}} align="center">
+                                            {/* <TableCell sx={{fontSize : '14px'}} align="center">
                                                         {
                                                             row.status === 'Confirmed' ? (
                                                                 <Chip 
@@ -156,10 +156,10 @@ const TableComp = (props) => {
 
                                                             )
                                                         }
-                                            </TableCell>
+                                            </TableCell> */}
                                             <TableCell sx={{fontSize : '14px'}} align="left">{row.bloodGroup}</TableCell>
-                                            <TableCell sx={{fontSize : '14px'}} align="left">{row.donor_name}</TableCell>
-                                            <TableCell sx={{fontSize : '14px'}} align="left">{row.donor_phoneNumber}</TableCell>
+                                            {/* <TableCell sx={{fontSize : '14px'}} align="left">{row.donor_name}</TableCell>
+                                            <TableCell sx={{fontSize : '14px'}} align="left">{row.donor_phoneNumber}</TableCell> */}
                                         </TableRow>
                                     ))}
                                 </TableBody>

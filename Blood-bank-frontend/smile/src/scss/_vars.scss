@@ -1,23 +1,27 @@
 
 //Color Palatte
 
-
-$text-light : #F7ECED;
-$theme-main : #c74d57;
-$footer-main : #ea5d69;
+$bg : #EAEAEA;
+$about-bg :#C0463B;
+$text-light : #f0e3e4;
+$theme-main : #cec3c4;
+$footer-main : #c0463b98;
 $bg-shadow : #f0828b;
-$text-primary : #C1C1C1;
+$text-primary : #191818;
+$text-active : #d75814c6;
 $home-svg :rgba(65,92,101,0.16);
 $bg-secondary : #F4D9D5;
 $bg-primary : #f4babab2;
 $about-overlay : #efc7d926;
+$request-bg : #d22228e6;
 
 $check-main : linear-gradient(135deg,rgba(235, 234, 172, 0.683) 30% , rgb(240, 130, 139));
 
-
+$color : rgb(214, 205, 205);
+$color1 :#63ed4b;
 
 //Variables
 
 
-$main-height : calc(100vh - 10rem - 33rem);
+$main-height : calc(100vh - 20rem);
 $main-width : 100%;

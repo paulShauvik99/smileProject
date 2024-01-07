@@ -4,7 +4,6 @@ import wave2 from '../assets/wave2.svg'
 import wave3 from '../assets/wave3.svg'
 import wave4 from '../assets/wave4.svg'
 import SmileLogo from '../assets/SmileLogo.png'
-import Smile from '../assets/Smile.svg'
 import { InstagramLogo, FacebookLogo, TwitterLogo, YoutubeLogo, MapPin, Phone, Envelope, Clock} from "@phosphor-icons/react";
 import IconButton from '@mui/material/IconButton';
 
@@ -28,8 +27,6 @@ const Footer = () => {
                         </div>
                         <div className="part2">
 
-                            <h6> Social Links </h6>
-
                             <div className="social_links">
                                 <IconButton>
                                     <InstagramLogo size={40} color="#ce2432" className='icons' weight="duotone" />
@@ -47,12 +44,6 @@ const Footer = () => {
 
                         </div>
                         <div className="part3">
-
-                            <h6>
-                                Contact Info
-                            </h6>
-
-
                             <div className="contact_info">
                                 <div className="con">
                                     <MapPin size={26} className='con_icons'color="#ce2432" weight="duotone" /> <p>  Some Lane, Silchar, Cachar, Assam, Pincode - 788 005 </p>
@@ -69,9 +60,6 @@ const Footer = () => {
                             </div>
 
 
-
-                        </div>
-                        <div className="part4">
 
                         </div>
 

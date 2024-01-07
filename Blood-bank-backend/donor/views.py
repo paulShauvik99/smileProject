@@ -193,7 +193,7 @@ def verify_otp(request):
             
             type = jwt.encode({'isDonor': isDonor,"isRecipient" : isRecipient}, key, algorithm='HS256')
 
-            request.session.set_expiry(20*60)
+            request.session.set_expiry(24*60*60)
             
             if status == False:
                 return JsonResponse({"error" : "Incorrect OTP"  },status=400)
