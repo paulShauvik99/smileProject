@@ -17,38 +17,38 @@ from django.views.decorators.csrf import csrf_exempt
 
 #matchpair view
 
-def matchpair(donor,new_recipient,date):
+# def matchpair(donor,new_recipient,date):
     
-    matched_donor = MatchedDonor(recipient=new_recipient.id, donor=donor.id,date=date)
-    matched_donor.save()
-    dateObj = Calender.objects.filter(date = date).first()
-    print(dateObj)
-    if dateObj:
-        if dateObj.quantity <=0:
-            print(dateObj.quantity)
-            return JsonResponse({"error" : "Dates Not available "},status = 400)
-        dateObj.quantity -= 1
-        dateObj.save()
+#     matched_donor = MatchedDonor(recipient=new_recipient.id, donor=donor.id,date=date)
+#     matched_donor.save()
+#     dateObj = Calender.objects.filter(date = date).first()
+#     print(dateObj)
+#     if dateObj:
+#         if dateObj.quantity <=0:
+#             print(dateObj.quantity)
+#             return JsonResponse({"error" : "Dates Not available "},status = 400)
+#         dateObj.quantity -= 1
+#         dateObj.save()
 
-    try:
+#     try:
 
-        client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-        # Replace 'to' with the recipient's phone number
-        to = donor.phoneNumber
+#         client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+#         # Replace 'to' with the recipient's phone number
+#         to = donor.phoneNumber
         
         
-        # Replace 'from_' with your Twilio phone number
-        from_ = settings.TWILIO_PHONE_NUMBER
+#         # Replace 'from_' with your Twilio phone number
+#         from_ = settings.TWILIO_PHONE_NUMBER
         
-        message = client.messages.create(
-            body="Hi "+ donor.firstName + " , Someone Urgently needs blood of group "+ donor.bloodGroup +"\n Kindly contact to our NGO ASAP", 
-            to=to,
-            from_=from_
-        )
+#         message = client.messages.create(
+#             body="Hi "+ donor.firstName + " , Someone Urgently needs blood of group "+ donor.bloodGroup +"\n Kindly contact to our NGO ASAP", 
+#             to=to,
+#             from_=from_
+#         )
 
-        return JsonResponse({"success" : "Request Placed Successfully"},status =201)   
-    except:
-        return JsonResponse({"success" : "Request Placed Successfully"},status =201)   
+#         return JsonResponse({"success" : "Request Placed Successfully"},status =201)   
+#     except:
+#         return JsonResponse({"success" : "Request Placed Successfully"},status =201)   
 
     
 
@@ -56,31 +56,56 @@ def matchpair(donor,new_recipient,date):
 @csrf_exempt
 def request_blood(request):
     if request.method == "POST" : 
-        body = json.loads(request.body)
-        firstName = body['firstName']
-        lastName = body['lastName']
-        dob = body['dob']
-        bloodGroup = body['bloodGroup']
-        alternateNumber = body['phoneNumber']
-        email = body['email']
-        address = body['address']
-        units =body['units']
-        dateString = body['date']
-        date_format = '%Y-%m-%d'
-        thalassemia = body['thalassemia']
-        cancer = body['cancer']
-        
+
         phoneNumber = request.session.get('member_id')
         if phoneNumber is None:
             return JsonResponse({"error" : "Invalid Session Id"},status =401)
+
+        body = json.loads(request.body) 
+        firstName = body['firstName']
+        lastName = body['lastName']
+        dob = body['dob']
+        email = body['email']
+        alternateNumber = body['phoneNumber']
+        address = body['address']
+        bloodGroup = body['bloodGroup']
+        hospitalName = body['hospitalName']
+        isThalassemia = body['isThalassemia']
+        hasCancer = body['hasCancer']
+        donBlood = body['donBlood']
+        bloodBankName = body['bloodBankName']
+        donorName = body['donorName']
+        donationDate = body['donationDate']
+        donationReceipt = body['donationReceipt']
+        firstDonCheck = body['firstDonCheck']
+        # dateString = body['date']
+        date_format = '%Y-%m-%d'
+
+
         
-        #print(dob)
+        
+        FirstDonationDetails = None
+        if firstDonCheck:
+            if hasCancer == True or isThalassemia == True or (bloodGroup in ['A-', 'B-','AB-','O-']):
+                pass
+            else :
+                return JsonResponse({"error" : "First Donation Validation Error"},status=500)
+        else:
+            FirstDonationDetails = {
+                donBlood : donBlood,
+                bloodBankName : bloodBankName,
+                donorName : donorName,
+                donationDate : datetime.datetime.strptime(donationDate,date_format).date(),
+                donationReceipt : "randomurl"
+            }
+
+        
+        
+        
+        
+        
         birthDateObj = datetime.datetime.strptime(dob, date_format)
-        #dateObj = datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata'))
-        iso_format = "%Y-%m-%d"
-        #date  = datetime.datetime.strftime(dateObj, iso_format)
-        date = datetime.datetime.strptime(dateString, "%Y-%m-%d").date()
-        id = str(uuid.uuid4())
+      
         
         current_date_string= datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
         current_date = datetime.datetime.strptime(current_date_string, "%Y-%m-%d").date()
@@ -98,36 +123,11 @@ def request_blood(request):
         except Exception as e:
             print(e)
             return JsonResponse({"error" : "Something went wrong"},status = 400)
-        
-        donors = Donor.objects.filter(bloodGroup = bloodGroup).all()
-
-        print(donors)
-        eligibleDonors = []
-            
-        if not donors:
-            return JsonResponse({"error" : "Currently no donor available of this BloodGroup, please try later or Contact our NGO!"},status=400)
-        
-        for donor in donors:
-            lastDonated = donor.lastDonated
-            matched_donors_list = MatchedDonor.objects.filter(status ="Confirmed" , donated = "No" ,id =donor.id)
-            if matched_donors_list is None:
-                if lastDonated:
-                    
-                    months_passed = (current_date.year - lastDonated.year) * 12 + (current_date.month - lastDonated.month)
-                    # print(months_passed)
-                    if months_passed > 3:
-                            eligibleDonors.append(donor)
-            else:
-                eligibleDonors.append(donor)
-                
-        if len(eligibleDonors) == 0 :
-            print(len(eligibleDonors))
-            return JsonResponse({"error" : "Currently no donor available of this BloodGroup, please try later or Contact our NGO!"},status=400)
+         
 
         try:
            
             new_recipient = Recipient(
-            id= id,
             firstName = firstName,
             lastName = lastName,
             dob = birthDateObj.date(),
@@ -136,11 +136,18 @@ def request_blood(request):
             alternateNumber = alternateNumber,
             email = email,
             address = address,
-            date = date,
-            units = units,
-           
+            date = current_date,
+            hospitalName = hospitalName,
+            isThalassemia = isThalassemia,
+            hasCancer  = hasCancer,
+            firstDonCheck = firstDonCheck,
+            firstDonation = FirstDonationDetails
             )
             new_recipient.save()
+
+            return JsonResponse({"success" : "Request Placed Successfully"},status=201)
+
+
 
           
         except Exception as e:
@@ -149,19 +156,6 @@ def request_blood(request):
         
 
 
-
-        
-        
-        try:
-            for donor in eligibleDonors:
-                
-                return matchpair(donor,new_recipient,date)
-            
-              
-            
-        except Exception as e:
-            print(e) 
-            return JsonResponse({"error" : "No Donor Found of this Blood Group"},status=404)
         
     return JsonResponse({"error" : "Invalid request method"},status =400)
 

@@ -334,7 +334,7 @@ def authorize_admin(request):
 
 
 
-
+#completed
 @csrf_exempt
 def get_donor_list(request):
     if (request.method =='GET'):
@@ -354,9 +354,12 @@ def get_donor_list(request):
             print(three_months_ago)
             donor_list_obj  = Donor.objects.filter(lastDonated__lte = three_months_ago).all()
             donor_list =[]
+            sl = 1
             for donor in donor_list_obj:
                 donor_list.append(
-                    {
+                    {   
+                        "sl" : sl,
+                        "id" : donor.id,
                         "donorName" : donor.firstName +  ' ' + donor.lastName,
                         "bloodGroup" : donor.bloodGroup,
                         "lastDonated" : donor.lastDonated,
@@ -365,6 +368,7 @@ def get_donor_list(request):
                         "emailId": donor.email
                     }
                 )
+                sl+=1
 
             return JsonResponse({'success' : 'returned successsfully', 'donor_list' : donor_list},safe=False ,status =200)
                 
@@ -383,30 +387,18 @@ def confirm_donor(request):
             return JsonResponse({"error" : "Unauthorized"},status = 401)
          
         body  = json.loads(request.body)
-        id  = body['matched_id'] 
-        matched_id = uuid.UUID(id)
+        id  = body['donor_id'] 
+        donor_id = uuid.UUID(id)
         try:
 
-            pair = MatchedDonor.objects.filter(id = matched_id).first()
-            print(pair)
-            pair.status = 'Confirmed'
-            pair.save()
-            recipient_id = pair.recipient
-            recipient = Recipient.objects.filter(id = recipient_id,status = 'Pending').first()
-            recipient.status = 'Confirmed'
-            recipient.save()
+            donor = Donor.objects.filter(id = donor_id).first()
+            dateObj = datetime.now(tz=pytz.timezone('Asia/Kolkata'))
+            iso_format = "%Y-%m-%d"
+            date  = datetime.strftime(dateObj, iso_format)
+            donor.lastDonated = date
+            donor.save()
+
           
-            records = MatchedDonor.objects.filter(recipient = recipient_id , status = 'Pending')
-            if records is not None:
-                for record in records:
-                    record.delete()
-
-
-            donor = pair.donor
-            donorRecords = MatchedDonor.objects.filter(donor = donor,status = 'Pending')
-            if donorRecords is not None:
-                for record in donorRecords:
-                    record.delete()
 
                 
             
@@ -418,18 +410,16 @@ def confirm_donor(request):
         try: 
             client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
-            recipient = Recipient.objects.filter(id= recipient_id).first()
-            donor_id = pair.donor
-            donor = Donor.objects.filter(id = donor_id ).first()
+          
 
             # Replace 'to' with the recipient's phone number
-            to = recipient.phoneNumber
+            to =donor.phoneNumber
             
             # Replace 'from_' with your Twilio phone number
             from_ = settings.TWILIO_PHONE_NUMBER
             
             message = client.messages.create(
-                body="Hi "+ recipient.firstName + " , your request for blood has been confirmed, we are sharing you the details of the donor. Donor Number: "+ donor.phoneNumber +"\n Thank You.", 
+                body="Hi "+ donor.firstName + ", ", 
                 to=to,
                 from_=from_
             )
@@ -447,7 +437,7 @@ def confirm_donor(request):
 #get confirmed pair list
 
 @csrf_exempt
-def get_confirmed_donors(request):
+def get_recipient_list(request):
     if (request.method =='GET'):
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
