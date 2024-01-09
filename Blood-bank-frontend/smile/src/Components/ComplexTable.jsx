@@ -22,10 +22,10 @@ const ComplexTable = (props) => {
     const [columns , setColumns] = useState([])
     const [rowSelectionModel, setRowSelectionModel] = useState();
 
+    console.log(rows)
 
     const columnVisibility = { 
         id : false,
-        matched_id : false
     }
 
 
@@ -105,10 +105,20 @@ const ComplexTable = (props) => {
     ]
     //Donor Columns
     const donorListCols = [
-        // { field: 'id'},
-        { field: 'matched_id', },
-        { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center', headerAlign : 'center' , filterable : false},
-        { field: 'name', headerName: "Name" , width: 250, sortable : false, align : 'center', headerAlign : 'center' , filterable : false },
+        { field: 'id'},
+        // { field: 'matched_id', },
+        { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center',
+            headerAlign : 'center' , filterable : false,
+            valueGetter : (params) =>{
+                let sl = rows.findIndex( x => x.id === params.id) + 1
+                return sl
+            }
+        },
+        { field: 'name', headerName: "Name" , width: 250, sortable : false, align : 'center', headerAlign : 'center' , filterable : false,
+            valueGetter : (params) =>{
+                return `${params.row.firstName} ${params.row.lastName}`
+            }
+        },
         {
             field: 'address',
             headerName: "Address",
@@ -148,7 +158,7 @@ const ComplexTable = (props) => {
                     icon={<CheckCircleIcon />}
                     label="Confirm Donor"
                     className='con'
-                    onClick={() => props.getMatchedDonorId(params.id , params.row.matched_id)}    
+                    onClick={() => props.sentForDonation(params.id)}    
                     color="success"
                     showInMenu
                 />

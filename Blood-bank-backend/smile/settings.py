@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'adminUser.apps.AdminuserConfig'
 ]
 
 MIDDLEWARE = [
@@ -96,7 +97,7 @@ CORS_ALLOWED_ORIGINS = [
 
   ]
 CSRF_TRUSTED_ORIGINS = [
- 
+    
 ]
 
 

@@ -94,7 +94,7 @@ const DonorDashboard = () => {
 
 
 
-    const [pastRecordRows, setPastRecordRows] = useState([])
+    const [donorList, setDonorList] = useState([])
     const [donorDetails, setDonorDetails] = useState()
     //Set Time
     const [time, setTime] = useState(['','',''])
@@ -108,7 +108,7 @@ const DonorDashboard = () => {
         try {
             const res = await axios.get('http://127.0.0.1:8000/donor/get_donor_records/')
             console.log(res)
-            setPastRecordRows(res.data.pastRecord)
+            setDonorList(res.data.donorList)
             setDonorDetails(res.data.donorDetails)
         } catch (error) {
             Swal.fire({
@@ -190,21 +190,29 @@ const DonorDashboard = () => {
                                                         <div className="first">
                                                             <Avatar {...stringAvatar('Kasturi Borua')}/>
                                                             <Typography variant="h3" >
-                                                                Hi, Gourab Das.
+                                                                Hi, {donorDetails.firstName}
                                                             </Typography>
-                                                        </div>                                                   
-                                                                <Typography variant="h5" m={0.5} >
-                                                                    <b>Phone Number : </b> +91 7002450760
+                                                        </div>    
+                                                        <div className="second">
+                                                                <Typography  variant="h5" m={0.5} >
+                                                                    <b>Phone Number : </b> {donorDetails.phoneNumber}
                                                                 </Typography>
-                                                                <Typography variant="h5" m={0.5} >
-                                                                    <b>Address : </b> Somewhere in the City of Joy
+                                                                <Typography  variant="h5" m={0.5} >
+                                                                    <b>Email : </b> {donorDetails.emailId}
                                                                 </Typography>
-                                                                <Typography variant="h5" m={0.5}>
+                                                                <Typography  variant="h5" m={0.5} >
+                                                                    <b>Address : </b> {donorDetails.address} 
+                                                                </Typography>
+                                                                <Typography  variant="h5" m={0.5}>
                                                                     <b> Sex :</b> Male
                                                                 </Typography>
-                                                                <Typography variant="h5" m={0.5}>
-                                                                    <b> Last Donated : </b> 04/12/2023
+                                                                <Typography  variant="h5" m={0.5}>
+                                                                    <b> Blood Group :</b> {donorDetails.bloodGroup}
                                                                 </Typography>
+                                                                <Typography  variant="h5" m={0.5}>
+                                                                    <b> Last Donated : </b> {donorDetails.lastDonated}
+                                                                </Typography>
+                                                        </div>                                               
                                                     </div>
                                                     <Divider />
                                                     <div className="lower">
@@ -238,7 +246,7 @@ const DonorDashboard = () => {
                                                 <TableComp
                                                     type='donor'
                                                     tableColumn={tableColumn}
-                                                    tableContent={pastRecordRows}
+                                                    tableContent={donorList}
                                                 />
                                             </div>  
                                         </div>

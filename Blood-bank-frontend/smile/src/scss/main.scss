@@ -30,6 +30,7 @@ html{
 
         &::before{
             content: "";
+            top: 2rem;
             width: 150rem;
             height: 150rem;
             background-color: $request-bg;
@@ -67,8 +68,9 @@ html{
             display: flex;
             z-index: 2;
             flex-direction: column;
-            justify-content: center;
+            // justify-content: center;
             align-items: center;
+            margin-bottom: 10rem;
             // min-height: 200rem;
         }
         & .css-10hburv-MuiTypography-root{
@@ -421,7 +423,7 @@ html{
                         grid-area: main;
                         padding: 2rem;
                         align-self: flex-start;
-                        height: 35rem;
+                        min-height: 35rem;
                         width: 70rem;
                         background-color: #daccca;
                         border-radius: 2rem;
@@ -450,6 +452,14 @@ html{
                                 gap: 2rem;
                                 margin-bottom: 1rem;
                             }
+
+                            & .second{
+                                display: grid;
+                                grid-template-columns: repeat(2,1fr);
+                                gap: 1rem 2rem;
+                            }
+
+
                         }
 
 
