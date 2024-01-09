@@ -9,6 +9,8 @@ import DonorDashboard from './Pages/DonorDashboard.jsx'
 import RequestDashboard from './Pages/RequestDashboard.jsx'
 import AdminDashboard from './Pages/AdminDashboard.jsx'
 import AdminLogin from './Pages/AdminLogin.jsx'
+import MatchDonors from './Pages/MatchDonors.jsx'
+import ConfirmDonations from './Pages/ConfirmDonations.jsx'
 
 
 
@@ -17,12 +19,13 @@ function App() {
   
   return (
     
-        (window.location.pathname == '/admin' || window.location.pathname == '/admindashboard') ? (
+        (window.location.pathname == '/admin' || window.location.pathname == '/admindashboard/matchdonor' || window.location.pathname == '/admindashboard/confirmdonations') ? (
           <>
-            <Routes>
-                <Route exact path='/admin' element={<AdminLogin />} />
-                <Route exact path='/admindashboard' element={<AdminDashboard />} />
-            </Routes>
+              <Routes>
+                  <Route exact path='/admin' element={<AdminLogin />} />
+                  <Route exact path='/admindashboard/matchdonor' element={<MatchDonors />} />
+                  <Route exact path='/admindashboard/confirmdonations' element={<ConfirmDonations />} />
+              </Routes>
           </>
         ) : (
           <>

@@ -253,7 +253,7 @@ const ComplexTable = (props) => {
 
     return (
         <>
-            <Box sx={{ height: 400, width: '100%', backgroundImage: 'linear-gradient(135deg,rgb(235, 234, 172) 30% , rgb(240, 130, 139))', mt : 15 }}>
+            <Box sx={{ height: 400, width: '125rem', backgroundColor: '#daccca', mt : 15,   borderRadius: '2.5rem' , borderLeft: '3px solid rgba(255, 255, 255, 0.7)', boxShadow: '0 0 4rem rgba(0, 0, 0, 0.6)'}}>
                 <DataGrid
                     sx={{ 
                         fontSize : 16

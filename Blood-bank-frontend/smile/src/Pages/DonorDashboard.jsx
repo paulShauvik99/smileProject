@@ -188,9 +188,9 @@ const DonorDashboard = () => {
                                             <div className="main">
                                                     <div className="upper">     
                                                         <div className="first">
-                                                            <Avatar {...stringAvatar('Gourab Das')}/>
+                                                            <Avatar {...stringAvatar('Kasturi Borua')}/>
                                                             <Typography variant="h3" >
-                                                                Hi there, Gourab Das.
+                                                                Hi, Gourab Das.
                                                             </Typography>
                                                         </div>                                                   
                                                                 <Typography variant="h5" m={0.5} >

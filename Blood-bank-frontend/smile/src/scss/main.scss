@@ -18,74 +18,59 @@ html{
 
 
 //Admin , Admin Dashboard
-
-
 .admin_outer_div{
     min-height: 100vh;
     width: $main-width;
-    background-color: $bg-primary;
+    background-color: $bg;
     position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    &::after{
-        content : "";
-        position: absolute;
-        width: 100rem;
-        height: 150rem;
-        background-color: $bg-secondary;
-        top : 10rem;
-        right: -15rem;
-        // z-index: -5;
-        rotate: 317deg;
-        border-radius: 43rem 33rem 105rem 10rem;
-        box-shadow: 0 0 60rem $bg-shadow,
-                    0 0 1rem $bg-secondary;
+    justify-content: center;
 
-        
-    }
-    &::before{
-        content : "";
-        position: absolute;
-        width: 40rem;
-        height: 50rem;
-        background-color: $bg-secondary;
-        top : 2rem;
-        left: 2rem;
-        // z-index: -5;
-        rotate: 300deg;
-        border-radius: 33rem 14rem 15rem 20rem;
-        box-shadow: 0 0 60rem $bg-shadow,
-                    0 0 1rem $bg-secondary;
-        
-    }
+        &::before{
+            content: "";
+            width: 150rem;
+            height: 150rem;
+            background-color: $request-bg;
+            position: absolute;
+            z-index: 1;
+            transform: rotate(114deg);
+            left: -61rem;
+            box-shadow: 0 0 12rem rgba(0 , 0 , 0 , 0.7);
+        }
 
-    & .admin_inner_div{
-        z-index: 6;
-
+        // Admin Login
         & .admin_login{    
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 width: 100%;
-                height: 80rem;
-
+                height: 100%;
+                z-index: 2;
                 & .admin_login_form{
-
-                    width: 70rem;
+                    width: 50rem;
+                    height: 50rem;
                     padding: 4rem;
-                    z-index: 7;  
-                    background-color: rgba(255, 255, 255, 0.2);
+                    background-color: #daccca;
                     border-radius: 2.5rem;
-                    border-left: 3px solid rgba(255, 255, 255, 0.7);
-                    border-bottom: 3px solid rgba(255, 255, 255, 0.7);
-                    border-top: 1px solid rgba(255, 255, 255, 0.7);
-                    border-right: 1px solid rgba(255, 255, 255, 0.7);
-                    box-shadow: inset 0px 0px 15rem 0px rgba(255, 255, 255, 0.8);
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    box-shadow: 0 0 12rem rgba(0,0,0,0.6);
                 }            
-            }
-                
+        }
         
+        // Admin Dashboard
+        & .admin_dashboard{
+            padding-top: 10rem;
+            display: flex;
+            z-index: 2;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            // min-height: 200rem;
+        }
         & .css-10hburv-MuiTypography-root{
             font-size: 2rem;
         }
@@ -102,13 +87,6 @@ html{
                 font-size: 2rem;
             }
         }
-        
-        
-        
-    }
-    
-    
-    
 }
 
 .css-1ps6pg7-MuiPaper-root{
@@ -212,21 +190,7 @@ html{
         box-shadow: 0 0 8rem rgba(0,0,0,0.5);
         z-index: 2;
         position: relative;
-        & .right{
-            position: absolute;
-            right: 0;
-            background-color: $about-overlay;
-            height : 100%;
-            width : 70rem;
-            display: flex;
-            flex-direction: column;
-            // align-items: center;
-            justify-content: center;
-            row-gap: 4rem;
-            color : rgb(24, 23, 23);
-          
-        }
-    
+       
     
         & .left{
             position: absolute;
@@ -265,7 +229,7 @@ html{
             & .photo_gallery{
                 grid-column: 1/2;
                 position: relative; 
-                left: 10rem;    
+                // left: 10rem;    
                 & img{
                     position: absolute;
                     border-radius: 13px;
@@ -274,7 +238,7 @@ html{
                     
                     &:nth-child(1){
                         top: 20rem;
-                        left: -5rem;
+                        left: 5rem;
                         z-index: 4;
                         height: 30rem;
                         // aspect-ratio: 6/9;                        
@@ -282,25 +246,25 @@ html{
                     &:nth-child(2){
                         z-index: 5;
                         top:72rem;
-                        left: 20rem;
+                        left: 30rem;
                         height: 30rem;
                     }
                     &:nth-child(3){
                         z-index: 4;
                         top: 48rem;
-                        left: -3rem;
+                        left: 7rem;
                         height: 36rem;
                         
                     }
                     &:nth-child(4){
                         top: 5rem;
-                        left: 18rem;
+                        left: 28rem;
                         z-index:1;
                         height: 35rem;
                     }
                     &:nth-child(5){
                         top: 34rem;
-                        left: 22rem;
+                        left: 32rem;
                         z-index: 4;
                         height: 40rem;
                     }
@@ -505,8 +469,8 @@ html{
                             justify-content: center;
                             & .date{
                                 position: absolute;
-                                top: 10rem;
-                                left: -5rem;
+                                top: 5rem;
+                                left: 0rem;
                                 display: flex;
                                 flex-direction: column;
                                 align-items: center;
@@ -519,12 +483,18 @@ html{
                                 box-shadow: 0 -1rem 5rem rgba(0 , 0 , 0 , 0.6);
                                 z-index: 2;
                                 border-radius: 2rem 0 0 2rem;
+                                & p:nth-child(1){
+                                    font-weight: 700;
+                                }
+                                & p:nth-child(2){
+                                    font-weight: 400;
+                                }
                             }
                             
                             & .time{
                                 position: absolute;
-                                top: 10rem;
-                                left: 15rem;
+                                top: 5rem;
+                                left: 20rem;
                                 gap: 0.5rem;
                                 display: flex;
                                 align-items: center;
@@ -594,7 +564,7 @@ html{
         & .pat_reg{
 
             & .receipt_input{
-                height: 15rem;
+                height: 100%;
                 width: 100%;
                 border-radius: 2rem;
                 cursor: pointer;
@@ -609,7 +579,8 @@ html{
                 border: 1px dashed #F13C3C;
                 & .main{
                     gap: 2rem;
-                    display: flex;
+                    // display: flex;
+
                     align-items: center;
                 }
                 & p{
@@ -698,6 +669,10 @@ html{
 
                 & .social_links{
                     z-index: 4;
+                    & .css-78trlr-MuiButtonBase-root-MuiIconButton-root {
+                        font-size: 3rem;
+
+                    }
                 }
 
 
@@ -747,3 +722,301 @@ html{
 ::-webkit-scrollbar-track{
     background: $bg;
 }
+
+
+
+
+//  Mobile View
+
+@media only screen and (max-width: 767px) {
+
+//Navbar
+    .outer_nav{
+        position: fixed;
+        margin-top: 0 !important;
+        width: 100%;
+        z-index: 9;
+        height: 7rem;
+        background-color: $bg;
+        display: flex;
+        // grid-template-columns: 1fr 40rem  1fr;
+        align-items: center;
+        box-shadow: 0 0 5rem rgba(0 , 0 , 0 , 0.2);
+        & .logo{
+            max-height: 5rem;
+            // grid-column: 2/3;
+            display: flex;
+            justify-content: center;
+            & img{
+                // margin-top: -2.8rem;
+                height: 5rem;
+                // width: auto;
+            }
+        }
+
+
+        & .menu{
+            display: none;
+            // height: 8rem;
+            // grid-column: 4/5;
+            // width: 100%;
+            // display: flex;
+            // align-items: center;
+            // justify-content: space-around ;        
+
+            // & .nav-link{
+            //     font-size: 1.8rem;
+            //     font-weight: 600;
+            //     text-decoration: none;
+            //     color: $text-primary;
+
+            // }
+            
+            // & .active{
+            //     color: $text-active;
+            // }
+        }
+    }
+
+
+
+
+    //Home Page
+    .home_outer{
+        padding-top: 10rem;
+        min-height: $main-mob-height;
+        width: $main-width;
+        background-color: $bg;
+        & .landing{
+            margin-top: 1rem;
+            box-shadow: 0 0 8rem rgba(0,0,0,0.5);
+            z-index: 2;
+            position: relative;
+        
+        
+            & .left{
+                position: absolute;
+                background-color: $home-svg;
+                height: 100%;
+                width: 23rem;
+                display: flex;
+                flex-direction: column;
+                // align-items: center;
+                justify-content: center;
+                row-gap: 2rem;
+                & h5{
+                    font-size: 1.8rem;
+                    padding: 0 2rem;
+                    text-align: right;
+                }
+                
+                & p{
+                    font-size: 0.8rem;
+                    padding: 0 2.1rem;
+                    text-align: right;
+                }
+            }
+        }
+        
+        & .about{
+            height: 60rem;
+            width: 100%;
+            background-color: $bg;
+            position: relative;
+            margin-top: 5rem;
+            & .about_content{
+                display: flex;     
+                flex-direction: column ;   
+                justify-content: center; 
+                align-items: center; 
+                height: 100%;
+                width: 100%;
+                position: relative;
+                
+                & .photo_gallery{
+                    position: relative;
+                    align-items: center; 
+                    width: 100%;
+                    height: 40rem;
+                    & img{
+                        position: absolute;
+                        border-radius: 13px;
+                        box-shadow: 0 0 50px rgba(0,0,0,0.5);
+                        width: auto;
+                        
+                        &:nth-child(1){
+                            top: 0;
+                            left: 0;
+                            z-index: 0;
+                            height: 13rem;
+                        }
+                        &:nth-child(2){
+                            top: auto;             
+                            left: auto;
+                            right : 0;
+                            z-index: 3;
+                            height: 13rem;
+                        }
+                        &:nth-child(3){
+                            top: auto;
+                            bottom: 0;                            
+                            left: 0;
+                            z-index: 4;
+                            height: 15rem;
+                            
+                        }
+                        &:nth-child(4){
+                            top: auto;                           
+                            left: auto;
+                            right: 0;
+                            bottom: 0;
+                            z-index:3;
+                            height: 15rem;
+                        }
+                        &:nth-child(5){
+                            top: 50%;                            
+                            left:50%;
+                            transform: translate(-50%,-50%);
+                            z-index: 4;
+                            height: 18rem;
+                        }
+
+                    }           
+                }
+
+                & .about_smile{
+                    position: relative;
+                    height: 30rem;
+                    width: 100%;
+                    margin-bottom: 7rem;
+                    & .container{
+                        top : 5rem;
+                        right: 0;
+                        width: 100%;
+                        z-index: 1;
+                        height: 20rem;
+                        background-color: $about-bg;
+                        position: absolute;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+                        & h5{
+                            font-size: 1.8rem;
+                            padding: 0 1.8rem;
+                            text-align: left;
+                            color : $text-light;
+                        }
+                        
+                        & p{
+                            color : $text-light;
+                            margin-top: 1.5rem;
+                            font-size: 1rem;
+                            padding: 0 4rem 0 2.2rem;
+                            text-align: justify;
+                        }
+                    }
+
+                }
+
+            }
+        }
+    }
+
+
+
+
+    //Footer
+    .footer_outer{
+
+        background-color: $bg;
+        height: 15rem;
+        z-index: 0;
+        // overflow: hidden;
+        & .footer_inner{
+            position: relative;
+            display: flex;
+            // height: 100%;
+            & img{
+                position: absolute;
+                bottom : 0;
+            }
+            
+            & .footer_details{
+                width: 100%;
+                display: grid;
+                grid-template-columns: 0.5fr repeat(3,5fr) 1fr;
+                height: 100%;
+                & .part1{
+                    grid-column: 2/3;
+                    width: 100%;
+                    // height: 33rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items : center;
+                    & img{
+                        // bottom: 3rem;
+                        max-height: 5rem;
+                        width: auto;
+                    }
+                }
+                & .part2{
+                    position: relative;
+                    // top: 6rem;
+                    grid-column: 3/4;
+                    width: 100%;
+                    // height: 33rem;
+                    display: flex;
+                    flex-direction: column;
+                    justify-self: center;
+                    align-self : center;
+                    row-gap: 2rem;
+                    
+                    
+
+                    & .social_links{
+                        z-index: 4;
+                        & .css-78trlr-MuiButtonBase-root-MuiIconButton-root {
+                            font-size: 1.2rem;
+    
+                        }
+                    }
+
+
+                }
+                
+                
+                
+                & .part3{
+                    position: relative;
+                    grid-column: 4/5;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items : center;
+
+                    & .contact_info{
+                        z-index: 4;
+                        font-size: 1rem;
+                        padding-left: 1rem;
+                        // margin-top: 4rem;
+                        & .con{
+                            display: flex;
+                            column-gap: 2rem;
+                            margin-bottom: 1rem;
+                            & .con_icons{
+                                height: 1.2rem;
+                            }
+                        }
+                    }
+                }
+            }   
+        }
+    }
+
+
+
+
+}
+
+

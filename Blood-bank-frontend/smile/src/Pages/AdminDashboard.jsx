@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom'
 import { ChakraProvider, Skeleton, HStack} from '@chakra-ui/react';
 import { jwtDecode } from 'jwt-decode';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
+import AdminNavbar from '../Components/AdminNavbar';
 
 
 
@@ -33,8 +34,8 @@ const AdminDashboard = (props) => {
     
     const navigate = useNavigate()
     //Drawers
-    const { window } = props;
-    const [mobileOpen, setMobileOpen] = useState(false);
+   
+    
     const [tab , setTab] = useState('Match Donors');
     const [showDonorList , setShowDonorList] = useState(false)
     const [conDonationsRows, setconDonationsRows] = useState();
@@ -219,113 +220,24 @@ const AdminDashboard = (props) => {
         }
     }
     
-    const handleDrawerToggle = () => { setMobileOpen(!mobileOpen) };
+
 
     const changeSelectionModel = (id) =>{ setShowDonorList(true)}
 
 
     
     
-    //Nav Drawer 
-    const NavDrawer = (
-        <Box sx={{
-            backgroundColor : '#f0828b',
-            height : '100%',
-        }}>
-            <Toolbar/>
-            <Divider />
-            <List>
-                {['Match Donors' , 'Confirm Donations'].map((text, index) => (
-                <ListItem key={text} disablePadding onClick={e => setTab(e.target.innerHTML)}>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            {index % 2 === 0 ? <JoinLeftTwoToneIcon fontSize='large' /> : <WaterDropTwoToneIcon fontSize='large' />}
-                        </ListItemIcon>
-                        <ListItemText primary={text}/>
-                    </ListItemButton>
-                </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                <ListItem disablePadding onClick={logout}>
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <LogoutTwoToneIcon fontSize='large' />
-                        </ListItemIcon>
-                        <ListItemText primary='Logout' />
-                    </ListItemButton>
-
-                </ListItem>
-            </List>
-        </Box>
-    );
-
-    const container = window !== undefined ? () => window().document.body : undefined;
-    // console.log(rowSelectionModel)
+    
+   
     return (
         <>
             <div className="admin_outer_div">
-                <div className="admin_inner_div">
+                <div className="admin_dashboard">
                     {
                         !loadingPage ? (
-                            <Box sx={{ display: 'flex',  }}>
-                                <CssBaseline />
-                                <AppBar
-                                    position="fixed"
-                                    sx={{
-                                        width: { sm: `calc(100% - ${drawerWidth}px)` },
-                                        ml: { sm: `${drawerWidth}px` },
-                                        backgroundColor : '#c74d57'    
-                                    }}
-                                >
-                                    <Toolbar>
-                                    <IconButton
-                                        color="inherit"
-                                        aria-label="open drawer"
-                                        edge="start"
-                                        onClick={handleDrawerToggle}
-                                        sx={{ mr: 2, display: { sm: 'none' } }}
-                                    >
-                                        <MenuIcon />
-                                    </IconButton>
-                                    <Typography variant="h3" noWrap component="div">
-                                        Admin Dashboard
-                                    </Typography>
-                                    </Toolbar>
-                                </AppBar>
-                                <Box
-                                    component="nav"
-                                    sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-                                    aria-label="mailbox folders"
-                                >
-                                    <Drawer
-                                        container={container}
-                                        variant="temporary"
-                                        open={mobileOpen}
-                                        onClose={handleDrawerToggle}
-                                        ModalProps={{
-                                            keepMounted: true, 
-                                        }}
-                                        sx={{
-                                            display: { xs: 'block', sm: 'none' },
-                                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                                            backgroundColor : '#c74d57'
-                                        }}
-                                    >
-                                        {NavDrawer}
-                                    </Drawer>
-                                    <Drawer
-                                        variant="permanent"
-                                        sx={{
-                                            display: { xs: 'none', sm: 'block' },
-                                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                                        }}
-                                        open
-                                    >
-                                        {NavDrawer}
-                                    </Drawer>
-                                </Box>
+                            <>
+
+                                <AdminNavbar />
                                 <Box
                                     component="main"
                                     sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
@@ -371,7 +283,7 @@ const AdminDashboard = (props) => {
                                         )
                                     }
                                 </Box>
-                            </Box> 
+                            </>
                         ) : (
                             <ChakraProvider>
                                 

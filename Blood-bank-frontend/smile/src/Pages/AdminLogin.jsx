@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { ChakraProvider, Heading, Button, FormControl, FormLabel, Input, Icon, InputGroup, InputLeftAddon, HStack, VStack, InputRightElement} from '@chakra-ui/react'
-import { User , Password, Eye, EyeSlash} from '@phosphor-icons/react'
+import { User , Password, Eye, EyeSlash, SignIn} from '@phosphor-icons/react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
-
-
-
+import LoginIcon from '@mui/icons-material/Login';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const AdminLogin = () => {
     axios.defaults.withCredentials = true
@@ -47,7 +47,7 @@ const AdminLogin = () => {
                         icon : 'success'
                     }).then((res)=>{
                         if(res.isConfirmed || res.dismiss == 'backdrop'){
-                            navigate('/admindashboard')
+                            navigate('/admindashboard/matchdonor')
                         }
                     })
                     setIsLoading(false)
@@ -66,7 +66,6 @@ const AdminLogin = () => {
     return (
         <>
             <div className="admin_outer_div">
-                <div className="admin_inner_div">
                     <div className="admin_login">
                         <div className="admin_login_form">
                             <ChakraProvider>
@@ -75,8 +74,8 @@ const AdminLogin = () => {
                                         <FormControl mt={15} isRequired width='35rem'>
                                             <FormLabel fontSize='1.4rem' htmlFor='username'>Username</FormLabel>
                                             <InputGroup>
-                                                <InputLeftAddon backgroundColor='red.200' height={30}>
-                                                    <Icon as={User} boxSize={8} weight='duotone' color='#ce2432' />
+                                                <InputLeftAddon backgroundColor='#d71414' height={30}>
+                                                    <Icon as={User} boxSize={8} weight='duotone' color='#f0e3e4' />
                                                 </InputLeftAddon>
                                                 <Input variant='outline'
                                                         backgroundColor='red.50'
@@ -95,8 +94,8 @@ const AdminLogin = () => {
                                         <FormControl mt={15} isRequired width='35rem'>
                                             <FormLabel fontSize='1.4rem' htmlFor='password'>Password</FormLabel>
                                             <InputGroup>
-                                                <InputLeftAddon backgroundColor='red.200' height={30}>
-                                                    <Icon as={Password} boxSize={8} weight='duotone' color='#ce2432' />
+                                                <InputLeftAddon backgroundColor='#d71414' height={30}>
+                                                    <Icon as={Password} boxSize={8} weight='duotone' color='#f0e3e4' />
                                                 </InputLeftAddon>
                                                 <Input variant='outline'
                                                         backgroundColor='red.50'
@@ -110,14 +109,16 @@ const AdminLogin = () => {
                                                         value={adminInfo.password} 
                                                         onChange={e =>  setAdminInfo({...adminInfo , password: e.target.value})} 
                                                 />
-                                                <InputRightElement height={30} width={35} onClick={e => setShowPassword(!showPassword)}>
+                                                <InputRightElement height={30} width={35} bgColor='#d71414' onClick={e => setShowPassword(!showPassword)}>
                                                     <Button
+                                                        bgColor='#d71414'
+                                                        _hover={{bg:'#d71414'}}
                                                         // width='4.5rem'
                                                     >
 
                                                     {
-                                                        showPassword ? (<Icon as={EyeSlash} boxSize={8} weight='duotone' color='#ce2432' />) : ( 
-                                                            <Icon as={Eye} boxSize={8} weight='duotone' color='#ce2432' />
+                                                        showPassword ? (<Icon as={VisibilityIcon} boxSize={8} weight='duotone' color='#f0e3e4' />) : ( 
+                                                            <Icon as={VisibilityOffIcon} boxSize={8} weight='duotone' color='#f0e3e4' />
                                                         )
                                                     }
                                                     </Button>
@@ -125,8 +126,10 @@ const AdminLogin = () => {
                                             </InputGroup>
                                         </FormControl>
                                         <HStack mt={16} mb={26}>
-                                            <Button size='lg' color="red.500" bg="red.200" 
-                                                    _hover={{color:'red.50' , bg: 'red.400'}} 
+                                            <Button
+                                                    leftIcon={<LoginIcon fontSize='24px' />}     
+                                                    size='lg' color="black" bg="#d7141450" 
+                                                    _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
                                                     isLoading={isLoading}
                                                     height='35px'
                                                     width='120px'
@@ -142,7 +145,6 @@ const AdminLogin = () => {
                             </ChakraProvider>
                         </div>
                     </div>
-                </div>
             </div>
         </>
     )

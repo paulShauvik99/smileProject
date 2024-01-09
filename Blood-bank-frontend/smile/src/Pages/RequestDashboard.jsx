@@ -42,8 +42,9 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 
 
+
 // Email Regex
-const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 //Accepted File Types
 const fileTypes = ['jpg', 'png', 'jpeg']
 
@@ -163,33 +164,6 @@ ColorlibStepIcon.propTypes = {
      */
     icon: PropTypes.node,
 };
-
-
-//Function to Create Circular Progress
-function CircularProgressWithLabel(props) {
-    return (
-        <Box sx={{ position: 'relative', display: 'inline-flex', justifyContent:'center', alignItems:'center' , height: '36rem' , width: '36rem' }}>
-            <CircularProgress variant="determinate" size="20rem" {...props} />
-            <Box
-            sx={{
-                top: 0,
-                left: 0,
-                bottom: 0,
-                right: 0,
-                position: 'absolute',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}
-            >
-                <Typography variant="h1" component="h1" color="text.secondary">
-                    {`${Math.round(props.value)}%`}
-                </Typography>
-            </Box>
-        </Box>
-    );
-}
-
 
 
 
@@ -747,11 +721,10 @@ export default function RequestDashboard() {
                                 </InputGroup>
                             </FormControl>
                             <div className="receipt_input" onClick={clickReceipt}>
-                                <div className="main">
-                                    <CloudArrowUp size={38} color="#ec3c3c" weight="duotone" />
+                                
+                                    <CloudArrowUp size={50} color="#ec3c3c" weight="duotone" />
                                     Upload Your Receipt
-                                </div>
-                                <p> (Only .jpg, .jpeg and .png images are supported. And size less than 500KB ) </p>
+                                <p> (Only .jpg, .jpeg and .png images are supported. And size less than 200KB ) </p>
                             </div>
                         </GridItem>
 
@@ -782,15 +755,25 @@ export default function RequestDashboard() {
 
 
     //function to submit Patient Request
-    const placeRequest = async (patDet) =>{
+    const placeRequest = async (patDet) =>{ 
 
-        console.log(patientDetails)
-
-        if(patientDetails.donBlood === '' || patientDetails.bloodBankName < 3 || patientDetails.donationReceipt === undefined || patientDetails.donationReceipt === '' || (patientDetails.donorName < 3 && patientDetails.donorName !== '') || patientDetails.donationDate === '' ){
-            toast.error("Please enter your details correctly before continuing.")
-            return
+        // console.log(patientDetails)
+        if(controlStep){
+            if(patientDetails.bloodGroup === '' || patientDetails.hospitalName < 3 ){
+                toast.error("Please enter the details correctly before submitting.")
+                return
+            }else if(['A+','B+','O+','AB+'].includes(patientDetails.bloodGroup) && !patientDetails.isThalassemia && !patientDetails.hasCancer) {
+                toast.error("Only Patients having negative blood groups, patients having thalassemia/cancer are allowed to place requests for first donation.")
+                return
+            }
+        }else{
+            if(patientDetails.donBlood === '' || patientDetails.bloodBankName < 3 || patientDetails.donationReceipt === undefined || patientDetails.donationReceipt === '' || (patientDetails.donorName < 3 && patientDetails.donorName !== '') || patientDetails.donationDate === '' ){
+                toast.error("Please enter your details correctly before continuing.")
+                return
+            }
         }
 
+        const formData = new FileReader();
         //Complete the Function
         setLoadingBtn(true)
         const data = {
@@ -809,11 +792,17 @@ export default function RequestDashboard() {
             donorName : patDet.donorName,
             donationDate : patDet.donationDate,
             donationReceipt : patDet.donationReceipt,
-            units : 1,
+            firstDonCheck : controlStep,
         }
 
+        Object.entries(data).forEach(([key, value]) => {
+            formData.append(key, value);
+          });
+        console.log(data)
+        console.log(formData)
+
         try {
-            const res = await axios.post('http://127.0.0.1:8000/recipient/request_blood/',JSON.stringify(data))
+            const res = await axios.post('http://127.0.0.1:8000/recipient/request_blood/',formData);
             console.log(res)
             Swal.fire({
                 text : res.data.success,
