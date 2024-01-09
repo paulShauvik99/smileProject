@@ -45,7 +45,9 @@ yarn-error.log*
 __pycache__
 db.sqlite3
 media
-
+media/*
+**/media/
+/media/
 # Backup files # 
 *.bak 
 
