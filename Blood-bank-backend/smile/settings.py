@@ -54,6 +54,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'recipient.apps.RecipientConfig',
     'donor.apps.DonorConfig',
+    'adminUser.apps.AdminuserConfig',
     'corsheaders',#custom addded
     'django.contrib.admin',
     'django.contrib.auth',
@@ -77,7 +78,7 @@ MIDDLEWARE = [
 ]
 
 
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000', ]
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000','http://localhost:3000' ]
 
 #CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
@@ -91,7 +92,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # custom added
 CORS_ALLOWED_ORIGINS = [
    
-    'http://127.0.0.1:3000'
+    'http://127.0.0.1:3000',
+    'http://localhost:3000'
     
 
   ]

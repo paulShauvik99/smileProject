@@ -1,19 +1,17 @@
-from djongo import models
+from django.db import models
 from django.utils import timezone
 import uuid
 
 
 class FirstDonationDetails(models.Model):
-    donBlood = models.CharField(default="", max_length = 30)
-    bloodBankName= models.CharField(default="", max_length = 30)
-    donorName = models.CharField(default="", max_length = 30)
-    donationDate = models.DateField(default = timezone.now)
-    donationReceipt = models.ImageField(upload_to="receipts/")
-
-    class Meta :
-        abstract = True
+    id = models.UUIDField(primary_key=True,default= uuid.uuid4,  editable=False)
+    donBlood = models.CharField(default="", max_length = 30,null=True)
+    bloodBankName= models.CharField(default="", max_length = 30,null=True)
+    donorName = models.CharField(default="", max_length = 30,null=True)
+    donationDate = models.DateField(default = timezone.now,null=True)
+    donationReceipt = models.ImageField(upload_to="receipts/",null=True)
     def __str__(self) -> str:
-        return self.donBlood
+        return self.donorName
 
 # Create your models here.
 class Recipient(models.Model):
@@ -31,15 +29,10 @@ class Recipient(models.Model):
     isThalassemia = models.BooleanField(default = False,null=True)
     hasCancer = models.BooleanField(default= False,null=True)
     firstDonCheck = models.BooleanField(default = False,null=True)
-    firstDonation = models.EmbeddedField(
-        model_container= FirstDonationDetails, null = True
-    )
+    firstDonation = models.ForeignKey(FirstDonationDetails, null=True, on_delete=models.SET_NULL)
     date = models.DateField(timezone.now)
     status = models.CharField(default="Pending",max_length=10)
-    objects = models.DjongoManager()
 
-    
-    
 
     def __str__(self) -> str:
         return self.firstName

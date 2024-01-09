@@ -2,7 +2,7 @@ from django.shortcuts import render
 import json
 
 import datetime
-from recipient.models import Recipient
+from recipient.models import Recipient,FirstDonationDetails
 from donor.models import Donor,Calender
 from django.http import JsonResponse
 import datetime
@@ -90,20 +90,22 @@ def request_blood(request):
 
         
         
-        FirstDonationDetails = None
+        
         if firstDonCheck :
+            firstDonation = FirstDonationDetails().save()
             if hasCancer == True or isThalassemia == True or (bloodGroup in ['A-', 'B-','AB-','O-']):
                 pass
             else :
                 return JsonResponse({"error" : "First Donation Validation Error"},status=500)
         else:
-            FirstDonationDetails = {
-                "donBlood" : donBlood,
-                "bloodBankName" : bloodBankName,
-                "donorName" : donorName,
-                "donationDate" : datetime.datetime.strptime(donationDate,date_format).date(),
-                "donationReceipt" : image_file
-            }
+            firstDonation = FirstDonationDetails(
+                donBlood = donBlood,
+                bloodBankName = bloodBankName,
+                donorName = donorName,
+                donationDate = datetime.datetime.strptime(donationDate,date_format).date(),
+                donationReceipt = image_file
+            )
+            firstDonation.save()
             fs = FileSystemStorage()
 
             # save the image on MEDIA_ROOT folder
@@ -155,7 +157,7 @@ def request_blood(request):
             isThalassemia = isThalassemia,
             hasCancer  = hasCancer,
             firstDonCheck = firstDonCheck,
-            firstDonation = FirstDonationDetails
+            firstDonation = firstDonation
             )
             new_recipient.save()
 
@@ -184,10 +186,9 @@ def get_available_dates(request):
         # if phoneNumber is None:
         #     return JsonResponse({"error" : "Invalid Session Id"},status =401)
         try:
-            dates = Calender.objects.all()
-            data = {}
-            for date in dates:
-                data[str(date.date.day)] =str(date.quantity)
+            calender = Calender.objects.first()
+            data = {"quantity" : calender.quantity}
+            
         except Exception as e:
             return JsonResponse({"error" : "Something Went Wrong"},status=500)
         return JsonResponse({"status" : "success","dates" : data},status=200)
