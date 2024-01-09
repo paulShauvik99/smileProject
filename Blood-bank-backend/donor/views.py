@@ -152,7 +152,7 @@ def send_otp(request):
 
             
             message = client.messages.create(
-                body="Hi, your otp is" + otp,
+                body="Hi, your otp is " + otp,
                 to=to,
                 from_=from_
             )
@@ -190,7 +190,7 @@ def verify_otp(request):
             
             type = jwt.encode({'isDonor': isDonor,"isRecipient" : isRecipient}, key, algorithm='HS256')
 
-            request.session.set_expiry(20*60)
+            request.session.set_expiry(24*60*60)
             
             if status == False:
                 return JsonResponse({"error" : "Incorrect OTP"  },status=400)
@@ -240,7 +240,7 @@ def donor_send_otp(request):
             from_ = settings.TWILIO_PHONE_NUMBER
             
             message = client.messages.create(
-                body="Hi , your otp is" + otp,
+                body="Hi , your otp is " + otp,
                 to=to,
                 from_=from_
             )
@@ -276,14 +276,25 @@ def get_donor_records(request):
                                     } for donor in donorList]
                 print(donor_list_data)
             donorDetailsObj = Donor.objects.filter(phoneNumber=phoneNumber).first()
+            
+            last_donation_date = donorDetailsObj.lastDonated
+            current_date = datetime.now().date()
+            difference = current_date - last_donation_date
+            #difference_in_months = (current_date.year - last_donation_date.year) * 12 + current_date.month - last_donation_date.month
+            is_eligible = difference.days > 90 
+            print(difference.days)
             donorDetails = {
                 "id" : donorDetailsObj.id,
                 "firstName" : donorDetailsObj.firstName,
+                "lastName" : donorDetailsObj.lastName,
                  "lastDonated" : donorDetailsObj.lastDonated,
                  "phoneNumber" : donorDetailsObj.phoneNumber,
                  "emailId" : donorDetailsObj.email,
                  "address" : donorDetailsObj.address,
                  "bloodGroup" : donorDetailsObj.bloodGroup,
+                 'totalDonation' : donorDetailsObj.totalDonation,
+                 'isEligible' : is_eligible
+
 
                 
             }

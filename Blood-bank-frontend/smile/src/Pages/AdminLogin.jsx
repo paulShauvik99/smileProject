@@ -33,7 +33,7 @@ const AdminLogin = () => {
         }else{
             try {
                 setIsLoading(true)
-                const res = await axios.post('http://127.0.0.1:8000/admin/admin_login/', data)
+                const res = await axios.post('http://127.0.0.1:8000/adminUser/admin_login/', JSON.stringify(data))
                 console.log(res)
                 if('success' in res.data){
                     const now = new Date().getTime()

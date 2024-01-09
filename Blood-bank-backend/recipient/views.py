@@ -2,7 +2,7 @@ from django.shortcuts import render
 import json
 
 import datetime
-from recipient.models import Recipient
+from recipient.models import Recipient,FirstDonationDetails
 from donor.models import Donor,Calender
 from django.http import JsonResponse
 import datetime
@@ -84,26 +84,41 @@ def request_blood(request):
         # dateString = body['date']
         date_format = '%Y-%m-%d'
         image_file = request.FILES.get('image')
-        print(type(image_file))
+        birthDateObj = datetime.datetime.strptime(dob, date_format)
+       
 
+        current_date_string= datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
+        current_date = datetime.datetime.strptime(current_date_string, "%Y-%m-%d").date()
 
-
+        try:
+            recipient = Recipient.objects.filter(phoneNumber = phoneNumber,status__in = ['Confirmed' ,'Pending']).order_by("-date").first()
+            if recipient is not None:
+                #lastRecieved = datetime.datetime.strptime(recipient.date,"%Y-%m-%d").date()
+                print((current_date.year - recipient.date.year)*365 +( current_date.month-recipient.date.month)*30 + (current_date.day - recipient.date.day))
+                if (current_date.year - recipient.date.year)*365 +( current_date.month-recipient.date.month)*30 + (current_date.day - recipient.date.day) <15:
+                    return JsonResponse({"error" : "Cannot place request withing 15 days of last recieved"},status = 400)
+            
+            
+        except Exception as e:
+            print(e)
+            return JsonResponse({"error" : "Something went wrong"},status = 400)
         
         
-        FirstDonationDetails = None
         if firstDonCheck :
+            firstDonation = FirstDonationDetails().save()
             if hasCancer == True or isThalassemia == True or (bloodGroup in ['A-', 'B-','AB-','O-']):
                 pass
             else :
                 return JsonResponse({"error" : "First Donation Validation Error"},status=500)
         else:
-            FirstDonationDetails = {
-                "donBlood" : donBlood,
-                "bloodBankName" : bloodBankName,
-                "donorName" : donorName,
-                "donationDate" : datetime.datetime.strptime(donationDate,date_format).date(),
-                "donationReceipt" : image_file
-            }
+            firstDonation = FirstDonationDetails(
+                donBlood = donBlood,
+                bloodBankName = bloodBankName,
+                donorName = donorName,
+                donationDate = datetime.datetime.strptime(donationDate,date_format).date(),
+                donationReceipt = image_file
+            )
+            firstDonation.save()
             fs = FileSystemStorage()
 
             # save the image on MEDIA_ROOT folder
@@ -118,25 +133,12 @@ def request_blood(request):
         
         
         
-        birthDateObj = datetime.datetime.strptime(dob, date_format)
+        
       
         
-        current_date_string= datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
-        current_date = datetime.datetime.strptime(current_date_string, "%Y-%m-%d").date()
+       
 
-
-        try:
-            recipient = Recipient.objects.filter(phoneNumber = phoneNumber,status__in = ['Confirmed' ,'Pending']).order_by("-date").first()
-            if recipient is not None:
-                #lastRecieved = datetime.datetime.strptime(recipient.date,"%Y-%m-%d").date()
-                print((current_date.year - recipient.date.year)*365 +( current_date.month-recipient.date.month)*30 + (current_date.day - recipient.date.day))
-                if (current_date.year - recipient.date.year)*365 +( current_date.month-recipient.date.month)*30 + (current_date.day - recipient.date.day) <15:
-                    return JsonResponse({"error" : "Cannot place request withing 15 days of last recieved"},status = 400)
-            
-            
-        except Exception as e:
-            print(e)
-            return JsonResponse({"error" : "Something went wrong"},status = 400)
+        
          
 
         try:
@@ -155,7 +157,7 @@ def request_blood(request):
             isThalassemia = isThalassemia,
             hasCancer  = hasCancer,
             firstDonCheck = firstDonCheck,
-            firstDonation = FirstDonationDetails
+            firstDonation = firstDonation
             )
             new_recipient.save()
 
@@ -184,10 +186,9 @@ def get_available_dates(request):
         # if phoneNumber is None:
         #     return JsonResponse({"error" : "Invalid Session Id"},status =401)
         try:
-            dates = Calender.objects.all()
-            data = {}
-            for date in dates:
-                data[str(date.date.day)] =str(date.quantity)
+            calender = Calender.objects.first()
+            data = {"quantity" : calender.quantity}
+            
         except Exception as e:
             return JsonResponse({"error" : "Something Went Wrong"},status=500)
         return JsonResponse({"status" : "success","dates" : data},status=200)

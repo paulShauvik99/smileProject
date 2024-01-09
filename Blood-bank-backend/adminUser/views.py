@@ -58,8 +58,11 @@ def get_donor_list(request):
             donor_list_obj  = Donor.objects.filter(lastDonated__lte = three_months_ago).all()
             
             donor_list_data = []
+            sl = 1
             if donor_list_obj:
-                donor_list_data = [{'id': donor.id, 
+                donor_list_data = [{
+                                    'sl': index + 1,
+                                    'id': donor.id, 
                                     'lastDonated': donor.lastDonated, 
                                     'firstName': donor.firstName,
                                     'lastName': donor.lastName,
@@ -68,7 +71,7 @@ def get_donor_list(request):
                                     'phoneNumber' : donor.phoneNumber,
                                     'address' : donor.address,
                                     'totalDonation' : donor.totalDonation,
-                                    } for donor in donor_list_obj]
+                                    } for index, donor in enumerate(donor_list_obj)]
             
            
 
@@ -145,19 +148,32 @@ def get_recipient_list(request):
             current_date_string= datetime.now(tz=pytz.timezone('Asia/Kolkata')).date()
             recipientList = Recipient.objects.filter(date = current_date_string).all()
             recipient_list_data=[]
+            sl = 1
             if recipientList:
-                recipient_list_data = [{'id': recipient.id,  
-                                    'firstName': recipient.firstName,
-                                    'lastName': recipient.lastName,
-                                    'isThalassemia' : recipient.isThalassemia,
-                                    'hasCancer' : recipient.hasCancer,
-                                    'hospitalName' : recipient.hospitalName,
-                                    'firstDonation' : recipient.firstDonation,
-                                    'firstDonCheck' : recipient.firstDonCheck,
-                                    'bloodGroup' : recipient.bloodGroup,
-                                    'phoneNumber' : recipient.phoneNumber,
-                                    'address' : recipient.address,
-                                    } for recipient in recipientList]
+                for recipient in recipientList:
+                    firstDonation={}
+                    if recipient.firstDonation:
+                        firstDonation = {
+                                            'donBlood' : recipient.firstDonation.donBlood,
+                                            'bloodBankName':recipient.firstDonation.bloodBankName,
+                                            'donorName':recipient.firstDonation.donorName,
+                                            'donationDate':recipient.firstDonation.donationDate,
+                                            'donationReceipt': 'http://127.0.0.1' + recipient.firstDonation.donationReceipt.url
+                                        }
+                    recipient_list_data.append({'id': recipient.id,  
+                                                'sl' : sl,
+                                        'firstName': recipient.firstName,
+                                        'lastName': recipient.lastName,
+                                        'isThalassemia' : recipient.isThalassemia,
+                                        'hasCancer' : recipient.hasCancer,
+                                        'hospitalName' : recipient.hospitalName,
+                                        'firstDonation' : firstDonation,
+                                        'firstDonCheck' : recipient.firstDonCheck,
+                                        'bloodGroup' : recipient.bloodGroup,
+                                        'phoneNumber' : recipient.phoneNumber,
+                                        'address' : recipient.address,
+                                        })
+                    sl+=1
             return JsonResponse({'success' : 'returned successsfully', 'list' : recipient_list_data},status =200)
         except Exception as e:
             print(e)
@@ -224,7 +240,7 @@ def admin_login(request):
             if user is not None:
                 # Log in the authenticated user
                 login(request, user)
-                request.session.set_expiry(45*60)
+                request.session.set_expiry(24*60*60)
 
                 is_staff = user.is_superuser
                 #newline update
