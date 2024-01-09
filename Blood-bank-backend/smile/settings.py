@@ -18,7 +18,11 @@ import os
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+
+
 
 
 
@@ -140,6 +144,10 @@ TEMPLATES = [
     },
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 WSGI_APPLICATION = 'smile.wsgi.application'
 
 
@@ -200,7 +208,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend', # default authentication

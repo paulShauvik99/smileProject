@@ -8,10 +8,12 @@ class FirstDonationDetails(models.Model):
     bloodBankName= models.CharField(default="", max_length = 30)
     donorName = models.CharField(default="", max_length = 30)
     donationDate = models.DateField(default = timezone.now)
-    donationReceipt = models.TextField(default="")
+    donationReceipt = models.ImageField(upload_to="receipts/")
 
     class Meta :
         abstract = True
+    def __str__(self) -> str:
+        return self.donBlood
 
 # Create your models here.
 class Recipient(models.Model):
@@ -34,12 +36,10 @@ class Recipient(models.Model):
     )
     date = models.DateField(timezone.now)
     status = models.CharField(default="Pending",max_length=10)
+    objects = models.DjongoManager()
 
     
     
 
     def __str__(self) -> str:
         return self.firstName
-
-
-    

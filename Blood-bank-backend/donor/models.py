@@ -17,26 +17,10 @@ class Donor(models.Model):
     address  = models.TextField(default="",max_length=500)
     weight = models.CharField(default ="",max_length=4)
     thalassemia = models.CharField(default ="",max_length=4)
+    totalDonation = models.IntegerField(default = 0,null=False)
     def __str__(self) :
         return self.firstName
-    
 
-
-
-   
-
-    
-
-
-class MatchedDonor(models.Model):
-    id  = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    recipient = models.UUIDField(null=True,default=None)
-    donor = models.UUIDField( null=True,default=None)
-    status = models.CharField(default="Pending",max_length=10)
-    donated = models.CharField(default="No",max_length=10)
-    date = models.DateField(timezone.now)
-    def __str__(self):
-        return str(self.id)
 
 class Calender(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
