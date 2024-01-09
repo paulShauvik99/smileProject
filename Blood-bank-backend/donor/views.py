@@ -152,7 +152,7 @@ def send_otp(request):
 
             
             message = client.messages.create(
-                body="Hi, your otp is" + otp,
+                body="Hi, your otp is " + otp,
                 to=to,
                 from_=from_
             )
@@ -240,7 +240,7 @@ def donor_send_otp(request):
             from_ = settings.TWILIO_PHONE_NUMBER
             
             message = client.messages.create(
-                body="Hi , your otp is" + otp,
+                body="Hi , your otp is " + otp,
                 to=to,
                 from_=from_
             )

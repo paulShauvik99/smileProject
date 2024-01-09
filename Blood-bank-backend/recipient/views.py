@@ -84,11 +84,24 @@ def request_blood(request):
         # dateString = body['date']
         date_format = '%Y-%m-%d'
         image_file = request.FILES.get('image')
-        print(type(image_file))
+        birthDateObj = datetime.datetime.strptime(dob, date_format)
+       
 
+        current_date_string= datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
+        current_date = datetime.datetime.strptime(current_date_string, "%Y-%m-%d").date()
 
-
-        
+        try:
+            recipient = Recipient.objects.filter(phoneNumber = phoneNumber,status__in = ['Confirmed' ,'Pending']).order_by("-date").first()
+            if recipient is not None:
+                #lastRecieved = datetime.datetime.strptime(recipient.date,"%Y-%m-%d").date()
+                print((current_date.year - recipient.date.year)*365 +( current_date.month-recipient.date.month)*30 + (current_date.day - recipient.date.day))
+                if (current_date.year - recipient.date.year)*365 +( current_date.month-recipient.date.month)*30 + (current_date.day - recipient.date.day) <15:
+                    return JsonResponse({"error" : "Cannot place request withing 15 days of last recieved"},status = 400)
+            
+            
+        except Exception as e:
+            print(e)
+            return JsonResponse({"error" : "Something went wrong"},status = 400)
         
         
         if firstDonCheck :
@@ -120,25 +133,12 @@ def request_blood(request):
         
         
         
-        birthDateObj = datetime.datetime.strptime(dob, date_format)
+        
       
         
-        current_date_string= datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
-        current_date = datetime.datetime.strptime(current_date_string, "%Y-%m-%d").date()
+       
 
-
-        try:
-            recipient = Recipient.objects.filter(phoneNumber = phoneNumber,status__in = ['Confirmed' ,'Pending']).order_by("-date").first()
-            if recipient is not None:
-                #lastRecieved = datetime.datetime.strptime(recipient.date,"%Y-%m-%d").date()
-                print((current_date.year - recipient.date.year)*365 +( current_date.month-recipient.date.month)*30 + (current_date.day - recipient.date.day))
-                if (current_date.year - recipient.date.year)*365 +( current_date.month-recipient.date.month)*30 + (current_date.day - recipient.date.day) <15:
-                    return JsonResponse({"error" : "Cannot place request withing 15 days of last recieved"},status = 400)
-            
-            
-        except Exception as e:
-            print(e)
-            return JsonResponse({"error" : "Something went wrong"},status = 400)
+        
          
 
         try:
