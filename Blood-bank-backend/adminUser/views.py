@@ -158,7 +158,7 @@ def get_recipient_list(request):
                                             'bloodBankName':recipient.firstDonation.bloodBankName,
                                             'donorName':recipient.firstDonation.donorName,
                                             'donationDate':recipient.firstDonation.donationDate,
-                                            'donationReceipt': 'http://127.0.0.1' + recipient.firstDonation.donationReceipt.url
+                                            'donationReceipt': 'http://127.0.0.1:8000' + recipient.firstDonation.donationReceipt.url
                                         }
                     recipient_list_data.append({'id': recipient.id,  
                                                 'sl' : sl,
@@ -172,6 +172,7 @@ def get_recipient_list(request):
                                         'bloodGroup' : recipient.bloodGroup,
                                         'phoneNumber' : recipient.phoneNumber,
                                         'address' : recipient.address,
+                                        'status' : recipient.status,
                                         })
                     sl+=1
             return JsonResponse({'success' : 'returned successsfully', 'list' : recipient_list_data},status =200)

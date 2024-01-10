@@ -188,9 +188,9 @@ const DonorDashboard = () => {
                                             <div className="main">
                                                     <div className="upper">     
                                                         <div className="first">
-                                                            <Avatar {...stringAvatar('Kasturi Borua')}/>
+                                                            <Avatar {...stringAvatar(`${donorDetails.firstName} ${donorDetails.lastName}`)}/>
                                                             <Typography variant="h3" >
-                                                                Hi, {donorDetails.firstName}
+                                                                Hi, {`${donorDetails.firstName} ${donorDetails.lastName}`}
                                                             </Typography>
                                                         </div>    
                                                         <div className="second">
@@ -216,12 +216,16 @@ const DonorDashboard = () => {
                                                     </div>
                                                     <Divider />
                                                     <div className="lower">
-                                                                <Typography variant="h4" m={0.5} mt='1rem' sx={{padding : '0.5rem' , backgroundColor : '#f0e3e4' , borderRadius : '1rem' , fontSize : '2rem', textAlign : 'center', color : '#d71414' }} >
-                                                                    You Have an Upcoming Appointment on <b> 26/01/2024 </b>
+                                                                <Typography variant="h4" m={0.5} mt='1rem' sx={{padding : '0.5rem' , backgroundColor : '#f0e3e4' , borderRadius : '1rem' , fontSize : '2rem', textAlign : 'center', color : '#d71414', fontWeight : 'bold' }} >
+                                                                    {
+                                                                        donorDetails.isEligible ?  "You're Eligible for Donation." : "You're Not Eligible for Donation."
+
+                                                                    }
                                                                 </Typography>                                                               
-                                                        
-                                                                <Typography variant="h5" mt={2} fontSize={24}>
-                                                                    You're Eligible for Donating.
+                                                                <Typography variant="h5" mt={2} fontSize={16}>
+                                                                    {
+                                                                        donorDetails.remainingDays < 0 ? "" : `You'll be eligible for donations after ${donorDetails.remainingDays} days.`
+                                                                    }
                                                                 </Typography>
                                                     </div>
                                             </div>
@@ -241,7 +245,7 @@ const DonorDashboard = () => {
                                             </div>
                                             <div className="requests">
                                                 <Typography variant="h3" >
-                                                    Previous Donations
+                                                    Top Donors
                                                 </Typography>
                                                 <TableComp
                                                     type='donor'

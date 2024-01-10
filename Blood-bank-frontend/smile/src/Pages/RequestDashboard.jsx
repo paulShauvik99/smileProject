@@ -755,93 +755,91 @@ export default function RequestDashboard() {
 
 
     //function to submit Patient Request
-    // const placeRequest = async (patDet) =>{ 
+    const placeRequest = async (patDet) =>{ 
 
-    //     // console.log(patientDetails)
-    //     if(controlStep){
-    //         if(patientDetails.bloodGroup === '' || patientDetails.hospitalName < 3 ){
-    //             toast.error("Please enter the details correctly before submitting.")
-    //             return
-    //         }else if(['A+','B+','O+','AB+'].includes(patientDetails.bloodGroup) && !patientDetails.isThalassemia && !patientDetails.hasCancer) {
-    //             toast.error("Only Patients having negative blood groups, patients having thalassemia/cancer are allowed to place requests for first donation.")
-    //             return
-    //         }
-    //     }else{
-    //         if(patientDetails.donBlood === '' || patientDetails.bloodBankName < 3 || patientDetails.donationReceipt === undefined || patientDetails.donationReceipt === '' || (patientDetails.donorName < 3 && patientDetails.donorName !== '') || patientDetails.donationDate === '' ){
-    //             toast.error("Please enter your details correctly before continuing.")
-    //             return
-    //         }
-    //     }
+        // console.log(patientDetails)
+        if(controlStep){
+            if(patientDetails.bloodGroup === '' || patientDetails.hospitalName < 3 ){
+                toast.error("Please enter the details correctly before submitting.")
+                return
+            }else if(['A+','B+','O+','AB+'].includes(patientDetails.bloodGroup) && !patientDetails.isThalassemia && !patientDetails.hasCancer) {
+                toast.error("Only Patients having negative blood groups, patients having thalassemia/cancer are allowed to place requests for first donation.")
+                return
+            }
+        }else{
+            if(patientDetails.donBlood === '' || patientDetails.bloodBankName < 3 || patientDetails.donationReceipt === undefined || patientDetails.donationReceipt === '' || (patientDetails.donorName < 3 && patientDetails.donorName !== '') || patientDetails.donationDate === '' ){
+                toast.error("Please enter your details correctly before continuing.")
+                return
+            }
+        }
 
-    //     const formData = new FileReader();
-    //     //Complete the Function
-    //     setLoadingBtn(true)
-    //     const data = {
-    //         firstName : patDet.firstName,
-    //         lastName : patDet.lastName,
-    //         dob : patDet.dob,
-    //         email : patDet.email,
-    //         phoneNumber : `+91${patDet.phoneNumber}`,
-    //         address : patDet.address,
-    //         bloodGroup : patDet.bloodGroup,
-    //         isThalassemia : patDet.isThalassemia,
-    //         hospitalName : patDet.hospitalName,
-    //         hasCancer : patDet.hasCancer,
-    //         donBlood : patDet.donBlood,
-    //         bloodBankName : patDet.bloodBankName,
-    //         donorName : patDet.donorName,
-    //         donationDate : patDet.donationDate,
-    //         donationReceipt : patDet.donationReceipt,
-    //         firstDonCheck : controlStep,
-    //     }
+        const formData = new FormData();
+        //Complete the Function
+        setLoadingBtn(true)
+        const data = {
+            firstName : patDet.firstName,
+            lastName : patDet.lastName,
+            dob : patDet.dob,
+            email : patDet.email,
+            phoneNumber : `+91${patDet.phoneNumber}`,
+            address : patDet.address,
+            bloodGroup : patDet.bloodGroup,
+            isThalassemia : patDet.isThalassemia,
+            hospitalName : patDet.hospitalName,
+            hasCancer : patDet.hasCancer,
+            donBlood : patDet.donBlood,
+            bloodBankName : patDet.bloodBankName,
+            donorName : patDet.donorName,
+            donationDate : patDet.donationDate,
+            donationReceipt : patDet.donationReceipt,
+            firstDonCheck : controlStep,
+        }
 
-    //     Object.entries(data).forEach(([key, value]) => {
-    //         formData.append(key, value);
-    //       });
-    //     console.log(data)
-    //     console.log(formData)
+        for(const key in data){
+            formData.append(key, data[key]);
+        }
 
-    //     try {
-    //         const res = await axios.post('http://127.0.0.1:8000/recipient/request_blood/',formData);
-    //         console.log(res)
-    //         Swal.fire({
-    //             text : res.data.success,
-    //             icon : 'success'
-    //         }).then((res)=>{
-    //             setLoadingBtn(false)
-    //             if(res.isConfirmed || res.dismiss === 'backdrop'){
-    //                 handleClose()
-    //                 setReloadApi(!reload)
-    //             }
-    //         })
-    //     } catch (error) {
-    //         console.log(error)
-    //         if(error.response.status == 500){
-    //             Swal.fire({
-    //                 text : 'Please Fill up the Form Correctly',
-    //                 icon : 'warning',
-    //             })
-    //             setLoadingBtn(false)
-    //         }else{
+        try {
+            const res = await axios.post('http://127.0.0.1:8000/recipient/request_blood/',formData);
+            console.log(res)
+            Swal.fire({
+                text : res.data.success,
+                icon : 'success'
+            }).then((res)=>{
+                setLoadingBtn(false)
+                if(res.isConfirmed || res.dismiss === 'backdrop'){
+                    handleClose()
+                    setReloadApi(!reload)
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            if(error.response.status == 500){
+                Swal.fire({
+                    text : 'Please Fill up the Form Correctly',
+                    icon : 'warning',
+                })
+                setLoadingBtn(false)
+            }else{
 
-    //             Swal.fire({
-    //                 text : error.response.data.error,
-    //                 icon : 'warning'
-    //             }).then((res)=>{
-    //                 setLoadingBtn(false)
-    //                 if(res.isConfirmed || res.dismiss === 'backdrop'){
-    //                     setReloadApi(!reload)
-    //                     // handleClose()
-    //                 }
-    //             })
-    //         }
-    //     }
+                Swal.fire({
+                    text : error.response.data.error,
+                    icon : 'warning'
+                }).then((res)=>{
+                    setLoadingBtn(false)
+                    if(res.isConfirmed || res.dismiss === 'backdrop'){
+                        setReloadApi(!reload)
+                        // handleClose()
+                    }
+                })
+            }
+        }
 
 
 
-    // }
+    }
 
-    const urls = ['http://127.0.0.1:8000/recipient/get_available_dates/', 'http://127.0.0.1:8000/recipient/get_recipient_records/']
+    // const urls = ['http://127.0.0.1:8000/recipient/get_available_dates/', 'http://127.0.0.1:8000/recipient/get_recipient_records/']
 
     const loadAPI = async () =>{
         setLoadingPage(true)
