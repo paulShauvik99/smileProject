@@ -115,10 +115,17 @@ const ComplexTable = (props) => {
     const donorListCols = [
         { field: 'id'},
         // { field: 'matched_id', },
-        { field: 'sl', headerName: "SL. No." , width:80, sortable : false, align : 'center',
-            headerAlign : 'center' , filterable : false,
+        { field: 'sl', headerName: "SL. No." , 
+        width:80, 
+        sortable : false, align : 'center',
+            headerAlign : 'center' , 
+            filterable : false,
         },
-        { field: 'name', headerName: "Name" , width: 250, sortable : false, align : 'center', headerAlign : 'center' , filterable : false,
+        { field: 'name', headerName: "Name" , 
+        width: 250,
+         sortable : false, align : 'center',
+         headerAlign : 'center' ,
+          filterable : false,
             valueGetter : (params) =>{
                 return `${params.row.firstName} ${params.row.lastName}`
             }
@@ -207,7 +214,7 @@ const ComplexTable = (props) => {
             width: 190,
             sortable : false,   
             align : 'center',
-            headerAlign: 'center',
+            // headerAlign: 'center',
             filterable : false
 
         },
@@ -217,7 +224,7 @@ const ComplexTable = (props) => {
             type: 'string',
             width: 150,
             align : 'center',
-            headerAlign: 'center',
+            // headerAlign: 'center',
             sortable : false,   
             renderCell : (params) =>{
                 return (<Link onClick={props.viewPrevDonation}> View Receipt </Link>)
@@ -276,18 +283,19 @@ const ComplexTable = (props) => {
 
     return (
         <>
-            <Box sx={{ height: 400,  backgroundColor: '#daccca', mt : 15,   borderRadius: '2.5rem' , borderLeft: '3px solid rgba(255, 255, 255, 0.7)', boxShadow: '0 0 4rem rgba(0, 0, 0, 0.6)'}}>
+            <Box className={props.type} sx={{ height: 400,  backgroundColor: '#daccca', mt : 15,  borderRadius: '2.5rem' , borderLeft: '3px solid rgba(255, 255, 255, 0.7)', boxShadow: '0 0 4rem rgba(0, 0, 0, 0.6)', }}>
                 <DataGrid
                     sx={{ 
                         fontSize : 16,
                         border : 'none',
-                        maxWidth : '120rem',
+                        width : '120rem',
                         
                     }}
+                    // rowHeight={50}
+                    
                     rows={rows}
                     columns={columns}
                     getRowHeight={() => 'auto'}
-                    getColumnWidth={() => 'auto'}
                     initialState={{
                         pagination: {
                             paginationModel: { page: 0, pageSize: 5 },

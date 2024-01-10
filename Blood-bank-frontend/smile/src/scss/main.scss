@@ -89,6 +89,24 @@ html{
                 font-size: 2rem;
             }
         }
+
+        & .reqList{
+            & .css-1iyq7zh-MuiDataGrid-columnHeaders{
+                // padding-left: 40rem;
+            }
+        }
+        & .nonPendingList{
+            & .css-1iyq7zh-MuiDataGrid-columnHeaders{
+                // padding-left: 33rem;
+            }
+        }
+        & .donorList{
+            & .css-1iyq7zh-MuiDataGrid-columnHeaders{
+                // padding-left: 23rem;
+            }
+       }
+
+
 }
 
 .css-1ps6pg7-MuiPaper-root{
