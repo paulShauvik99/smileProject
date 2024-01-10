@@ -21,12 +21,12 @@ function AdminNavbar (){
             <List>            
                 <ListItem >
                     <ListItemButton sx={{ textAlign: 'center' }}>
-                        <NavLink className="nav-link " to="/admindashboard/matchdonor"> Home </NavLink> 
+                        <NavLink className="nav-link " to="/admindashboard/requestlist"> Request List </NavLink> 
                     </ListItemButton>
                 </ListItem>
                 <ListItem >
                     <ListItemButton sx={{ textAlign: 'center' }}>
-                        <NavLink className="nav-link " to='/admindashboard/confirmdonations'> Request Blood </NavLink> 
+                        <NavLink className="nav-link " to='/admindashboard/donorlist'> Donor List</NavLink> 
                     </ListItemButton>
                 </ListItem>
                 
@@ -56,8 +56,8 @@ function AdminNavbar (){
                 </div>
 
                 <nav className="menu" >
-                    <NavLink className="nav-link " to="/admindashboard/matchdonor"> Match Donors </NavLink>  
-                    <NavLink className="nav-link " to='/admindashboard/confirmdonations'> Confirm Donations </NavLink> 
+                    <NavLink className="nav-link " to="/admindashboard/requestlist"> Request List</NavLink>  
+                    <NavLink className="nav-link " to='/admindashboard/donorlist'> Donor List </NavLink> 
                 </nav>
                 <Drawer
                     container={container}

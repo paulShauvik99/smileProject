@@ -19,6 +19,7 @@
     "@mui/lab": "^5.0.0-alpha.155",
     "@mui/material": "^5.14.20",
     "@mui/x-data-grid": "^6.18.2",
+    "@mui/x-data-grid-pro": "^6.18.7",
     "@mui/x-date-pickers": "^6.18.1",
     "@phosphor-icons/react": "^2.0.14",
     "axios": "^1.6.2",

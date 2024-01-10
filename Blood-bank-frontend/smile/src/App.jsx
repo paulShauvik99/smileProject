@@ -19,12 +19,12 @@ function App() {
   
   return (
     
-        (window.location.pathname == '/admin' || window.location.pathname == '/admindashboard/matchdonor' || window.location.pathname == '/admindashboard/confirmdonations') ? (
+        (window.location.pathname == '/admin' || window.location.pathname == '/admindashboard/requestlist' || window.location.pathname == '/admindashboard/donorlist') ? (
           <>
               <Routes>
                   <Route exact path='/admin' element={<AdminLogin />} />
-                  <Route exact path='/admindashboard/matchdonor' element={<MatchDonors />} />
-                  <Route exact path='/admindashboard/confirmdonations' element={<ConfirmDonations />} />
+                  <Route exact path='/admindashboard/requestlist' element={<MatchDonors />} />
+                  <Route exact path='/admindashboard/donorlist' element={<ConfirmDonations />} />
               </Routes>
           </>
         ) : (
