@@ -200,13 +200,21 @@ def get_recipient_records(request):
         data = []
         calender = Calender.objects.first()
         quantity = calender.quantity
-        
+
+
+        eligibleRecipient = Recipient.objects.filter(phoneNumber = phoneNumber,status__in = ['Confirmed' ,'Pending']).order_by("-date").first()
+        current_date_string= datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
+        current_date = datetime.datetime.strptime(current_date_string, "%Y-%m-%d").date()
+        difference =  (current_date.year - eligibleRecipient.date.year)*365 +( current_date.month-eligibleRecipient.date.month)*30 + (current_date.day - eligibleRecipient.date.day) 
+        isEligible = difference >= 15
         if recipients:
             try :
                 for recipient in recipients:
                     
                     data.append(
                         {
+                            "isEligible" : isEligible,
+                            "remainingDays" : 15-difference,
                             "bloodGroup" : recipient.bloodGroup,
                             "date" : recipient.date, 
                             "status" : recipient.status,
