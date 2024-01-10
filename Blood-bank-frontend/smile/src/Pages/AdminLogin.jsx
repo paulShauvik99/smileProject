@@ -47,7 +47,7 @@ const AdminLogin = () => {
                         icon : 'success'
                     }).then((res)=>{
                         if(res.isConfirmed || res.dismiss == 'backdrop'){
-                            navigate('/admindashboard/matchdonor')
+                            navigate('/admindashboard/requestlist')
                         }
                     })
                     setIsLoading(false)
