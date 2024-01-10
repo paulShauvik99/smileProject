@@ -85,7 +85,12 @@ def request_blood(request):
         date_format = '%Y-%m-%d'
         image_file = request.FILES.get('donationReceipt')
         birthDateObj = datetime.datetime.strptime(dob, date_format)
-       
+
+
+        dayQuantity = Calender.objects.first()
+        if dayQuantity.quantity <= 0:
+            return JsonResponse({"error":"Currently no slot available for booking!"},status=500)
+
 
         current_date_string= datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
         current_date = datetime.datetime.strptime(current_date_string, "%Y-%m-%d").date()
@@ -160,7 +165,9 @@ def request_blood(request):
             firstDonation = firstDonation
             )
             new_recipient.save()
-
+            
+            dayQuantity.quantity-=1
+            dayQuantity.save()
             return JsonResponse({"success" : "Request Placed Successfully"},status=201)
 
 
@@ -179,21 +186,6 @@ def request_blood(request):
 
 
 
-@csrf_exempt
-def get_available_dates(request):
-    if request.method == "GET":
-        # phoneNumber = request.session.get('member_id')
-        # if phoneNumber is None:
-        #     return JsonResponse({"error" : "Invalid Session Id"},status =401)
-        try:
-            calender = Calender.objects.first()
-            data = {"quantity" : calender.quantity}
-            
-        except Exception as e:
-            return JsonResponse({"error" : "Something Went Wrong"},status=500)
-        return JsonResponse({"status" : "success","dates" : data},status=200)
-    return JsonResponse({"error" : "Invalid request method"},status =400)
-
 
 @csrf_exempt
 def get_recipient_records(request):
@@ -206,6 +198,8 @@ def get_recipient_records(request):
         recipients = Recipient.objects.filter(phoneNumber = phoneNumber,status__in = ['Confirmed','Pending','Rejected']).order_by("-date").all()
         print(recipients)
         data = []
+        calender = Calender.objects.first()
+        quantity = calender.quantity
         
         if recipients:
             try :
@@ -226,7 +220,7 @@ def get_recipient_records(request):
             except Exception as e:
                 print(e)
                 return JsonResponse({"error" : "No Donor has not Confirmed yet"},status=500)
-        return JsonResponse({"status" : "Data fetched","pastRecord" :data},status=200)
+        return JsonResponse({"status" : "Data fetched","pastRecord" :data,"quantity" : quantity},status=200)
     
     return JsonResponse({"error" : "Invalid Request Method"},status = 400)
 

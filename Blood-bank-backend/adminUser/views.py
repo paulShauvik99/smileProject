@@ -146,10 +146,11 @@ def get_recipient_list(request):
             return JsonResponse({"error" : "Unauthorized"},status = 401)
         try:
             current_date_string= datetime.now(tz=pytz.timezone('Asia/Kolkata')).date()
-            recipientList = Recipient.objects.filter(date = current_date_string,status="Pending").all()
+            recipientList = Recipient.objects.filter(date = current_date_string).all()
+            print(recipientList.values())
             recipient_list_data=[]
             sl = 1
-            if recipientList:
+            if len(recipientList) != 0:
                 for recipient in recipientList:
                     firstDonation={}
                     if recipient.firstDonation:

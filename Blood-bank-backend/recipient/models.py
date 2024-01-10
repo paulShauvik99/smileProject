@@ -29,7 +29,7 @@ class Recipient(models.Model):
     isThalassemia = models.BooleanField(default = False,null=True)
     hasCancer = models.BooleanField(default= False,null=True)
     firstDonCheck = models.BooleanField(default = False,null=True)
-    firstDonation = models.ForeignKey(FirstDonationDetails, null=True, on_delete=models.SET_NULL)
+    firstDonation = models.ForeignKey(FirstDonationDetails, null=True, on_delete=models.CASCADE)
     date = models.DateField(timezone.now)
     status = models.CharField(default="Pending",max_length=10)
 
