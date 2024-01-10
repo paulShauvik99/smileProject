@@ -94,7 +94,7 @@ const DonorDashboard = () => {
 
 
 
-    const [pastRecordRows, setPastRecordRows] = useState([])
+    const [donorList, setDonorList] = useState([])
     const [donorDetails, setDonorDetails] = useState()
     //Set Time
     const [time, setTime] = useState(['','',''])
@@ -108,7 +108,7 @@ const DonorDashboard = () => {
         try {
             const res = await axios.get('http://127.0.0.1:8000/donor/get_donor_records/')
             console.log(res)
-            setPastRecordRows(res.data.pastRecord)
+            setDonorList(res.data.donorList)
             setDonorDetails(res.data.donorDetails)
         } catch (error) {
             Swal.fire({
@@ -188,32 +188,44 @@ const DonorDashboard = () => {
                                             <div className="main">
                                                     <div className="upper">     
                                                         <div className="first">
-                                                            <Avatar {...stringAvatar('Kasturi Borua')}/>
+                                                            <Avatar {...stringAvatar(`${donorDetails.firstName} ${donorDetails.lastName}`)}/>
                                                             <Typography variant="h3" >
-                                                                Hi, Gourab Das.
+                                                                Hi, {`${donorDetails.firstName} ${donorDetails.lastName}`}
                                                             </Typography>
-                                                        </div>                                                   
-                                                                <Typography variant="h5" m={0.5} >
-                                                                    <b>Phone Number : </b> +91 7002450760
+                                                        </div>    
+                                                        <div className="second">
+                                                                <Typography  variant="h5" m={0.5} >
+                                                                    <b>Phone Number : </b> {donorDetails.phoneNumber}
                                                                 </Typography>
-                                                                <Typography variant="h5" m={0.5} >
-                                                                    <b>Address : </b> Somewhere in the City of Joy
+                                                                <Typography  variant="h5" m={0.5} >
+                                                                    <b>Email : </b> {donorDetails.emailId}
                                                                 </Typography>
-                                                                <Typography variant="h5" m={0.5}>
+                                                                <Typography  variant="h5" m={0.5} >
+                                                                    <b>Address : </b> {donorDetails.address} 
+                                                                </Typography>
+                                                                <Typography  variant="h5" m={0.5}>
                                                                     <b> Sex :</b> Male
                                                                 </Typography>
-                                                                <Typography variant="h5" m={0.5}>
-                                                                    <b> Last Donated : </b> 04/12/2023
+                                                                <Typography  variant="h5" m={0.5}>
+                                                                    <b> Blood Group :</b> {donorDetails.bloodGroup}
                                                                 </Typography>
+                                                                <Typography  variant="h5" m={0.5}>
+                                                                    <b> Last Donated : </b> {donorDetails.lastDonated}
+                                                                </Typography>
+                                                        </div>                                               
                                                     </div>
                                                     <Divider />
                                                     <div className="lower">
-                                                                <Typography variant="h4" m={0.5} mt='1rem' sx={{padding : '0.5rem' , backgroundColor : '#f0e3e4' , borderRadius : '1rem' , fontSize : '2rem', textAlign : 'center', color : '#d71414' }} >
-                                                                    You Have an Upcoming Appointment on <b> 26/01/2024 </b>
+                                                                <Typography variant="h4" m={0.5} mt='1rem' sx={{padding : '0.5rem' , backgroundColor : '#f0e3e4' , borderRadius : '1rem' , fontSize : '2rem', textAlign : 'center', color : '#d71414', fontWeight : 'bold' }} >
+                                                                    {
+                                                                        donorDetails.isEligible ?  "You're Eligible for Donation." : "You're Not Eligible for Donation."
+
+                                                                    }
                                                                 </Typography>                                                               
-                                                        
-                                                                <Typography variant="h5" mt={2} fontSize={24}>
-                                                                    You're Eligible for Donating.
+                                                                <Typography variant="h5" mt={2} fontSize={16}>
+                                                                    {
+                                                                        donorDetails.remainingDays < 0 ? "" : `You'll be eligible for donations after ${donorDetails.remainingDays} days.`
+                                                                    }
                                                                 </Typography>
                                                     </div>
                                             </div>
@@ -233,12 +245,12 @@ const DonorDashboard = () => {
                                             </div>
                                             <div className="requests">
                                                 <Typography variant="h3" >
-                                                    Previous Donations
+                                                    Top Donors
                                                 </Typography>
                                                 <TableComp
                                                     type='donor'
                                                     tableColumn={tableColumn}
-                                                    tableContent={pastRecordRows}
+                                                    tableContent={donorList}
                                                 />
                                             </div>  
                                         </div>

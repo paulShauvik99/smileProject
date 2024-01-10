@@ -7,7 +7,7 @@ urlpatterns = [
     path('get_donor_list/',views.get_donor_list),
     path('get_recipient_list/',views.get_recipient_list),
     path('confirm_recipient_donation/',views.confirmRecipientDonation),
-    path('reject_reject/',views.reject_request),
+    path('reject_request/',views.reject_request),
     path('admin_login/',views.admin_login),
     path('admin_logout/',views.admin_logout)
 ]

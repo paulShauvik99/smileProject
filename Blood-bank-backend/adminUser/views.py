@@ -172,6 +172,7 @@ def get_recipient_list(request):
                                         'bloodGroup' : recipient.bloodGroup,
                                         'phoneNumber' : recipient.phoneNumber,
                                         'address' : recipient.address,
+                                        'status' : recipient.status,
                                         })
                     sl+=1
             return JsonResponse({'success' : 'returned successsfully', 'list' : recipient_list_data},status =200)

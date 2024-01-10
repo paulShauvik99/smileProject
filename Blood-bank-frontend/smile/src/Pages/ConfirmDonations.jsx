@@ -12,39 +12,15 @@ const ConfirmDonations = () => {
 
     const navigate = useNavigate()
 
-    const [conDonationsRows, setconDonationsRows] = useState([]);
+    // const [conDonationsRows, setconDonationsRows] = useState([]);
     // const [reqRows, setReqRows] = useState([]);
     // const [apiDonorData , setApiDonorData]  = useState({})
-    // const [donorRows , setDonorRows] = useState([]);
+    const [donorList , setDonorList] = useState([]);
     const [loadingPage , setLoadingPage] = useState(true)
     const [loadingApi , setLoadingApi] = useState(false)
     const [reload,setReload] = useState(false)
-
-
-    const donationConfirmed = async (matched_id) =>{
-        console.log(matched_id)
-        try {
-            const res = await axios.post('http://127.0.0.1:8000/donor/confirm_donation/', JSON.stringify({ matched_id : matched_id}))
-            console.log(res)
-            setReload(!reload)
-        } catch (error) {
-            Swal.fire({
-                text : error.response.data.error,
-                icon : 'error'
-            })
-        }
-
-    }
-
-
-    const getConfirmDonationsData = async () => {
-        setLoadingPage(true)
-        const res = await axios.get('http://127.0.0.1:8000/donor/get_confirmed_donors/')
-        console.log(res)
-        setconDonationsRows(res.data.list)
-        setLoadingPage(false)
-    }
-
+    
+    // Page validation
     useEffect(() => {
         if(localStorage.getItem('adminCheck') !== null){
             const now = new Date().getTime()
@@ -88,23 +64,50 @@ const ConfirmDonations = () => {
 
     },[])
 
+    
+    //Send Donor For Donation
+    const sentForDonation = async (id) =>{
+        //API for matched donor
+        console.log(id)
+        try {
+            const res = await axios.post('http://127.0.0.1:8000/adminUser/confirm_donor/',{donor_id : id})
+            console.log(res)
+            setReload(!reload)
+
+        } catch (error) {
+            Swal.fire({
+                text : error.response.data.error,
+                icon : 'error',
+            })
+        }
+    }
+
+
+
+    const getAvailableDonors = async () => {
+        setLoadingPage(true)
+        const res = await axios.get('http://127.0.0.1:8000/adminUser/get_donor_list/')
+        console.log(res)
+        setDonorList(res.data.donor_list)
+        setLoadingPage(false)
+    }
+
     useEffect(()=>{
         if(loadingApi){
-            // getTableData()
-            getConfirmDonationsData()
+            getAvailableDonors()
         }
     },[loadingApi,reload])
 
     return (
         <>     
-                    <AdminNavbar />
+            <AdminNavbar />
             <div className="admin_outer_div">
                 <div className="admin_dashboard">
-                    <h1>Confirm Donations</h1>
+                    <h1>Available Donors</h1>
                     <ComplexTable
-                        type='confirmDonations'
-                        rows={conDonationsRows}
-                        donationConfirmed={donationConfirmed}
+                        type='donorList'
+                        rows={donorList}
+                        sentForDonation={sentForDonation}
                     />
                 </div>
             </div>

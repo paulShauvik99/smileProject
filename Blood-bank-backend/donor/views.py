@@ -281,8 +281,8 @@ def get_donor_records(request):
             current_date = datetime.now().date()
             difference = current_date - last_donation_date
             #difference_in_months = (current_date.year - last_donation_date.year) * 12 + current_date.month - last_donation_date.month
-            is_eligible = difference.days > 90 
-            print(difference.days)
+            is_eligible = difference.days >= 90 
+            # print(difference.days)
             donorDetails = {
                 "id" : donorDetailsObj.id,
                 "firstName" : donorDetailsObj.firstName,
@@ -293,8 +293,8 @@ def get_donor_records(request):
                  "address" : donorDetailsObj.address,
                  "bloodGroup" : donorDetailsObj.bloodGroup,
                  'totalDonation' : donorDetailsObj.totalDonation,
-                 'isEligible' : is_eligible
-
+                 'isEligible' : is_eligible,
+                 'remainingDays' : (90 - difference.days) 
 
                 
             }

@@ -773,7 +773,7 @@ export default function RequestDashboard() {
             }
         }
 
-        const formData = new FileReader();
+        const formData = new FormData();
         //Complete the Function
         setLoadingBtn(true)
         const data = {
@@ -795,11 +795,9 @@ export default function RequestDashboard() {
             firstDonCheck : controlStep,
         }
 
-        Object.entries(data).forEach(([key, value]) => {
-            formData.append(key, value);
-          });
-        console.log(data)
-        console.log(formData)
+        for(const key in data){
+            formData.append(key, data[key]);
+        }
 
         try {
             const res = await axios.post('http://127.0.0.1:8000/recipient/request_blood/',formData);
@@ -841,17 +839,18 @@ export default function RequestDashboard() {
 
     }
 
-    const urls = ['http://127.0.0.1:8000/recipient/get_available_dates/', 'http://127.0.0.1:8000/recipient/get_recipient_records/']
+    // const urls = ['http://127.0.0.1:8000/recipient/get_available_dates/', 'http://127.0.0.1:8000/recipient/get_recipient_records/']
 
     const loadAPI = async () =>{
         setLoadingPage(true)
         try {
-            const res = await axios.all(urls.map(url => axios.get(url)))
+            const res = await axios.get('http://127.0.0.1:8000/recipient/get_recipient_records/')
             console.log(res)       
-            setHighlightedDays(res[0].data.dates)
-            setPastRecords(res[1].data.pastRecord)
-            setRequestRecords(res[1].data.requestPlaced)
-            setPendingRecords(res[1].data.pendingDonation)
+            
+            // setHighlightedDays(res[0].data.dates)
+            // setPastRecords(res[1].data.pastRecord)
+            // setRequestRecords(res[1].data.requestPlaced)
+            // setPendingRecords(res[1].data.pendingDonation)
 
         } catch (error) {
             console.log(error)
