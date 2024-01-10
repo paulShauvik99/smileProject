@@ -146,7 +146,7 @@ def get_recipient_list(request):
             return JsonResponse({"error" : "Unauthorized"},status = 401)
         try:
             current_date_string= datetime.now(tz=pytz.timezone('Asia/Kolkata')).date()
-            recipientList = Recipient.objects.filter(date = current_date_string).all()
+            recipientList = Recipient.objects.filter(date = current_date_string,status="Pending").all()
             recipient_list_data=[]
             sl = 1
             if recipientList:
@@ -158,7 +158,7 @@ def get_recipient_list(request):
                                             'bloodBankName':recipient.firstDonation.bloodBankName,
                                             'donorName':recipient.firstDonation.donorName,
                                             'donationDate':recipient.firstDonation.donationDate,
-                                            'donationReceipt': 'http://127.0.0.1' + recipient.firstDonation.donationReceipt.url
+                                            'donationReceipt': 'http://127.0.0.1:8000' + recipient.firstDonation.donationReceipt.url
                                         }
                     recipient_list_data.append({'id': recipient.id,  
                                                 'sl' : sl,

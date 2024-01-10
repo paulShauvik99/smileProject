@@ -79,11 +79,11 @@ def request_blood(request):
         bloodBankName = request.POST.get('bloodBankName')
         donorName = request.POST.get('donorName')
         donationDate = request.POST.get('donationDate')
-        donationReceipt = request.POST.get('donationReceipt')
+        
         firstDonCheck = request.POST.get('firstDonCheck').lower().capitalize() == "True"
         # dateString = body['date']
         date_format = '%Y-%m-%d'
-        image_file = request.FILES.get('image')
+        image_file = request.FILES.get('donationReceipt')
         birthDateObj = datetime.datetime.strptime(dob, date_format)
        
 
