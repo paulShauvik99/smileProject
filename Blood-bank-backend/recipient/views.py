@@ -199,22 +199,25 @@ def get_recipient_records(request):
         print(recipients)
         data = []
         calender = Calender.objects.first()
-        quantity = calender.quantity
-
+        
 
         eligibleRecipient = Recipient.objects.filter(phoneNumber = phoneNumber,status__in = ['Confirmed' ,'Pending']).order_by("-date").first()
         current_date_string= datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
         current_date = datetime.datetime.strptime(current_date_string, "%Y-%m-%d").date()
         difference =  (current_date.year - eligibleRecipient.date.year)*365 +( current_date.month-eligibleRecipient.date.month)*30 + (current_date.day - eligibleRecipient.date.day) 
         isEligible = difference >= 15
+        newData = { 
+            "quantity" : calender.quantity,
+            "isEligible" : isEligible,
+            "remainingDays" : 15-difference,
+        }
         if recipients:
             try :
                 for recipient in recipients:
                     
                     data.append(
                         {
-                            "isEligible" : isEligible,
-                            "remainingDays" : 15-difference,
+                            
                             "bloodGroup" : recipient.bloodGroup,
                             "date" : recipient.date, 
                             "status" : recipient.status,
@@ -228,7 +231,7 @@ def get_recipient_records(request):
             except Exception as e:
                 print(e)
                 return JsonResponse({"error" : "No Donor has not Confirmed yet"},status=500)
-        return JsonResponse({"status" : "Data fetched","pastRecord" :data,"quantity" : quantity},status=200)
+        return JsonResponse({"status" : "Data fetched","pastRecord" :data,"recipientData" : newData},status=200)
     
     return JsonResponse({"error" : "Invalid Request Method"},status = 400)
 
