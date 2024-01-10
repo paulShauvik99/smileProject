@@ -277,11 +277,16 @@ def get_donor_records(request):
                 print(donor_list_data)
             donorDetailsObj = Donor.objects.filter(phoneNumber=phoneNumber).first()
             
-            last_donation_date = donorDetailsObj.lastDonated
-            current_date = datetime.now().date()
-            difference = current_date - last_donation_date
-            #difference_in_months = (current_date.year - last_donation_date.year) * 12 + current_date.month - last_donation_date.month
-            is_eligible = difference.days >= 90 
+            is_eligible = True
+            differenceInDays = 90
+            if donorDetailsObj.lastDonated is not None:
+
+                last_donation_date = donorDetailsObj.lastDonated
+                current_date = datetime.now().date()
+                difference = current_date - last_donation_date
+                #difference_in_months = (current_date.year - last_donation_date.year) * 12 + current_date.month - last_donation_date.month
+                is_eligible = difference.days >= 90 
+                differenceInDays = difference.days
             # print(difference.days)
             donorDetails = {
                 "id" : donorDetailsObj.id,
@@ -294,7 +299,7 @@ def get_donor_records(request):
                  "bloodGroup" : donorDetailsObj.bloodGroup,
                  'totalDonation' : donorDetailsObj.totalDonation,
                  'isEligible' : is_eligible,
-                 'remainingDays' : (90 - difference.days) 
+                 'remainingDays' : (90 - differenceInDays) 
 
                 
             }
