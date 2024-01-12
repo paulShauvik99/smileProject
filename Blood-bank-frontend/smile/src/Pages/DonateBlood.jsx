@@ -42,8 +42,8 @@ import { useNavigate } from 'react-router-dom'
 import LoginPage from '../Components/LoginPage'
 import Swal from 'sweetalert2'
 import { jwtDecode } from 'jwt-decode'
-
-
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const steps = [
     { title: 'Personal Details' , description: 'First' },
@@ -132,6 +132,7 @@ const DonateBlood = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    // Handle State Change of Donor Details
     const setDetails = (e) =>{
         let name = e.target.name
         let value = e.target.value
@@ -240,7 +241,7 @@ const DonateBlood = () => {
     }
 
     //APIs
-
+    // Send OTP API
     const sendOtp = async () =>{
 
         if(donorInfo.firstName === '' || donorInfo.lastName === '' || donorInfo.dob === '' || donorInfo.email === '' || donorInfo.phoneNumber === '' || donorInfo.address === '' || donorInfo.bloodGroup === ''){
@@ -256,7 +257,7 @@ const DonateBlood = () => {
             console.log(phoneNumber)
             timer()
             try{
-                const res =  await axios.post('http://127.0.0.1:8000/donor/send_otp/', JSON.stringify(phoneNumber))
+                const res =  await axios.post('http://192.168.1.12:8000/donor/send_otp/', JSON.stringify(phoneNumber))
                 if('success' in res.data){
                     toast.success(res.data.success, {
                         position : toast.POSITION.TOP_RIGHT
@@ -277,7 +278,7 @@ const DonateBlood = () => {
 
     }
 
-
+    //VErify OTP API
     const verifyOtp = async () =>{
         const donorDet = {
             firstName : donorInfo.firstName,
@@ -294,7 +295,7 @@ const DonateBlood = () => {
         }
         console.log(donorDet)
         try {
-            const res = await axios.post('http://127.0.0.1:8000/donor/register/',JSON.stringify(donorDet))
+            const res = await axios.post('http://192.168.1.12:8000/donor/register/',JSON.stringify(donorDet))
             if('success' in res.data){
                 const now = new Date().getTime()
                         let check = {
@@ -324,6 +325,7 @@ const DonateBlood = () => {
         }
     }
 
+    // Donor Register Form
     const formDetails = (activeStep) =>{
 
         switch(activeStep){
@@ -331,7 +333,7 @@ const DonateBlood = () => {
             case 0 : return(
                 <>  
 
-                    <Grid templateColumns='repeat(2, 1fr)' columnGap={14}>
+                    <Grid templateColumns={{lg : 'repeat(2, 1fr)'}} columnGap={14}>
                         <GridItem>
                             <FormControl isRequired>
                                 <FormLabel htmlFor='firstName'>First Name</FormLabel>
@@ -373,7 +375,7 @@ const DonateBlood = () => {
 
             case 1 : return(
                 <>
-                    <Grid templateColumns='repeat(2, 1fr)' gap={12}>
+                    <Grid templateColumns={{lg : 'repeat(2, 1fr)'}} columnGap={12}>
                         <GridItem>
                             <FormControl isRequired>
                                 <FormLabel htmlFor='bloodGroup'>Blood Group</FormLabel>
@@ -421,7 +423,7 @@ const DonateBlood = () => {
                             <FormControl isRequired paddingTop={10}> 
                                 <InputGroup>
                                     <FormLabel htmlFor='isThalassemia'>Do you have Thalassemia?</FormLabel>
-                                    <Checkbox size='lg' colorScheme='orange' border="red" paddingLeft={5} name='isThalassemia'   onChange={e => setDonorInfo(prevState => ({...prevState, isThalassemia : !prevState.isThalassemia}))} />
+                                    <Checkbox size='lg' colorScheme='orange' border="red" paddingLeft={5} name='isThalassemia' isChecked={donorInfo.isThalassemia}   onChange={e => setDonorInfo(prevState => ({...prevState, isThalassemia : !prevState.isThalassemia}))} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
@@ -432,7 +434,7 @@ const DonateBlood = () => {
 
             case 2 : return(
                 <>
-                    <Grid templateColumns='repeat(2, 1fr)' gap={12}>
+                    <Grid templateColumns={{lg : 'repeat(2, 1fr)'}} columnGap={12}>
                         <GridItem>
                             <FormControl isRequired>
                                 <FormLabel htmlFor='email'>Email</FormLabel>
@@ -456,7 +458,7 @@ const DonateBlood = () => {
                             </FormControl>
                         </GridItem>
 
-                        <GridItem colSpan={2}>
+                        <GridItem colSpan={{base: 1 , lg :2}}>
                             <FormControl isRequired>
                                 <FormLabel htmlFor='address'>Address</FormLabel>
                                 <InputGroup>
@@ -478,8 +480,9 @@ const DonateBlood = () => {
                         <GridItem placeItems='center' className='authenticate'>
                             <VStack mt={20}>
                                 <HStack>
-                                    <Button size='lg' color="red.500" bg="red.200" 
-                                        _hover={{color:'red.50' , bg: 'red.400'}} 
+                                    <Button size='lg'
+                                        color="black" bg="#d7141450" 
+                                        _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
                                         mb={10}
                                         height='35px'
                                         width='120px'
@@ -517,7 +520,6 @@ const DonateBlood = () => {
 
     }
 
-    console.log(isLogin)
 
 
     return (
@@ -545,7 +547,7 @@ const DonateBlood = () => {
                                                     />
                                                 </StepIndicator>
 
-                                                    <Box flexShrink='0'>
+                                                    <Box flexShrink='0' display={{base : 'none' , lg : 'block'}}>
                                                         <StepTitle>{step.title}</StepTitle>
                                                         {/* <StepDescription>{step.description}</StepDescription> */}
                                                     </Box>
@@ -554,7 +556,7 @@ const DonateBlood = () => {
                                             </Step> 
                                         ))}
                                     </Stepper>
-                                    
+                                            
                                     <div className="reg">
                                                 <form>
                                                     {formDetails(activeStep)}
@@ -567,27 +569,24 @@ const DonateBlood = () => {
                                         <div className="redirect">
                                             <VStack>
                                                 <HStack>    
-                                                    <Button
+                                                    <IconButton
+                                                        isRound={true}
                                                         isDisabled={activeStep === 0}
                                                         onClick={handleBack}
                                                         sx={{ mr: 1 }}
                                                         className='reg_btn'
-                                                        color="red.500" 
-                                                        bg="red.200"
-                                                        _hover={{color:'red.50' , bg: 'red.400'}}
+                                                        color="black" bg="#d7141450" 
+                                                        _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
                                                         mt={20}
-                                                        height='30px'
-                                                        width='80px'
                                                         fontSize='16px'
-                                                        
-                                                    >
-                                                        Back
-                                                    </Button>
-
+                                                        height='3rem'
+                                                        width='3rem'
+                                                        icon={<ArrowBackIosNewIcon />}
+                                                    />
                                                     <Button 
                                                         onClick={verifyOtp} 
-                                                        color="red.500" bg="red.200" 
-                                                        _hover={{color:'red.50' , bg: 'red.400'}} 
+                                                        color="black" bg="#d7141450" 
+                                                        _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
                                                         className='reg_btn'
                                                         mt={20}
                                                         height='30px'
@@ -608,43 +607,43 @@ const DonateBlood = () => {
                                                 
                                                 <HStack>
 
-                                                    <Button
+                                                    <IconButton
+                                                        isRound={true}
                                                         isDisabled={activeStep === 0}
                                                         onClick={handleBack}
                                                         sx={{ mr: 1 }}
                                                         className='reg_btn'
-                                                        color="red.500" 
-                                                        bg="red.200"
-                                                        _hover={{color:'red.50' , bg: 'red.400'}}
+                                                        color="black" bg="#d7141450" 
+                                                        _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
                                                         mt={20}
-                                                        height='30px'
-                                                        width='80px'
+                                                        height='3rem'
+                                                        width='3rem'
+                                                        icon={<ArrowBackIosNewIcon />}
                                                         fontSize='16px'
-                                                    >
-                                                        Back
-                                                    </Button>
+                                                    />
                                                     
-                                                    <Button onClick={handleNext} 
-                                                        color="red.500" bg="red.200"
-                                                        _hover={{color:'red.50' , bg: 'red.400'}} className='reg_btn'
+                                                    <IconButton onClick={handleNext} 
+                                                        isRound={true}
+                                                        color="black" bg="#d7141450" 
+                                                        _hover={{color:'#f0e3e4' , bg: '#d71414'}}  className='reg_btn'
                                                         mt={20}
-                                                        height='30px'
-                                                        width='80px'
+                                                        height='3rem'
+                                                        width='3rem'
                                                         fontSize='16px'
-                                                    >
-                                                        Next
-                                                    </Button>
-
+                                                        icon={<ArrowForwardIosIcon />}
+                                                    />
+                                                        
                                                     <Button 
                                                         onClick={e => setIsLogin(!isLogin)} 
-                                                        color="red.500" bg="red.200" 
-                                                        _hover={{color:'red.50' , bg: 'red.400'}} 
+                                                        color="black" bg="#d7141450" 
+                                                        _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
                                                         className='reg_btn'
                                                         mt={20}
-                                                        height='45px'
-                                                        width='220px'
-                                                        fontSize='16px'
-                                                        ml='20rem'
+                                                        height='35px'
+                                                        width='22rem'
+                                                        fontSize={{lg :'12px' , base : '8px'}}
+                                                        ml='10rem'
+                                                        justifySelf='flex-end'
                                                     >
                                                         Already Have an Account?
                                                         <br />
@@ -664,32 +663,35 @@ const DonateBlood = () => {
                             <>
 
                                 <ChakraProvider>
-                                <div className="donate_login">
-                                    <motion.div className="donate_login_form"
-                                        initial={{ x : '100vw'}}
-                                        animate={{ x : 0 }}
-                                    >
-                                        <LoginPage 
-                                            setIsLogin={e => setIsLogin(!isLogin)}
-                                            type="donorLogin"
-                                        />
-                                        <Button 
-                                            onClick={e => setIsLogin(!isLogin)} 
-                                            color="red.500" bg="red.200" 
-                                            _hover={{color:'red.50' , bg: 'red.400'}} 
-                                            className='reg_btn'
-                                            mt={20}
-                                            height='45px'
-                                            width='220px'
-                                            fontSize='16px'
-                                            ml='20rem'
+                                    <div className="donate_login">
+                                        <motion.div className="donate_login_form"
+                                            initial={{ x : '100vw'}}
+                                            animate={{ x : 0 }}
                                         >
-                                            Don't Have an Account?
-                                                <br />
-                                            SignUp Here .
-                                        </Button>
-                                    </motion.div>
-                                </div>
+                                            <VStack>
+
+                                                <LoginPage 
+                                                    setIsLogin={e => setIsLogin(!isLogin)}
+                                                    type="donorLogin"
+                                                />
+                                                <Button 
+                                                    onClick={e => setIsLogin(!isLogin)} 
+                                                    color="black" bg="#d7141450" 
+                                                    _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
+                                                    className='reg_btn'
+                                                    mt={20}
+                                                    height='35px'
+                                                    width={{lg : '16rem'}}
+                                                    fontSize={{lg :'12px' , base : '8px'}}
+                                                    alignSelf='center'
+                                                >
+                                                    Don't Have an Account?
+                                                        <br />
+                                                    SignUp Here .
+                                                </Button>
+                                            </VStack>
+                                        </motion.div>
+                                    </div>
                                 </ChakraProvider>
                             </>
                         )

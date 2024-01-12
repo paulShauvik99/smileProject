@@ -177,14 +177,11 @@ export default function RequestDashboard() {
     //Referring to file input
     const inpRef = useRef(null)
     //State Variables
-    //Progress of Circular Progress
-    const [progress, setProgress] = useState(0);    
-    //Days with Number of Slots
-    const [highlightedDays,setHighlightedDays] = useState({})
+
     //Patient Records
+    const [recDetails, setRecDetails] = useState()
     const [pastRecords,setPastRecords] = useState([])
-    const [pendingRecords,setPendingRecords] = useState({})
-    const [requestRecords,setRequestRecords] = useState({})
+    const [pendingRecords,setPendingRecords] = useState()
     // State for active steps
     const [activeStep, setActiveStep] = useState(0);
     //Modal Open and Close state
@@ -800,7 +797,7 @@ export default function RequestDashboard() {
         }
 
         try {
-            const res = await axios.post('http://127.0.0.1:8000/recipient/request_blood/',formData);
+            const res = await axios.post('http://192.168.1.12:8000/recipient/request_blood/',formData);
             console.log(res)
             Swal.fire({
                 text : res.data.success,
@@ -839,18 +836,17 @@ export default function RequestDashboard() {
 
     }
 
-    // const urls = ['http://127.0.0.1:8000/recipient/get_available_dates/', 'http://127.0.0.1:8000/recipient/get_recipient_records/']
-
+    //Page Loading API
     const loadAPI = async () =>{
         setLoadingPage(true)
         try {
-            const res = await axios.get('http://127.0.0.1:8000/recipient/get_recipient_records/')
+            const res = await axios.get('http://192.168.1.12:8000/recipient/get_recipient_records/')
             console.log(res)       
-            
-            // setHighlightedDays(res[0].data.dates)
-            // setPastRecords(res[1].data.pastRecord)
-            // setRequestRecords(res[1].data.requestPlaced)
-            // setPendingRecords(res[1].data.pendingDonation)
+            let pendingReq = res.data.pastRecord.filter(el => el.status === 'Pending')
+            let pastRecord = res.data.pastRecord.filter(el => el.status !== 'Pending')
+            setPendingRecords(pendingReq)
+            setPastRecords(pastRecord)
+            setRecDetails(res.data.recipientData)
 
         } catch (error) {
             console.log(error)
@@ -863,7 +859,7 @@ export default function RequestDashboard() {
 
     const logout = () => {
         try{
-            axios.get('http://127.0.0.1:8000/donor/logout/').then((res)=>{
+            axios.get('http://192.168.1.12:8000/donor/logout/').then((res)=>{
                 setLoadingPage(true)
                 localStorage.removeItem('check')
                 Swal.fire({
@@ -900,7 +896,7 @@ export default function RequestDashboard() {
     }, [loadingApi,reload]);
 
 
-    const tableColumn = ["Patient's Name", "Requested Date", "Blood Group" ]
+    const tableColumn = ["Patient's Name", "Requested Date", "Blood Group", "Status" ]
 
     //Main Return
     return (
@@ -932,7 +928,7 @@ export default function RequestDashboard() {
                                         <div className="grid_container">
                                             <div className="main">
                                                 <div className="remaining_units">
-                                                    <p>  Hi There, </p>
+                                                    <p>  Hi, </p>
                                                     <p> You Can Request for 1 unit blood. </p>
                                                 </div>
                                                 <div className="register_patient">
@@ -961,9 +957,36 @@ export default function RequestDashboard() {
                                                             Register Patient
                                                         </Button>
                                                     </Stack>
-                                                    <Typography variant='h6' sx={{mt : 3 ,  fontSize : '2rem' , color : '#191818'}} >
-                                                        8 Remaining Units for Today./ 5 units in Waiting List. 
-                                                    </Typography>
+                                                    {
+                                                        pendingRecords.length === 0 ? (
+                                                            <>
+                                                                <Typography variant='h6' sx={{mt : 3 ,  fontSize : '1.8rem' , color : recDetails.quantity === 0 ? '#d71414' : '#191818', backgroundColor : '#f0e3e4' , borderRadius : '1rem', textAlign : 'center',width : '65%'}} >
+                                                                    { recDetails.quantity -5 > 0 ? `${recDetails.quantity - 5} Available Slots Left` : ( recDetails.quantity > 0 ) ?  `${recDetails.quantity} Slots in Waiting List` : `No Slots Available ` } 
+                                                                </Typography>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <Typography variant='h6' sx={{mt : 3 , width : '65%' , fontSize : '1.6rem' , color : '#ff6700', backgroundColor : '#f0e3e4' , borderRadius : '1rem' , textAlign : 'center',}} >
+                                                                    Your Request is <b> Pending </b>
+                                                                </Typography>
+                                                            </>
+                                                        )
+                                                    }
+                                                    {
+                                                        recDetails.isEligible && recDetails.remainingDays <= 0 ? (
+                                                            <>
+                                                                <Typography variant='h6' sx={{mt : 3 , pl : 3 ,fontSize : '1.2rem' , color : '#191818' ,backgroundColor : '#f0e3e4' , borderRadius : '1rem' , textAlign : 'left',width : '50%'}} >
+                                                                    You are eligible to make a request for Blood.
+                                                                </Typography>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <Typography variant='h6' sx={{mt : 3 , pl : 3, fontSize : '1.2rem' , color : '#191818', backgroundColor : '#f0e3e4' , borderRadius : '1rem' , textAlign : 'left',width : '50%'}} >
+                                                                    You will be eligible after <b>{recDetails.remainingDays} Days </b>
+                                                                </Typography>
+                                                            </>
+                                                        )
+                                                    }
                                                 </div>
                                             </div>
 
@@ -986,15 +1009,13 @@ export default function RequestDashboard() {
 
                                             
                                             <div className="requests">
-                                                <Typography variant="h3" sx={{  fontSize : '4rem' , color : '#f0e3e4'}} >
+                                                <Typography variant="h3" sx={{  fontSize : '4rem' , color : '#f0e3e4', fontWeight : 'bold'}} >
                                                     Past Records
                                                 </Typography>
                                                 <TableComp
                                                     type='recipient'
                                                     tableColumn={tableColumn}
                                                     pastRecords={pastRecords}
-                                                    pendingRecords={pendingRecords}
-                                                    requestRecords={requestRecords}
                                                 />
                                             </div>
                                         </div>

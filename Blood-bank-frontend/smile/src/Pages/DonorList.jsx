@@ -6,10 +6,12 @@ import ComplexTable from '../Components/ComplexTable'
 import AdminNavbar from '../Components/AdminNavbar'
 import Swal from 'sweetalert2'
 import { ToastContainer, toast } from 'react-toastify'
+import {BallTriangle} from 'react-loader-spinner';
+import { Button } from '@mui/material'
 
 
 
-const ConfirmDonations = () => {
+const DonorList = () => {
     axios.defaults.withCredentials = true
 
     const navigate = useNavigate()
@@ -72,7 +74,7 @@ const ConfirmDonations = () => {
         //API for matched donor
         console.log(id)
         try {
-            const res = await axios.post('http://127.0.0.1:8000/adminUser/confirm_donor/',{donor_id : id})
+            const res = await axios.post('http://192.168.1.12:8000/adminUser/confirm_donor/',{donor_id : id})
             console.log(res)
             setReload(!reload)
 
@@ -88,10 +90,32 @@ const ConfirmDonations = () => {
 
     const getAvailableDonors = async () => {
         setLoadingPage(true)
-        const res = await axios.get('http://127.0.0.1:8000/adminUser/get_donor_list/')
+        const res = await axios.get('http://192.168.1.12:8000/adminUser/get_donor_list/')
         console.log(res)
         setDonorList(res.data.donor_list)
         setLoadingPage(false)
+    }
+
+    const adminLogout = () => {
+        try{
+            axios.get('http://192.168.1.12:8000/adminUser/admin_logout/').then((res)=>{
+                setLoadingPage(true)
+                localStorage.removeItem('adminCheck')
+                Swal.fire({
+                    title : 'Logout Successful',
+                    icon : 'success',
+                }).then((res) =>{
+                    if(res.isConfirmed || res.dismiss === 'backdrop'){
+                        navigate('/admin')
+                    }
+                })
+            })
+        }catch(err){
+            Swal.fire({
+                title : 'Something Went Wrong',
+                icon : 'error'
+            })
+        }
     }
 
     useEffect(()=>{
@@ -105,16 +129,52 @@ const ConfirmDonations = () => {
             <AdminNavbar />
             <div className="admin_outer_div">
                 <div className="admin_dashboard">
-                    <h1>Available Donors</h1>
-                    <ComplexTable
-                        type='donorList'
-                        rows={donorList}
-                        sentForDonation={sentForDonation}
-                    />
+                    {
+                        loadingPage ? (
+                            <>
+                                <BallTriangle
+                                    height={100}
+                                    width={100}
+                                    radius={5}
+                                    color="#EAEAEA"
+                                    ariaLabel="ball-triangle-loading"
+                                    wrapperStyle={{}}
+                                    wrapperClass=""
+                                    visible={true}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <div className="logout">
+                                    <Button variant='contained' onClick={adminLogout}
+                                        sx={{
+                                            backgroundColor : '#d71414',
+                                            borderRadius : '2.5rem',
+                                            color : '#f0e3e4',
+                                            fontWeight : 'bold',
+                                            fontSize : '1rem',
+                                            "&:hover" : {
+                                                backgroundColor : '#d71414',
+                                                color : '#f0e3e4',
+                                            }
+                                        }}
+                                    >
+                                        Logout
+                                    </Button>
+                                </div>
+                                <h1>Available Donors</h1>
+                                <ComplexTable
+                                    type='donorList'
+                                    rows={donorList}
+                                    sentForDonation={sentForDonation}
+                                />
+                            </>
+                        )
+                    }
                 </div>
             </div>
         </>
     )
 }
 
-export default ConfirmDonations
+export default DonorList

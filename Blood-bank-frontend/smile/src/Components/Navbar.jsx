@@ -16,7 +16,7 @@ function Navbar (){
     const handleDrawerToggle = () => { setMobileOpen((prevState) => !prevState); };
     const container = window !== undefined ? () => window.document.body : undefined;
     const MobNav = (
-        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' , fontSize : {xs : '2rem'}, mt : 8 , }}>
             
             <List>            
                 <ListItem >
@@ -49,9 +49,9 @@ function Navbar (){
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
+                        sx={{ display: { md: 'none' } , ml : 0.1 }}
                     >
-                        <MenuIcon />
+                        <MenuIcon fontSize='large'/>
                     </IconButton>
                 </Toolbar>
                 <div className="logo">

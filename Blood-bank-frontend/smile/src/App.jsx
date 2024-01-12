@@ -7,10 +7,9 @@ import RequestBlood from './Pages/RequestBlood.jsx'
 import Footer from './Components/Footer.jsx'
 import DonorDashboard from './Pages/DonorDashboard.jsx'
 import RequestDashboard from './Pages/RequestDashboard.jsx'
-import AdminDashboard from './Pages/AdminDashboard.jsx'
 import AdminLogin from './Pages/AdminLogin.jsx'
-import MatchDonors from './Pages/MatchDonors.jsx'
-import ConfirmDonations from './Pages/ConfirmDonations.jsx'
+import DonorList from './Pages/DonorList.jsx'
+import RequestList from './Pages/RequestList.jsx'
 
 
 
@@ -23,8 +22,8 @@ function App() {
           <>
               <Routes>
                   <Route exact path='/admin' element={<AdminLogin />} />
-                  <Route exact path='/admindashboard/requestlist' element={<MatchDonors />} />
-                  <Route exact path='/admindashboard/donorlist' element={<ConfirmDonations />} />
+                  <Route exact path='/admindashboard/requestlist' element={<RequestList />} />
+                  <Route exact path='/admindashboard/donorlist' element={<DonorList />} />
               </Routes>
           </>
         ) : (

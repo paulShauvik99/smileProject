@@ -16,12 +16,11 @@ function AdminNavbar (){
     const handleDrawerToggle = () => { setMobileOpen((prevState) => !prevState); };
     const container = window !== undefined ? () => window.document.body : undefined;
     const MobNav = (
-        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-            
+        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center', fontSize : {xs : '2rem'}, mt : 8 ,  }}>
             <List>            
                 <ListItem >
-                    <ListItemButton sx={{ textAlign: 'center' }}>
-                        <NavLink className="nav-link " to="/admindashboard/requestlist"> Request List </NavLink> 
+                    <ListItemButton sx={{ textAlign: 'center' ,  }}>
+                        <NavLink className="nav-link" sx={{textDecoration : 'none'}} to="/admindashboard/requestlist"> Request List </NavLink> 
                     </ListItemButton>
                 </ListItem>
                 <ListItem >
@@ -45,9 +44,9 @@ function AdminNavbar (){
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
+                        sx={{ display: { md: 'none' } , ml : 0.1 }}
                     >
-                        <MenuIcon />
+                        <MenuIcon fontSize='large'/>
                     </IconButton>
                 </Toolbar>
                 <div className="logo">

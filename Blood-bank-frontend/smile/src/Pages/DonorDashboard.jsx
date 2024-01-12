@@ -106,7 +106,7 @@ const DonorDashboard = () => {
     const getDonorRecords = async () =>{
         setLoadingPage(true)
         try {
-            const res = await axios.get('http://127.0.0.1:8000/donor/get_donor_records/')
+            const res = await axios.get('http://192.168.1.12:8000/donor/get_donor_records/')
             console.log(res)
             setDonorList(res.data.donorList)
             setDonorDetails(res.data.donorDetails)
@@ -137,7 +137,7 @@ const DonorDashboard = () => {
     // Logout API call
     const logout = () => {
         try{
-            axios.get('http://127.0.0.1:8000/donor/logout/').then((res)=>{
+            axios.get('http://192.168.1.12:8000/donor/logout/').then((res)=>{
                 setLoadingPage(true)
                 localStorage.removeItem('check')
                 Swal.fire({
@@ -157,7 +157,7 @@ const DonorDashboard = () => {
         }
     }
 
-    const tableColumn = ["Patient's Name", "Donation Date", "Phone Number", "Blood Group"]
+    const tableColumn = ["Donor's Name","Total Donations"]
 
     return (
         <>
@@ -244,7 +244,7 @@ const DonorDashboard = () => {
                                                 </div>
                                             </div>
                                             <div className="requests">
-                                                <Typography variant="h3" >
+                                                <Typography variant="h3" sx={{fontWeight : 'bold' , color : '#f0e3e4', fontSize : '4rem'}}>
                                                     Top Donors
                                                 </Typography>
                                                 <TableComp

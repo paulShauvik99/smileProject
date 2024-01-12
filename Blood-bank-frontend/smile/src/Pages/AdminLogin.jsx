@@ -23,6 +23,7 @@ const AdminLogin = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
+    //Admin Login API
     const submitDetails = async (data) => {
         // code
         if(data.username === '' || data.password === ''){
@@ -33,7 +34,7 @@ const AdminLogin = () => {
         }else{
             try {
                 setIsLoading(true)
-                const res = await axios.post('http://127.0.0.1:8000/adminUser/admin_login/', JSON.stringify(data))
+                const res = await axios.post('http://192.168.1.12:8000/adminUser/admin_login/', JSON.stringify(data))
                 console.log(res)
                 if('success' in res.data){
                     const now = new Date().getTime()
@@ -71,7 +72,7 @@ const AdminLogin = () => {
                             <ChakraProvider>
                                 <VStack>
                                     <Heading as='h3' > Hello Admin </Heading>
-                                        <FormControl mt={15} isRequired width='35rem'>
+                                        <FormControl mt={15} isRequired width={{ base : '28rem', lg : '35rem'}}>
                                             <FormLabel fontSize='1.4rem' htmlFor='username'>Username</FormLabel>
                                             <InputGroup>
                                                 <InputLeftAddon backgroundColor='#d71414' height={30}>
@@ -91,7 +92,7 @@ const AdminLogin = () => {
                                                 />
                                             </InputGroup>
                                         </FormControl>
-                                        <FormControl mt={15} isRequired width='35rem'>
+                                        <FormControl mt={15} isRequired width={{ base : '28rem', lg : '35rem'}} >
                                             <FormLabel fontSize='1.4rem' htmlFor='password'>Password</FormLabel>
                                             <InputGroup>
                                                 <InputLeftAddon backgroundColor='#d71414' height={30}>

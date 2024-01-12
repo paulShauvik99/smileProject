@@ -104,7 +104,7 @@ export default function LoginPage(props){
                             })
                             break
                     }
-                    const res = await axios.post(`http://127.0.0.1:8000/${url}`, data)
+                    const res = await axios.post(`http://192.168.1.12:8000/${url}`, data)
                     console.log(res)
                     toast.success("OTP Sent Successfully !",{
                         position : toast.POSITION.TOP_CENTER
@@ -138,7 +138,7 @@ export default function LoginPage(props){
                     otp : otpVal
                 })
                 try {
-                    const res = await axios.post('http://127.0.0.1:8000/donor/verify_otp/',data)
+                    const res = await axios.post('http://192.168.1.12:8000/donor/verify_otp/',data)
                     console.log(res)
                     if( 'success' in res.data){
                         const now = new Date().getTime()
@@ -204,11 +204,11 @@ export default function LoginPage(props){
             <ChakraProvider>
                 <VStack>
                     <Heading as='h3' > Welcome to our Service </Heading>
-                        <FormControl mt={15} isRequired width='35rem'>
+                        <FormControl mt={15} isRequired width={{base : '28rem', lg : '35rem'}}>
                             <FormLabel fontSize='1.4rem' htmlFor='phone'>Phone</FormLabel>
                             <InputGroup>
-                                <InputLeftAddon backgroundColor='red.200' height={30}>
-                                    <Icon as={Phone} boxSize={8} weight='duotone' color='#ce2432' />
+                                <InputLeftAddon backgroundColor='#d71414' height={30}>
+                                    <Icon as={Phone} boxSize={8} weight='duotone' color='#f0e3e4' />
                                 </InputLeftAddon>
                                 <Input variant='outline'
                                         backgroundColor='red.50'
@@ -228,12 +228,13 @@ export default function LoginPage(props){
                                 ) : null}                                        
                         </FormControl>
                         <HStack mt={16} mb={26}>
-                            <Button size='lg' color="red.500" bg="red.200" 
-                                    _hover={{color:'red.50' , bg: 'red.400'}} 
-                                    // mb={10}
+                            <Button size='lg' 
+                                    color="black" bg="#d7141450" 
+                                    _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
                                     height='35px'
                                     width='120px'
                                     fontSize='16px'
+                                    fontWeight='400'
                                     onClick={() => sendOtp(number)}
                                     isDisabled={disability}
                             >
@@ -247,26 +248,27 @@ export default function LoginPage(props){
                             <PinInput otp variant='pill' size='lg' value={otpVal}  onChange={e=>setOtpVal(e)}
                                         placeholder='_'
                             >
-                                <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
-                                <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
-                                <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
-                                <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
-                                <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
-                                <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
+                                <PinInputField height={20} fontSize={22}  color='black' bg='#d7141450'/>
+                                <PinInputField height={20} fontSize={22}  color='black' bg='#d7141450'/>
+                                <PinInputField height={20} fontSize={22}  color='black' bg='#d7141450'/>
+                                <PinInputField height={20} fontSize={22}  color='black' bg='#d7141450'/>
+                                <PinInputField height={20} fontSize={22}  color='black' bg='#d7141450'/>
+                                <PinInputField height={20} fontSize={22}  color='black' bg='#d7141450'/>
                             </PinInput>
                         </HStack>
                         <Button 
                             // onClick={handleNext} 
-                                color="red.500" bg="red.200" 
-                                _hover={{color:'red.50' , bg: 'red.400'}} 
-                                className='reg_btn'
-                                mt={20}
-                                height='30px'
-                                width='120px'
-                                fontSize='16px'
-                                isLoading={isLoading}
-                                loadingText='Verifying'
-                                onClick={verifyOtp}
+                            color="black" bg="#d7141450" 
+                            _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
+                            className='reg_btn'
+                            mt={20}
+                            height='30px'
+                            width='120px'
+                            fontSize='16px'
+                            fontWeight='400'
+                            isLoading={isLoading}
+                            loadingText='Verifying'
+                            onClick={verifyOtp}
                         >
                             Verify OTP
                         </Button>   
