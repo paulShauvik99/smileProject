@@ -203,7 +203,7 @@ export default function LoginPage(props){
         <>
             <ChakraProvider>
                 <VStack>
-                    <Heading as='h3' > Welcome to our Service </Heading>
+                    <Heading as='h3' > {props.type === 'recipientLogin' ? "Recipient Login" : "Donor Login"} </Heading>
                         <FormControl mt={15} isRequired width={{base : '28rem', lg : '35rem'}}>
                             <FormLabel fontSize='1.4rem' htmlFor='phone'>Phone</FormLabel>
                             <InputGroup>
@@ -224,10 +224,10 @@ export default function LoginPage(props){
                                 />
                             </InputGroup>
                             {errMsg.isErr ? (
-                                    <FormHelperText fontSize={12} color="red" fontWeight={700} >{errMsg.msg}</FormHelperText>
+                                    <FormHelperText fontSize={12} color="red" fontWeight={500} >{errMsg.msg}</FormHelperText>
                                 ) : null}                                        
                         </FormControl>
-                        <HStack mt={16} mb={26}>
+                        <HStack mt={10} mb={26}>
                             <Button size='lg' 
                                     color="black" bg="#d7141450" 
                                     _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
@@ -261,7 +261,7 @@ export default function LoginPage(props){
                             color="black" bg="#d7141450" 
                             _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
                             className='reg_btn'
-                            mt={20}
+                            mt={10}
                             height='30px'
                             width='120px'
                             fontSize='16px'
@@ -269,6 +269,7 @@ export default function LoginPage(props){
                             isLoading={isLoading}
                             loadingText='Verifying'
                             onClick={verifyOtp}
+                            isDisabled={otpVal.length !== 6}
                         >
                             Verify OTP
                         </Button>   

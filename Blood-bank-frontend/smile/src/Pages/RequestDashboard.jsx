@@ -38,7 +38,7 @@ import DynamicFormIcon from '@mui/icons-material/DynamicForm';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-
+import {BallTriangle} from 'react-loader-spinner';
 
 
 
@@ -58,14 +58,15 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '95rem',
-    height : '65rem',
+    width: {lg : '95rem' , xs : '40rem'},
+    minHeight : '65rem',
     backgroundColor: 'rgb(214, 205, 205)',
     borderRadius: '2rem',
     borderLeft: '2px solid rgb(214,205,205)',
     borderBottom: '2px solid rgb(214,205,205)',
     boxShadow: 24,
     p: 4,
+    // scrollY : 'show'
     // zIndex : 3,
 
 };
@@ -500,7 +501,7 @@ export default function RequestDashboard() {
             case 0 : return(
                 <>  
     
-                        <Grid templateColumns='repeat(2, 1fr)' rowGap={12} marginTop={24} columnGap={14}>
+                        <Grid templateColumns={{lg : 'repeat(2, 1fr)'}} rowGap={12} marginTop={24} columnGap={14}>
                             <GridItem>
                                 <FormControl isRequired>
                                     <FormLabel fontSize={12} htmlFor='firstName'>Patient's First Name</FormLabel>
@@ -542,7 +543,7 @@ export default function RequestDashboard() {
     
             case 1 : return(
                 <>
-                    <Grid templateColumns='repeat(2, 1fr)' rowGap={12} marginTop={24} gap={12}>
+                    <Grid templateColumns={{lg : 'repeat(2, 1fr)'}} rowGap={12} marginTop={24} gap={12}>
 
                         <GridItem>
                             <FormControl isRequired>
@@ -567,7 +568,7 @@ export default function RequestDashboard() {
                             </FormControl>
                         </GridItem>
 
-                        <GridItem colSpan={2}>
+                        <GridItem colSpan={{ lg : 2}}>
                                 <FormControl isRequired>
                                     <FormLabel fontSize={12} htmlFor='address'>Patient's Address</FormLabel>
                                     <InputGroup>
@@ -585,7 +586,7 @@ export default function RequestDashboard() {
     
             case 2 : return(
                 <>
-                    <Grid templateColumns='repeat(2, 1fr)' rowGap={12} marginTop={24} gap={12}>
+                    <Grid templateColumns={{lg : 'repeat(2, 1fr)'}} rowGap={12} marginTop={24} gap={12}>
                         <GridItem>
                             <FormControl isRequired>
                                 <FormLabel fontSize={12} htmlFor='blood' >Patient's Blood Group</FormLabel>
@@ -619,29 +620,28 @@ export default function RequestDashboard() {
                             </FormControl>
                         </GridItem>
 
-                        <GridItem marginTop={20}  colSpan={2}>
-                            <HStack >
-
+                        <GridItem marginTop={20}  colSpan={{lg : 2}}>
+                            <Stack >
                                 <FormControl> 
                                     <InputGroup>
-                                        <FormLabel htmlFor='isThalassemia' fontSize={15}>Does Patient have  Thalassemia?</FormLabel>
+                                        <FormLabel htmlFor='isThalassemia' fontSize={{base : 10, lg : 15}}>Does Patient have  Thalassemia?</FormLabel>
                                         <Checkbox size='lg'  colorScheme='orange' border="red" paddingLeft={5} name='isThalassemia' isChecked={patientDetails.isThalassemia}  onChange={e => setPatientDetails(prevState => ({...prevState, isThalassemia : !prevState.isThalassemia}))} />
                                     </InputGroup>
                                 </FormControl>
                                 
                                 <FormControl > 
                                     <InputGroup>
-                                        <FormLabel htmlFor='hasCancer' fontSize={15}>Does Patient have Cancer?</FormLabel>
+                                        <FormLabel htmlFor='hasCancer' fontSize={{base : 10, lg : 15}}>Does Patient have Cancer?</FormLabel>
                                         <Checkbox size='lg'  colorScheme='orange' border="red" paddingLeft={5} name='hasCancer' isChecked={patientDetails.hasCancer}  onChange={e => setPatientDetails(prevState => ({...prevState, hasCancer : !prevState.hasCancer}))} />
                                     </InputGroup>
                                 </FormControl>
                                 <FormControl > 
                                     <InputGroup>
-                                        <FormLabel htmlFor='controlStep' fontSize={15}>Is First Donation?</FormLabel>
+                                        <FormLabel htmlFor='controlStep' fontSize={{base : 10, lg : 15}}>Is First Donation?</FormLabel>
                                         <Checkbox size='lg'  colorScheme='orange' border="red" paddingLeft={5} name='controlStep' isChecked={controlStep}  onChange={controlStepper} />
                                     </InputGroup>
                                 </FormControl>
-                            </HStack>
+                            </Stack>
                         </GridItem>
                         
                     </Grid>
@@ -650,7 +650,7 @@ export default function RequestDashboard() {
 
             case 3 : return(
                 <>
-                    <Grid templateColumns='repeat(2, 1fr)' rowGap={12} marginTop={24} gap={12}>
+                    <Grid templateColumns={{lg : 'repeat(2, 1fr)'}} marginTop={{lg : 24, base : 5}} gap={{lg : 12, base  : 5}}>
                         <GridItem>
                             <FormControl isRequired>
                                 <FormLabel fontSize={12} htmlFor='donBlood' >Donor's Blood Group</FormLabel>
@@ -835,7 +835,6 @@ export default function RequestDashboard() {
 
 
     }
-
     //Page Loading API
     const loadAPI = async () =>{
         setLoadingPage(true)
@@ -856,7 +855,7 @@ export default function RequestDashboard() {
         }
         setLoadingPage(false)
     }
-
+    //Logout API
     const logout = () => {
         try{
             axios.get('http://192.168.1.12:8000/donor/logout/').then((res)=>{
@@ -926,6 +925,21 @@ export default function RequestDashboard() {
                                             </Button>
                                         </div>
                                         <div className="grid_container">
+                                            <div className="calendar">
+                                                <div className="date_time">
+                                                    <div className="date">
+                                                        <p>{`${date[0]} ${date[2]}`}</p>   
+                                                        <p>{date[1]}</p>   
+                                                    </div>
+                                                    <div className="time">
+                                                        <p>{time[0]}</p>
+                                                        <p> : </p>
+                                                        <p>{time[1]}</p>
+                                                        <p> {time[2].toLowerCase()} </p>                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
                                             <div className="main">
                                                 <div className="remaining_units">
                                                     <p>  Hi, </p>
@@ -981,7 +995,7 @@ export default function RequestDashboard() {
                                                             </>
                                                         ) : (
                                                             <>
-                                                                <Typography variant='h6' sx={{mt : 3 , pl : 3, fontSize : '1.2rem' , color : '#191818', backgroundColor : '#f0e3e4' , borderRadius : '1rem' , textAlign : 'left',width : '50%'}} >
+                                                                <Typography variant='h6' sx={{mt : 3 , pl : 3, fontSize : '1.2rem' , color : '#191818', backgroundColor : '#f0e3e4' , borderRadius : '1rem' , textAlign : 'left',width : {lg : '50%', xs : '70%'}}} >
                                                                     You will be eligible after <b>{recDetails.remainingDays} Days </b>
                                                                 </Typography>
                                                             </>
@@ -990,24 +1004,6 @@ export default function RequestDashboard() {
                                                 </div>
                                             </div>
 
-
-                                            <div className="calendar">
-                                                <div className="date_time">
-                                                    <div className="date">
-                                                        <p>{`${date[0]} ${date[2]}`}</p>   
-                                                        <p>{date[1]}</p>   
-                                                    </div>
-                                                    <div className="time">
-                                                        <p>{time[0]}</p>
-                                                        <p> : </p>
-                                                        <p>{time[1]}</p>
-                                                        <p> {time[2].toLowerCase()} </p>                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            
                                             <div className="requests">
                                                 <Typography variant="h3" sx={{  fontSize : '4rem' , color : '#f0e3e4', fontWeight : 'bold'}} >
                                                     Past Records
@@ -1021,52 +1017,22 @@ export default function RequestDashboard() {
                                         </div>
                                     </> 
                                 ) : (
-                                    <ChakraProvider>
-                                            <Grid 
-                                                templateRows='repeat(2,1fr)'
-                                                templateColumns='repeat(3,1fr)'
-                                                gap={4}
-                                                p={5}
-
-                                            >
-                                                <GridItem
-                                                    colSpan={2}
-                                                >
-                                                    <Skeleton
-                                                        height='40rem'
-                                                        // width='70rem'
-                                                    >
-
-                                                    </Skeleton>
-                                                    
-                                                </GridItem>
-                                                <GridItem
-                                                    colSpan={1}
-                                                    rowSpan={2}
-                                                >
-                                                    <Skeleton
-
-                                                        height='100%'
-                                                        // width='70rem'
-                                                    >
-
-                                                    </Skeleton>
-
-                                                </GridItem>
-                                                <GridItem
-                                                    colSpan={2}
-                                                >
-
-                                                    <Skeleton
-                                                        height='40rem'
-                                                        // width='70rem'
-                                                    >
-
-                                                    </Skeleton>
-                                                </GridItem>
-                                            </Grid>
-
-                                    </ChakraProvider>
+                                    <>
+                                        <BallTriangle
+                                            height={100}
+                                            width={100}
+                                            radius={5}
+                                            color="#EAEAEA"
+                                            ariaLabel="ball-triangle-loading"
+                                            wrapperStyle={{
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                height: "100%"
+                                            }}
+                                            wrapperClass=""
+                                            visible={true}
+                                        />
+                                    </>
                                 )
                             }
 
@@ -1108,7 +1074,7 @@ export default function RequestDashboard() {
 
                                             {activeStep === steps.length - 1 ? (
                                                 <React.Fragment>
-                                                    <Box sx={{ display: 'flex', flexDirection: 'row', pl : 5 , pb : 2 , position : 'absolute', bottom : 15, left : 0, width : '60%' , justifyContent : 'space-between' }}>
+                                                    <Box sx={{ display: 'flex', flexDirection: 'row', pl : 5 , pb : 2 , position : 'absolute', bottom : 15, left : 0, width : {lg : '60%', xs : '65%'} , justifyContent : 'space-between', }}>
                                                         <IconButton
                                                             // color="inherit"
                                                             disabled={activeStep === 0}
@@ -1135,9 +1101,9 @@ export default function RequestDashboard() {
                                                             sx={{color:"#F4D9D5" , 
                                                                 background:"#d7141480",
                                                                 fontWeight : 'bold',
-                                                                fontSize : '16px',
+                                                                fontSize : {lg : '16px', xs : '12px'},
                                                                 height:'35px',
-                                                                width:'200px',
+                                                                width:{lg : '200px', xs : '120px'},
                                                                 '&:hover': {
                                                                         background: '#d71414',
                                                                         color : '#fff'
