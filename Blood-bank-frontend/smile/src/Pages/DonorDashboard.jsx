@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button,Typography, Avatar, Card, CardContent, Paper, Divider} from '@mui/material';
 import TableComp from '../Components/Table'
-import CalendarComp from '../Components/Calendar';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
@@ -108,7 +107,7 @@ const DonorDashboard = () => {
     const getDonorRecords = async () =>{
         setLoadingPage(true)
         try {
-            const res = await axios.get('http://192.168.1.12:8000/donor/get_donor_records/')
+            const res = await axios.get('http://192.168.1.12/donor/get_donor_records/')
             console.log(res)
             setDonorList(res.data.donorList)
             setDonorDetails(res.data.donorDetails)
@@ -139,7 +138,7 @@ const DonorDashboard = () => {
     // Logout API call
     const logout = () => {
         try{
-            axios.get('http://192.168.1.12:8000/donor/logout/').then((res)=>{
+            axios.get('http://192.168.1.12/donor/logout/').then((res)=>{
                 setLoadingPage(true)
                 localStorage.removeItem('check')
                 Swal.fire({
