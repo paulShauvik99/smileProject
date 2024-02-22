@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { ChakraProvider, Grid, GridItem, Skeleton, } from '@chakra-ui/react';
+import {BallTriangle} from 'react-loader-spinner';
+
 
 // Avatar Color
 function stringToColor(string) {
@@ -185,6 +187,21 @@ const DonorDashboard = () => {
                                             </Button>
                                         </div>
                                         <div className="grid_container">
+                                            <div className="calendar">
+                                                <div className="date_time">
+                                                    <div className="date">
+                                                        <p>{`${date[0]} ${date[2]}`}</p>   
+                                                        <p>{date[1]}</p>   
+                                                    </div>
+                                                    <div className="time">
+                                                        <p>{time[0]}</p>
+                                                        <p> : </p>
+                                                        <p>{time[1]}</p>
+                                                        <p> {time[2].toLowerCase()} </p>                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div className="main">
                                                     <div className="upper">     
                                                         <div className="first">
@@ -229,20 +246,6 @@ const DonorDashboard = () => {
                                                                 </Typography>
                                                     </div>
                                             </div>
-                                            <div className="calendar">
-                                                <div className="date_time">
-                                                    <div className="date">
-                                                        <p>{`${date[0]} ${date[2]}`}</p>   
-                                                        <p>{date[1]}</p>   
-                                                    </div>
-                                                    <div className="time">
-                                                        <p>{time[0]}</p>
-                                                        <p> : </p>
-                                                        <p>{time[1]}</p>
-                                                        <p> {time[2].toLowerCase()} </p>                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div className="requests">
                                                 <Typography variant="h3" sx={{fontWeight : 'bold' , color : '#f0e3e4', fontSize : '4rem'}}>
                                                     Top Donors
@@ -256,56 +259,22 @@ const DonorDashboard = () => {
                                         </div>
                                     </>  
                                     ) : (
-                                        <ChakraProvider>
-                                            <Grid 
-                                                templateRows='repeat(2,1fr)'
-                                                templateColumns='repeat(3,1fr)'
-                                                gap={4}
-                                                p={5}
-
-                                            >
-                                                <GridItem
-                                                    colSpan={2}
-                                                >
-                                                    <Skeleton
-                                                        height='40rem'
-                                                        startColor='red.100'
-                                                        speed={1}
-                                                    >
-
-                                                    </Skeleton>
-                                                    
-                                                </GridItem>
-                                                <GridItem
-                                                    colSpan={1}
-                                                    rowSpan={2}
-                                                >
-                                                    <Skeleton
-                                                        startColor='red.100'
-                                                        speed={1}
-
-                                                        height='100%'
-                                                        // width='70rem'
-                                                    >
-
-                                                    </Skeleton>
-
-                                                </GridItem>
-                                                <GridItem
-                                                    colSpan={2}
-                                                >
-
-                                                    <Skeleton
-                                                        startColor='red.100'
-                                                        height='40rem'
-                                                        speed={1}
-                                                    >
-
-                                                    </Skeleton>
-                                                </GridItem>
-                                            </Grid>
-
-                                        </ChakraProvider>
+                                        <>
+                                            <BallTriangle
+                                                height={100}
+                                                width={100}
+                                                radius={5}
+                                                color="#EAEAEA"
+                                                ariaLabel="ball-triangle-loading"
+                                                wrapperStyle={{
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                    height: "100%"
+                                                }}
+                                                wrapperClass=""
+                                                visible={true}
+                                            />
+                                        </>
                                     )   
                                 }
                                     </div>

@@ -31,7 +31,9 @@ import {
     PinInputField,
     HStack,
     VStack,
-    Text
+    Text,
+    Heading,
+    FormHelperText
 } from '@chakra-ui/react'
 import { ChakraProvider, IconButton  } from '@chakra-ui/react'
 import { IdentificationBadge, Envelope, Phone ,Calendar, Password, Eye, EyeSlash, HouseLine, Drop, Gauge, CalendarCheck      } from '@phosphor-icons/react'
@@ -45,6 +47,9 @@ import { jwtDecode } from 'jwt-decode'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
+
+
+
 const steps = [
     { title: 'Personal Details' , description: 'First' },
     { title: 'Anatomical Features', description: 'Second' },
@@ -53,8 +58,7 @@ const steps = [
 
 
 
-const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
-
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 //Main Page 
 const DonateBlood = () => {
     axios.defaults.withCredentials=true
@@ -103,8 +107,7 @@ const DonateBlood = () => {
         
     })
     
-    
-    
+
     //Timer Countdown
     const [time , setTime] = useState('')
     //Show Timer
@@ -125,6 +128,32 @@ const DonateBlood = () => {
     })
     //Handlers
     const handleNext = () => {
+        console.log(activeStep)
+        switch (activeStep) {
+            case 0 : 
+                if(donorInfo.firstName.length < 3 || donorInfo.lastName.length < 3 || donorInfo.dob === ''){
+                    toast.error("Please Enter the details correctly before continuing.")
+                    return
+                } 
+                break 
+            
+            case 1 : 
+                if(donorInfo.bloodGroupName === '' || donorInfo.weight === '' ){
+                    toast.error("Please Enter the details correctly before continuing.")
+                    return 
+                }
+                break 
+            
+            case 2 : 
+                if(!emailRegex.test(donorInfo.email) || isInValid.phoneNumber || donorInfo.address.length < 10 ){
+                    toast.error("Please Enter the details correctly before continuing.")
+                    return 
+                }
+                break 
+            
+            default : return 
+                
+        }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
     
@@ -166,7 +195,7 @@ const DonateBlood = () => {
                 break
 
             case 'email' : 
-                if(value.trim().length == 0){
+                if(!emailRegex.test(value.trim())){
                     setIsInValid(prevState => ({
                         ...prevState,
                         [name] : true
@@ -338,30 +367,36 @@ const DonateBlood = () => {
                             <FormControl isRequired>
                                 <FormLabel htmlFor='firstName'>First Name</FormLabel>
                                 <InputGroup>
-                                    <InputLeftAddon height={30}>
-                                        <Icon as={IdentificationBadge } boxSize={8} weight="duotone" color="#ce2432" />
+                                    <InputLeftAddon backgroundColor='#d71414'  height={30}>
+                                        <Icon as={IdentificationBadge } boxSize={8} weight="duotone" color="#f0e3e4" />
                                     </InputLeftAddon>
                                     <Input variant='outline' backgroundColor='red.50' errorBorderColor='red.400' focusBorderColor={isInValid.firstName ? 'red.400' : 'green.300'} isInvalid={isInValid.firstName} height={30} fontSize={14} type="text" name="firstName" value={donorInfo.firstName} onChange={e =>  setDetails(e)}  colorScheme='pink'/>
                                 </InputGroup>
+                                    {
+                                        isInValid.firstName ? <FormHelperText color="red" fontWeight={500}> Name is too Short, Minimum 3 Characters is required  </FormHelperText> : null
+                                    }
                             </FormControl>
                         </GridItem>
                         <GridItem>
                             <FormControl isRequired>
                                 <FormLabel htmlFor='lastName'>Last Name</FormLabel>
                                 <InputGroup>
-                                    <InputLeftAddon height={30}>
-                                        <Icon as={IdentificationBadge }  boxSize={8} weight="duotone" color="#ce2432" />
+                                    <InputLeftAddon backgroundColor='#d71414' height={30}>
+                                        <Icon as={IdentificationBadge }  boxSize={8} weight="duotone" color="#f0e3e4" />
                                     </InputLeftAddon>
                                     <Input variant='outline' backgroundColor='red.50' errorBorderColor='red.400' focusBorderColor={isInValid.lastName ? 'red.400' : 'green.300'} isInvalid={isInValid.lastName} height={30} fontSize={14} type="text" name="lastName" value={donorInfo.lastName} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
+                                    {
+                                        isInValid.lastName ? <FormHelperText color="red" fontWeight={500}> Name is too Short, Minimum 3 Characters is required  </FormHelperText> : null
+                                    }
                             </FormControl>
                         </GridItem>
                         <GridItem>
                             <FormControl isRequired>
                                 <FormLabel htmlFor='dob'>Date of Birth</FormLabel>
                                 <InputGroup>
-                                    <InputLeftAddon height={30}>
-                                        <Icon as={Calendar }  boxSize={8} weight="duotone" color="#ce2432" />
+                                    <InputLeftAddon backgroundColor='#d71414' height={30}>
+                                        <Icon as={Calendar }  boxSize={8} weight="duotone" color="#f0e3e4" />
                                     </InputLeftAddon>
                                     <Input variant='outline' backgroundColor='red.50' height={30} fontSize={14}  type="date" name="dob" value={donorInfo.dob} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
@@ -380,8 +415,8 @@ const DonateBlood = () => {
                             <FormControl isRequired>
                                 <FormLabel htmlFor='bloodGroup'>Blood Group</FormLabel>
                                 <InputGroup>
-                                    <InputLeftAddon height={30}>
-                                        <Icon as={Drop}  boxSize={8} weight='duotone' color='#ce2432' />
+                                    <InputLeftAddon backgroundColor='#d71414' height={30}>
+                                        <Icon as={Drop}  boxSize={8} weight='duotone' color='#f0e3e4' />
                                     </InputLeftAddon>
                                     <Select placeholder='Select Your Blood Group' height={30} fontSize={14} variant="outline" backgroundColor='red.50' name='bloodGroup' value={donorInfo.bloodGroup} onChange={e =>  setDetails(e)}>
                                         <option value='A+'>A Positive (A+)</option>
@@ -394,33 +429,35 @@ const DonateBlood = () => {
                                         <option value='AB-'>AB Negative (AB-)</option>
                                     </Select>
                                 </InputGroup>
+                                
                             </FormControl>
                         </GridItem>
                         <GridItem>
                             <FormControl isRequired>
                                 <FormLabel htmlFor='weight'>Weight</FormLabel>
                                 <InputGroup>
-                                    <InputLeftAddon height={30}>
-                                        <Icon as={Gauge}  boxSize={8} weight='duotone' color='#ce2432' />
+                                    <InputLeftAddon backgroundColor='#d71414' height={30}>
+                                        <Icon as={Gauge}  boxSize={8} weight='duotone' color='#f0e3e4' />
                                     </InputLeftAddon>
                                     <Input variant='outline' backgroundColor='red.50' height={30} fontSize={14}  type="number" name="weight" value={donorInfo.weight} onChange={e =>  setDetails(e)} />
-                                    <InputRightAddon children='kg'  height={30}/>
+                                    <InputRightAddon children='kg' backgroundColor='#d71414' color='#f0e3e4'  height={30}/>
                                 </InputGroup>
+                                
                             </FormControl>
                         </GridItem>
                         <GridItem>
                             <FormControl>
-                                <FormLabel htmlFor='lastDonated'>Last Donated</FormLabel>
+                                <FormLabel htmlFor='lastDonated'>Last Donated (Optional) </FormLabel>
                                 <InputGroup>
-                                    <InputLeftAddon height={30}>
-                                        <Icon as={CalendarCheck } boxSize={8} weight='duotone' color='#ce2432' />
+                                    <InputLeftAddon backgroundColor='#d71414' height={30}>
+                                        <Icon as={CalendarCheck } boxSize={8} weight='duotone' color='#f0e3e4' />
                                     </InputLeftAddon>
                                     <Input variant='outline' backgroundColor='red.50' height={30} fontSize={14}  type="date" name="lastDonated" value={donorInfo.lastDonated} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
                             </FormControl>
                         </GridItem>
                         <GridItem >
-                            <FormControl isRequired paddingTop={10}> 
+                            <FormControl paddingTop={10}> 
                                 <InputGroup>
                                     <FormLabel htmlFor='isThalassemia'>Do you have Thalassemia?</FormLabel>
                                     <Checkbox size='lg' colorScheme='orange' border="red" paddingLeft={5} name='isThalassemia' isChecked={donorInfo.isThalassemia}   onChange={e => setDonorInfo(prevState => ({...prevState, isThalassemia : !prevState.isThalassemia}))} />
@@ -439,22 +476,28 @@ const DonateBlood = () => {
                             <FormControl isRequired>
                                 <FormLabel htmlFor='email'>Email</FormLabel>
                                 <InputGroup>
-                                <InputLeftAddon height={30}>
-                                    <Icon as={Envelope} boxSize={8} weight="duotone" color="#ce2432" />
+                                <InputLeftAddon backgroundColor='#d71414' height={30}>
+                                    <Icon as={Envelope} boxSize={8} weight="duotone" color="#f0e3e4" />
                                 </InputLeftAddon>
                                 <Input variant='outline' backgroundColor='red.50' errorBorderColor='red.400' focusBorderColor={isInValid.email ? 'red.400' : 'green.300'} isInvalid={isInValid.email} height={30} fontSize={14}  type="email" name="email" value={donorInfo.email} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
+                                {
+                                    isInValid.email ? <FormHelperText color="red" fontWeight={500}> Please Enter a Valid Email  </FormHelperText> : null
+                                }
                             </FormControl>
                         </GridItem>
                         <GridItem>
                             <FormControl isRequired>
                                 <FormLabel htmlFor='phoneNumber'>Phone</FormLabel>
                                 <InputGroup>
-                                    <InputLeftAddon height={30}>
-                                        <Icon as={Phone} boxSize={8} weight='duotone' color='#ce2432' />
+                                    <InputLeftAddon backgroundColor='#d71414' height={30}>
+                                        <Icon as={Phone} boxSize={8} weight='duotone' color='#f0e3e4' />
                                     </InputLeftAddon>
                                     <Input variant='outline' backgroundColor='red.50' errorBorderColor='red.400' focusBorderColor={isInValid.phoneNumber ? 'red.400' : 'green.300'} isInvalid={isInValid.phoneNumber} height={30} fontSize={14}  type="number" name="phoneNumber" value={donorInfo.phoneNumber} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
+                                {
+                                    isInValid.phoneNumber ? <FormHelperText color="red" fontWeight={500}>Please Enter a Valid Phone Number  </FormHelperText> : null
+                                }
                             </FormControl>
                         </GridItem>
 
@@ -462,11 +505,14 @@ const DonateBlood = () => {
                             <FormControl isRequired>
                                 <FormLabel htmlFor='address'>Address</FormLabel>
                                 <InputGroup>
-                                    <InputLeftAddon className='address' height={20}>
-                                        <Icon as={HouseLine}  boxSize={8} weight='duotone' color='#ce2432' />
+                                    <InputLeftAddon backgroundColor='#d71414' className='address' height={20}>
+                                        <Icon as={HouseLine}  boxSize={8} weight='duotone' color='#f0e3e4' />
                                     </InputLeftAddon>
                                     <Textarea variant='outline' backgroundColor='red.50' errorBorderColor='red.400' focusBorderColor={isInValid.address ? 'red.400' :  'green.300'} isInvalid={isInValid.address} fontSize={14} resize='none' name="address" value={donorInfo.address} onChange={e =>  setDetails(e)} />
                                 </InputGroup>
+                            {
+                                isInValid.address ? <FormHelperText color="red" fontWeight={500}> Address is too Short, Minimum 10 Characters is required  </FormHelperText> : null
+                            }
                             </FormControl>
                         </GridItem>
                         
@@ -489,6 +535,7 @@ const DonateBlood = () => {
                                         fontSize='16px'
                                         onClick={sendOtp}
                                         isDisabled={disability}
+                                        fontWeight='400'
                                     >
                                         {changeText}
                                     </Button>
@@ -497,12 +544,12 @@ const DonateBlood = () => {
                                 </HStack>
                                 <HStack>
                                     <PinInput otp variant='outline' backgroundColor='red.50' placeholder='_' size='lg' value={otpVal}  onChange={e=>setOtpVal(e)} >
-                                        <PinInputField height={20} fontSize={22}   color='red.500' bg='red.100'/>
-                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
-                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
-                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
-                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
-                                        <PinInputField height={20} fontSize={22}  color='red.500' bg='red.100'/>
+                                        <PinInputField height={20} fontSize={22}   color='black' bg='#d7141450'/>
+                                        <PinInputField height={20} fontSize={22}  color='black' bg='#d7141450'/>
+                                        <PinInputField height={20} fontSize={22}  color='black' bg='#d7141450'/>
+                                        <PinInputField height={20} fontSize={22}  color='black' bg='#d7141450'/>
+                                        <PinInputField height={20} fontSize={22}  color='black' bg='#d7141450'/>
+                                        <PinInputField height={20} fontSize={22}  color='black' bg='#d7141450'/>
                                     </PinInput>
                                 </HStack>
                             </VStack>
@@ -536,6 +583,7 @@ const DonateBlood = () => {
                                     initial={{ x : '-100vw'}}
                                     animate={{ x : 0 }}
                                 >
+                                    <Heading as='h3' mb={10} textAlign='center' > Donor Registration </Heading>
                                     <Stepper size='lg' index={activeStep} colorScheme='red' >
                                         {steps.map((step, index) => (
                                             <Step key={index} onClick={()=> setActiveStep(index)}>
@@ -577,7 +625,7 @@ const DonateBlood = () => {
                                                         className='reg_btn'
                                                         color="black" bg="#d7141450" 
                                                         _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
-                                                        mt={20}
+                                                        mt={10}
                                                         fontSize='16px'
                                                         height='3rem'
                                                         width='3rem'
@@ -588,10 +636,12 @@ const DonateBlood = () => {
                                                         color="black" bg="#d7141450" 
                                                         _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
                                                         className='reg_btn'
-                                                        mt={20}
+                                                        mt={10}
                                                         height='30px'
                                                         width='120px'
                                                         fontSize='16px'
+                                                        fontWeight='400'
+                                                        isDisabled={otpVal.length !== 6}
                                                     >
                                                         Verify OTP
                                                     </Button>   
@@ -616,8 +666,8 @@ const DonateBlood = () => {
                                                         color="black" bg="#d7141450" 
                                                         _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
                                                         mt={20}
-                                                        height='3rem'
-                                                        width='3rem'
+                                                        height={{lg : '3rem', base : '2.5rem'}}
+                                                        width={{lg : '3rem', base : '2.5rem'}}
                                                         icon={<ArrowBackIosNewIcon />}
                                                         fontSize='16px'
                                                     />
@@ -627,8 +677,8 @@ const DonateBlood = () => {
                                                         color="black" bg="#d7141450" 
                                                         _hover={{color:'#f0e3e4' , bg: '#d71414'}}  className='reg_btn'
                                                         mt={20}
-                                                        height='3rem'
-                                                        width='3rem'
+                                                        height={{lg : '3rem', base : '2.5rem'}}
+                                                        width={{lg : '3rem', base : '2.5rem'}}
                                                         fontSize='16px'
                                                         icon={<ArrowForwardIosIcon />}
                                                     />
@@ -642,7 +692,7 @@ const DonateBlood = () => {
                                                         height='35px'
                                                         width='22rem'
                                                         fontSize={{lg :'12px' , base : '8px'}}
-                                                        ml='10rem'
+                                                        ml={{base : '10rem', lg : '15rem'}}
                                                         justifySelf='flex-end'
                                                     >
                                                         Already Have an Account?
@@ -655,9 +705,10 @@ const DonateBlood = () => {
                                         </>
                                     )}       
 
-
+                                    
                                 </motion.div>
                             </div>
+                                    <ToastContainer />
                             </ChakraProvider>
                         ) : (
                             <>
@@ -666,7 +717,7 @@ const DonateBlood = () => {
                                     <div className="donate_login">
                                         <motion.div className="donate_login_form"
                                             initial={{ x : '100vw'}}
-                                            animate={{ x : 0 }}
+                                            whileInView={{ x : 0 }}
                                         >
                                             <VStack>
 
@@ -679,7 +730,7 @@ const DonateBlood = () => {
                                                     color="black" bg="#d7141450" 
                                                     _hover={{color:'#f0e3e4' , bg: '#d71414'}} 
                                                     className='reg_btn'
-                                                    mt={20}
+                                                    mt={10}
                                                     height='35px'
                                                     width={{lg : '16rem'}}
                                                     fontSize={{lg :'12px' , base : '8px'}}
@@ -697,7 +748,6 @@ const DonateBlood = () => {
                         )
                     }
 
-                    <ToastContainer />
                 </div>
             </div>
 

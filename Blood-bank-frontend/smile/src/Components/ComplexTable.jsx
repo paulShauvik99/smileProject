@@ -1,4 +1,4 @@
-import { Box, Button, Chip } from '@mui/material';
+import { Box, Button, Chip, Typography } from '@mui/material';
 import { DataGrid,  GridActionsCellItem, GridToolbarFilterButton, } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -6,22 +6,39 @@ import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 
 
 
-const CustomNoRows = () =>{
-    return(
-        <>
-            <h1>No Pending Requests</h1>
-        </>
-    )
-}
-
 
 
 const ComplexTable = (props) => {
-
+    
     const rows = props.rows
     const [columns , setColumns] = useState([])
-
-
+    
+    
+    const CustomNoRows = () =>{
+        return(
+            <>
+                <Box sx={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(255, 255, 255,0.3)'
+                }}>
+                    {props.type === 'donorList' ?  (
+                        <Typography variant='h2' sx={{fontSize : {xs : '1.8rem'}}} >
+                            No Donors Available
+                        </Typography>
+                    ) : (
+                        <Typography variant='h2' sx={{fontSize : {xs : '1.8rem'}}}>
+                            No Pending Requests
+                        </Typography>
+                    )}
+                </Box>
+            </>
+        )
+    }
+    
     const columnVisibility = { 
         id : false,
     }

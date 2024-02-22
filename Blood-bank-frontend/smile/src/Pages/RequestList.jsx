@@ -33,11 +33,12 @@ const style = {
 
 const modalTypStyle = {
     display : 'flex', 
+    gap : '2rem',
     alignItems : 'center', 
     fontSize : '2rem' , 
     color : '#191818',
     '@media only screen and (max-width : 767px)' : {
-        fontSize : '1rem'
+        fontSize : '1.4rem'
     }
 }
 
@@ -336,7 +337,7 @@ const RequestList = () => {
                                                 <b>Donation Date : </b> {modalData[0].firstDonation.donationDate}
                                             </Typography>
                                             <Typography variant='h4' sx={modalTypStyle} >
-                                                <b> Donor's Name : </b> {modalData[0].firstDonation.donorName}
+                                                <b> Donor's Name : </b> {modalData[0].firstDonation.donorName !== '' ? modalData[0].firstDonation.donorName : '-'}
                                             </Typography>
                                             <img src={modalData[0].firstDonation.donationReceipt} height='200px' width='auto' alt="Receipt" />
                                         </div>

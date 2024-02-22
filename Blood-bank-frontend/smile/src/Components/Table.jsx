@@ -66,7 +66,7 @@ const TableComp = (props) => {
                 ) : (
                     
                     <Box component={Paper} sx={tableStyle2} >
-                        <TableContainer sx={{maxHeight : 200 , maxWidth : 750}}>
+                        <TableContainer sx={{maxHeight : 200 , maxWidth : {lg : 750 , xs : 300}}}>
                             <Table stickyHeader aria-label="simple table" >
                                 <TableHead >
                                     <TableRow sx={{backgroundColor :'red' }}>
@@ -86,7 +86,7 @@ const TableComp = (props) => {
                                             <TableCell sx={{fontSize : '14px'}} align="left">{row.recipient_name}</TableCell>
                                             <TableCell sx={{fontSize : '14px'}} align="left">{row.date}</TableCell>
                                             <TableCell sx={{fontSize : '14px'}} align="center">{row.bloodGroup}</TableCell>
-                                            <TableCell sx={{fontSize : '14px'}} align="left">
+                                            <TableCell sx={{fontSize : '14px'}} align="left" >
                                                         {
                                                             row.status === 'Confirmed' ? (
                                                                 <Chip 
@@ -94,7 +94,7 @@ const TableComp = (props) => {
                                                                     size='small'
                                                                     sx={{
                                                                         backgroundColor : '#07bc0c',
-                                                                        width : '50%',
+                                                                        width : {lg : '60%', xs : '100%'},
                                                                         fontSize : '1.2rem',
                                                                         fontWeight : 'bold',
                                                                     }}
@@ -106,7 +106,7 @@ const TableComp = (props) => {
                                                                     size='small'
                                                                     sx={{
                                                                         backgroundColor : '#d22228',
-                                                                        width : '50%',
+                                                                        width : {lg : '60%', xs : '100%'},
                                                                         color : '#daccca',
                                                                         fontSize : '1.2rem',
                                                                         fontWeight : 'bold',
