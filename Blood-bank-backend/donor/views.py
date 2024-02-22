@@ -289,6 +289,7 @@ def get_donor_records(request):
                 differenceInDays = difference.days
             # print(difference.days)
             donorDetails = {
+                
                 "id" : donorDetailsObj.id,
                 "firstName" : donorDetailsObj.firstName,
                 "lastName" : donorDetailsObj.lastName,
@@ -301,7 +302,6 @@ def get_donor_records(request):
                  'isEligible' : is_eligible,
                  'remainingDays' : (90 - differenceInDays) 
 
-                
             }
 
             

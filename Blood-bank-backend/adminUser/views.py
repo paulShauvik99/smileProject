@@ -159,7 +159,7 @@ def get_recipient_list(request):
                                             'bloodBankName':recipient.firstDonation.bloodBankName,
                                             'donorName':recipient.firstDonation.donorName,
                                             'donationDate':recipient.firstDonation.donationDate,
-                                            'donationReceipt': 'http://192.168.1.12:8000' + recipient.firstDonation.donationReceipt.url
+                                            'donationReceipt': 'http://192.168.29.147:8000' + recipient.firstDonation.donationReceipt.url
                                         }
                     recipient_list_data.append({'id': recipient.id,  
                                                 'sl' : sl,
