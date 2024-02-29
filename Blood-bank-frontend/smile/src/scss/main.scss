@@ -424,7 +424,10 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
 
                             font-size: 1.4rem;
                         }
-                        
+                        & .chakra-radio__control {
+                            // color : red;
+                            border-color: #d22228;
+                        }
                     }
                 }
             
@@ -612,6 +615,9 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                             }
                         }
                     }
+
+                    
+
                 }
 
             }
@@ -635,6 +641,11 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
 // Style For Recipient Upload Files in Modal
 
         .pat_reg{
+
+            & .chakra-radio__control{
+                // color : red;
+                border-color: #d22228;
+            }
 
             & .receipt_input{
                 height: 100%;

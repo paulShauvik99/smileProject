@@ -208,7 +208,46 @@ const ComplexTable = (props) => {
                     color="success"
                     // showInMenu
                     
-                />
+                />,
+                <GridActionsCellItem
+                    icon={<CheckCircleIcon />}
+                    label="Confirm Donor"
+                    className='con'
+                    onClick={() => props.sentForDonation(params.id)}    
+                    color="success"
+                    // showInMenu
+                    
+                />,
+
+                ];
+            },
+        },
+        {
+            field: 'sendsms',
+            type: 'actions',
+            headerName: 'Send SMS',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: (params) => {
+                return [
+                <GridActionsCellItem
+                    icon={<CheckCircleIcon />}
+                    label="Confirm Donor"
+                    className='con'
+                    onClick={() => props.sentForDonation(params.id)}    
+                    color="success"
+                    // showInMenu
+                    
+                />,
+                <GridActionsCellItem
+                    icon={<CheckCircleIcon />}
+                    label="Confirm Donor"
+                    className='con'
+                    onClick={() => props.sentForDonation(params.id)}    
+                    color="success"
+                    // showInMenu
+                    
+                />,
                 ];
             },
         },

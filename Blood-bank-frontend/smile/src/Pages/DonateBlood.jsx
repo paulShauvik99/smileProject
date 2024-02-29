@@ -33,7 +33,10 @@ import {
     VStack,
     Text,
     Heading,
-    FormHelperText
+    FormHelperText,
+    RadioGroup,
+    Stack,
+    Radio
 } from '@chakra-ui/react'
 import { ChakraProvider, IconButton  } from '@chakra-ui/react'
 import { IdentificationBadge, Envelope, Phone ,Calendar, Password, Eye, EyeSlash, HouseLine, Drop, Gauge, CalendarCheck      } from '@phosphor-icons/react'
@@ -101,7 +104,7 @@ const DonateBlood = () => {
         phoneNumber : '',
         address : '',
         bloodGroup : '',
-        weight : '',
+        gender: '',
         lastDonated : '',
         isThalassemia : false,
         
@@ -128,17 +131,16 @@ const DonateBlood = () => {
     })
     //Handlers
     const handleNext = () => {
-        console.log(activeStep)
         switch (activeStep) {
             case 0 : 
-                if(donorInfo.firstName.length < 3 || donorInfo.lastName.length < 3 || donorInfo.dob === ''){
+                if(donorInfo.firstName.length < 3 || donorInfo.lastName.length < 3 || donorInfo.dob === '' || donorInfo.gender === ''){
                     toast.error("Please Enter the details correctly before continuing.")
                     return
                 } 
                 break 
             
             case 1 : 
-                if(donorInfo.bloodGroupName === '' || donorInfo.weight === '' ){
+                if(donorInfo.bloodGroup === ''){
                     toast.error("Please Enter the details correctly before continuing.")
                     return 
                 }
@@ -318,11 +320,13 @@ const DonateBlood = () => {
             address : donorInfo.address,
             bloodGroup : donorInfo.bloodGroup,
             // weight : donorInfo.weight,
-            // lastDonated : donorInfo.lastDonated,
-            // isThalassemia : donorInfo.isThalassemia,
+            lastDonated : donorInfo.lastDonated ? donorInfo.lastDonated : null,
+            isThalassemia : donorInfo.isThalassemia,
+            gender : donorInfo.gender,
             otp : otpVal
         }
-        console.log(donorDet)
+        console.log(JSON.stringify(donorDet))
+        return
         try {
             const res = await axios.post('http://192.168.1.12:8000/donor/register/',JSON.stringify(donorDet))
             if('success' in res.data){
@@ -393,6 +397,18 @@ const DonateBlood = () => {
                         </GridItem>
                         <GridItem>
                             <FormControl isRequired>
+                                <FormLabel htmlFor='gender'> Gender </FormLabel>
+                                <RadioGroup onChange={e => setDonorInfo(prev => ({...prev , gender : e}))} name="gender" value={donorInfo.gender}>
+                                    <Stack direction='row' pt={4}>
+                                        <Radio size='lg' colorScheme='red' value='male'>Male</Radio>
+                                        <Radio size='lg' colorScheme='red' value='female'>Female</Radio>
+                                        <Radio size='lg' colorScheme='red' value='others'>Others</Radio>
+                                    </Stack>
+                                </RadioGroup>
+                            </FormControl>
+                        </GridItem>
+                        <GridItem>
+                            <FormControl isRequired>
                                 <FormLabel htmlFor='dob'>Date of Birth</FormLabel>
                                 <InputGroup>
                                     <InputLeftAddon backgroundColor='#d71414' height={30}>
@@ -432,7 +448,7 @@ const DonateBlood = () => {
                                 
                             </FormControl>
                         </GridItem>
-                        <GridItem>
+                        {/* <GridItem>
                             <FormControl isRequired>
                                 <FormLabel htmlFor='weight'>Weight</FormLabel>
                                 <InputGroup>
@@ -444,7 +460,7 @@ const DonateBlood = () => {
                                 </InputGroup>
                                 
                             </FormControl>
-                        </GridItem>
+                        </GridItem> */}
                         <GridItem>
                             <FormControl>
                                 <FormLabel htmlFor='lastDonated'>Last Donated (Optional) </FormLabel>
