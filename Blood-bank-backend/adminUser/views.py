@@ -14,6 +14,8 @@ import time
 from sms import send_sms
 from twilio.rest import Client
 from django.core.serializers import serialize
+from django.db.models import Q
+from django.shortcuts import get_object_or_404
 
 
 import random
@@ -55,21 +57,24 @@ def get_donor_list(request):
             current_date = datetime.strptime(current_date_string, "%Y-%m-%d").date()
             three_months_ago = current_date - timedelta(days=3*30)
             print(three_months_ago)
-            donor_list_obj  = Donor.objects.filter(lastDonated__lte = three_months_ago).all()
-            
+            # donor_list_obj  = Donor.objects.filter(Q(lastDonated__lte=three_months_ago) | Q(lastDonated__isnull=True)).all()
+            donor_list_obj  = Donor.objects.all()
             donor_list_data = []
             sl = 1
             if donor_list_obj:
                 donor_list_data = [{
                                     'sl': index + 1,
                                     'id': donor.id, 
+                                    'loan' : donor.loan,
                                     'lastDonated': donor.lastDonated, 
                                     'firstName': donor.firstName,
                                     'lastName': donor.lastName,
-                                    'thalassemia' : donor.thalassemia,
+                                    'thalassemia' : donor.isThalassemia,
                                     'bloodGroup' : donor.bloodGroup,
                                     'phoneNumber' : donor.phoneNumber,
                                     'address' : donor.address,
+                                    'gender' : donor.gender,
+                                    'isAvailable' : (True if (donor.lastDonated== None) else donor.lastDonated <= three_months_ago),
                                     'totalDonation' : donor.totalDonation,
                                     } for index, donor in enumerate(donor_list_obj)]
             
@@ -94,14 +99,21 @@ def confirm_donor(request):
         body  = json.loads(request.body)
         id  = body['donor_id'] 
         donor_id = uuid.UUID(id)
+        current_date_string= datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
+        current_date = datetime.strptime(current_date_string, "%Y-%m-%d").date()
+        three_months_ago = current_date - timedelta(days=3*30)
         try:
 
-            donor = Donor.objects.filter(id = donor_id).first()
+            donor = Donor.objects.filter(id = donor_id, lastDonated__lte=three_months_ago).first()
+            if not donor:
+                return JsonResponse({'error' : 'Donor is not Eligible for Donation'},status=500)
             dateObj = datetime.now(tz=pytz.timezone('Asia/Kolkata'))
             iso_format = "%Y-%m-%d"
             date  = datetime.strftime(dateObj, iso_format)
             donor.lastDonated = date
             donor.totalDonation += 1
+            if donor.loan : 
+                donor.loan = False
             donor.save()
 
           
@@ -159,7 +171,7 @@ def get_recipient_list(request):
                                             'bloodBankName':recipient.firstDonation.bloodBankName,
                                             'donorName':recipient.firstDonation.donorName,
                                             'donationDate':recipient.firstDonation.donationDate,
-                                            'donationReceipt': 'http://192.168.1.12:8000' + recipient.firstDonation.donationReceipt.url
+                                            'donationReceipt': 'http://192.168.56.1:8000' + recipient.firstDonation.donationReceipt.url
                                         }
                     recipient_list_data.append({'id': recipient.id,  
                                                 'sl' : sl,
@@ -172,6 +184,7 @@ def get_recipient_list(request):
                                         'firstDonCheck' : recipient.firstDonCheck,
                                         'bloodGroup' : recipient.bloodGroup,
                                         'phoneNumber' : recipient.phoneNumber,
+                                        'gender' : recipient.gender,
                                         'address' : recipient.address,
                                         'status' : recipient.status,
                                         })
@@ -269,3 +282,118 @@ def admin_logout(request):
    
     return JsonResponse({"success": "Admin logout processed"},status=200)
 
+
+@csrf_exempt
+def requirement_msg(request, donor_id):
+    if request.method == "GET":
+        if authorize_admin(request) == False:
+            return JsonResponse({"error" : "Unauthorized"},status = 401)
+        donor = get_object_or_404(Donor, id=donor_id)
+        current_date_string= datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
+        current_date = datetime.strptime(current_date_string, "%Y-%m-%d").date()
+        three_months_ago = current_date - timedelta(days=3*30)
+        if donor.lastDonated >three_months_ago :
+            return JsonResponse({"Donor not eligible for Donation"}, status=500)
+        try: 
+            client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+
+          
+
+            # Replace 'to' with the recipient's phone number
+            to =donor.phoneNumber
+            
+            # Replace 'from_' with your Twilio phone number
+            from_ = settings.TWILIO_PHONE_NUMBER
+            
+            message = client.messages.create(
+                body="Hi "+ donor.firstName + ", " + "\nThere is an urgent need of blood. Kindly visit or contact SMILE admin", 
+                to=to,
+                from_=from_
+            )
+
+            return JsonResponse({"success" : "SMS sent successfully"},status=200)
+            
+        except Exception as e:
+            print(e) 
+            return JsonResponse({'error' : 'SMS not sent'}, status =500)
+    return JsonResponse({'error' :'Invalid request method'} , status=400)
+        
+
+@csrf_exempt
+def loan_msg(request, donor_id):
+    if request.method == "GET":
+        if authorize_admin(request) == False:
+            return JsonResponse({"error" : "Unauthorized"},status = 401)
+        donor = get_object_or_404(Donor, id=donor_id, loan=True)
+        
+        try: 
+            client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+
+          
+
+            # Replace 'to' with the recipient's phone number
+            to =donor.phoneNumber
+            
+            # Replace 'from_' with your Twilio phone number
+            from_ = settings.TWILIO_PHONE_NUMBER
+            
+            message = client.messages.create(
+                body="Hi "+ donor.firstName + ", " + "\nThere is a pending blood loan against your id, Kindly visit SMILE or contact admin to donate blood.", 
+                to=to,
+                from_=from_
+            )
+
+            return JsonResponse({"success" : "SMS sent successfully"},status=200)
+            
+        except Exception as e:
+            print(e) 
+            return JsonResponse({'error' : 'SMS not sent'}, status =500)
+    return JsonResponse({'error' :'Invalid request method'} , status=400)     
+
+
+@csrf_exempt
+def confirm_loan(request, donor_id):
+    if request.method=="GET":
+        if authorize_admin(request) == False:
+            return JsonResponse({"error" : "Unauthorized"},status = 401)
+         
+    
+        try:
+
+            donor = Donor.objects.filter(id = donor_id).first()
+            if donor.loan :
+                return  JsonResponse({"error":"Loan already taken"},status=500)
+            donor.loan = True
+            donor.save()
+
+          
+
+        except Exception as e:
+            print(e)
+            return JsonResponse({"error":"Donation Confirmation Failed"},status=500)
+       
+        try: 
+            client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+
+          
+
+            # Replace 'to' with the recipient's phone number
+            to =donor.phoneNumber
+            
+            # Replace 'from_' with your Twilio phone number
+            from_ = settings.TWILIO_PHONE_NUMBER
+            
+            message = client.messages.create(
+                body="Hi "+ donor.firstName + ", " + "\nYour Loan Request for 1 unit blood has been processed.", 
+                to=to,
+                from_=from_
+            )
+
+            return JsonResponse({"success" : "Comfirmation Done Successfully"},status=200)
+            
+        except Exception as e:
+            print(e) 
+            pass
+
+        
+    return JsonResponse({"error" : "Invalid request method"},status = 400)
