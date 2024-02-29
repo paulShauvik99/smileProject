@@ -16,12 +16,15 @@ class Donor(models.Model):
     lastDonated = models.DateField(null=True)
     address  = models.TextField(default="",max_length=500)
     weight = models.CharField(default ="",max_length=4)
-    thalassemia = models.CharField(default ="",max_length=4)
+    isThalassemia = models.BooleanField(default = False,null=True)
     totalDonation = models.IntegerField(default = 0,null=False)
+    loan = models.BooleanField(default=False) 
+    gender = models.CharField(default="",max_length=300)
     def __str__(self) :
         return self.firstName
 
 
+    
 class Calender(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     quantity = models.IntegerField(default=15,null=True)

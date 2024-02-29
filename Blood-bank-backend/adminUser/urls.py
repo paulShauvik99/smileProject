@@ -9,5 +9,8 @@ urlpatterns = [
     path('confirm_recipient_donation/',views.confirmRecipientDonation),
     path('reject_request/',views.reject_request),
     path('admin_login/',views.admin_login),
-    path('admin_logout/',views.admin_logout)
+    path('admin_logout/',views.admin_logout),
+    path('send_requirement/<str:donor_id>',views.requirement_msg),
+    path('loan_msg/<str:donor_id>',views.loan_msg),
+    path('confirm_loan/<str:donor_id>',views.confirm_loan)
 ]

@@ -36,6 +36,9 @@ def register(request) :
         email = body['email']
         otp = body['otp']
         address = body['address']
+        gender = body['gender']
+        lastDonated = body['lastDonated']
+        isThalassemia = body['isThalassemia']
 
         isDonor = Donor.objects.filter(phoneNumber = phoneNumber).first()
         if isDonor is not None:
@@ -91,7 +94,12 @@ def register(request) :
                 phoneNumber = phoneNumber,
                 email = email,
                 address = address,
-                id = id
+                gender = gender,
+                id = id,
+                lastDonated=lastDonated,
+                isThalassemia = isThalassemia
+
+
             )
             new_donor.save()
         except Exception as e:
@@ -296,6 +304,8 @@ def get_donor_records(request):
                  "lastDonated" : donorDetailsObj.lastDonated,
                  "phoneNumber" : donorDetailsObj.phoneNumber,
                  "emailId" : donorDetailsObj.email,
+                 'gender' : donor.gender,
+                 'isThalassemia'  : donor.isThalassemia,
                  "address" : donorDetailsObj.address,
                  "bloodGroup" : donorDetailsObj.bloodGroup,
                  'totalDonation' : donorDetailsObj.totalDonation,

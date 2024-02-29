@@ -23,7 +23,7 @@ class Recipient(models.Model):
     phoneNumber = models.CharField(default='',max_length=10)
     alternateNumber = models.CharField(default='',max_length=10)
     email = models.CharField(default="",max_length=30)
-    
+    gender = models.CharField(default="",max_length=300)
     address  = models.TextField(default="",max_length=500)
     hospitalName = models.CharField(default="",max_length=40)
     isThalassemia = models.BooleanField(default = False,null=True)
