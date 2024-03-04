@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from donor.models import Donor
 from recipient.models import Recipient
+from adminUser.models import LeaderBoard
 from django.http import JsonResponse
 import json
 from datetime import datetime,timedelta
@@ -16,6 +17,7 @@ from twilio.rest import Client
 from django.core.serializers import serialize
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from django.core.files.storage import FileSystemStorage
 
 
 import random
@@ -294,7 +296,7 @@ def requirement_msg(request, donor_id):
         current_date = datetime.strptime(current_date_string, "%Y-%m-%d").date()
         three_months_ago = current_date - timedelta(days=3*30)
         if donor.lastDonated >three_months_ago :
-            return JsonResponse({'error': "Donor not eligible for Donation"}, status=500)
+            return JsonResponse({"error" : "Donor not eligible for Donation"}, status=500)
         try: 
             client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
             # Replace 'to' with the recipient's phone number
@@ -358,8 +360,8 @@ def confirm_loan(request, donor_id):
     if request.method=="GET":
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
+         
         donor_id = uuid.UUID(donor_id)
-    
         try:
 
             donor = Donor.objects.filter(id = donor_id).first()
@@ -399,3 +401,70 @@ def confirm_loan(request, donor_id):
 
         
     return JsonResponse({"error" : "Invalid request method"},status = 400)
+
+@csrf_exempt
+def addPhotos(request):
+    if request.method == 'POST':
+        if authorize_admin(request) == False:
+            return JsonResponse({"error" : "Unauthorized"},status = 401)
+         
+        images = request.FILES.getlist('images')
+        print(images)
+   
+
+        leaderBoards = LeaderBoard.objects.all()
+       
+        if leaderBoards is not None: 
+            for leaderBoard in leaderBoards:
+                print('HI DELETE')
+                leaderBoard.p1.delete(save=False)
+                leaderBoard.p2.delete(save=False)
+                leaderBoard.p3.delete(save=False)
+                leaderBoard.p4.delete(save=False)
+                leaderBoard.p5.delete(save=False)
+
+                leaderBoard.delete()
+        try:
+            LeaderBoard(
+                p1 = images[0],
+                p2 = images[1],
+                p3 = images[2],
+                p4 = images[3],
+                p5 = images[4]
+            ).save()
+          
+            # file_name1= fs.save(p1.name,p1)
+            # file_url1 = fs.url(file_name1)
+            # file_name2 = fs.save(p2.name,p2)
+            # file_url2 = fs.url(file_name2)
+            # file_name3 =fs.save(p3.name,p3)
+            # file_url3 = fs.url(file_name3)
+            # file_name4 =fs.save(p4.name,p4)
+            # file_url4 = fs.url(file_name4)
+            # file_name5 =fs.save(p5.name, p5)  
+            # file_url5 = fs.url(file_name5)
+        except Exception as e:
+            print(e)
+            return JsonResponse( {"error": str(e)}, status=500)
+        return JsonResponse({'success' : 'Images added successfully'},status=200)
+
+    return JsonResponse({"error" : "Invalid request method"},status = 400)
+
+@csrf_exempt
+def  getLeaderboardImage(request):
+    if request.method == 'GET':
+        leaderboard = LeaderBoard.objects.first()
+        base_url = 'http://127.0.0.1:8000'
+        data = {
+            'image1' : base_url+leaderboard.p1.url,
+            'image2' : base_url+leaderboard.p2.url,
+            'image3' : base_url+ leaderboard.p3.url,
+            'image4' : base_url+ leaderboard.p4.url,
+            'image5' : base_url+ leaderboard.p5.url,
+
+
+        }
+        
+        
+        return JsonResponse({'success' : 'Images loaded successfully', 'data' : data},status=200)
+    return JsonResponse({"error" : "Invalid request method"},status = 400)   
