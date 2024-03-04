@@ -74,7 +74,55 @@ const DonorList = () => {
         //API for matched donor
         console.log(id)
         try {
-            const res = await axios.post('http://192.168.1.12:8000/adminUser/confirm_donor/',{donor_id : id})
+            const res = await axios.post('http://192.168.1.15:8000/adminUser/confirm_donor/',{donor_id : id})
+            console.log(res)
+            setReload(!reload)
+
+        } catch (error) {
+            Swal.fire({
+                text : error.response.data.error,
+                icon : 'error',
+            })
+        }
+    }
+    //Add Loan to Donor
+    const addLoan = async (id) =>{
+        //API for matched donor
+        console.log(id)
+        try {
+            const res = await axios.get(`http://192.168.1.15:8000/adminUser/confirm_loan/${id}` )
+            console.log(res)
+            setReload(!reload)
+
+        } catch (error) {
+            Swal.fire({
+                text : error.response.data.error,
+                icon : 'error',
+            })
+        }
+    }
+    //Send Donor For Donation
+    const sendSMS = async (id) =>{
+        //API for matched donor
+        console.log(typeof(id))
+        try {
+            const res = await axios.get(`http://192.168.1.15:8000/adminUser/send_requirement/${id}`)
+            console.log(res)
+            setReload(!reload)
+
+        } catch (error) {
+            Swal.fire({
+                text : error.response.data.error,
+                icon : 'error',
+            })
+        }
+    }
+    //Send Donor For Donation
+    const sendReminder = async (id) =>{
+        //API for matched donor
+        console.log(id)
+        try {
+            const res = await axios.get(`http://192.168.1.15:8000/adminUser/loan_msg/${id}`)
             console.log(res)
             setReload(!reload)
 
@@ -90,7 +138,7 @@ const DonorList = () => {
 
     const getAvailableDonors = async () => {
         setLoadingPage(true)
-        const res = await axios.get('http://192.168.1.12:8000/adminUser/get_donor_list/')
+        const res = await axios.get('http://192.168.1.15:8000/adminUser/get_donor_list/')
         console.log(res)
         setDonorList(res.data.donor_list)
         setLoadingPage(false)
@@ -98,7 +146,7 @@ const DonorList = () => {
 
     const adminLogout = () => {
         try{
-            axios.get('http://192.168.1.12:8000/adminUser/admin_logout/').then((res)=>{
+            axios.get('http://192.168.1.15:8000/adminUser/admin_logout/').then((res)=>{
                 setLoadingPage(true)
                 localStorage.removeItem('adminCheck')
                 Swal.fire({
@@ -167,6 +215,9 @@ const DonorList = () => {
                                     type='donorList'
                                     rows={donorList}
                                     sentForDonation={sentForDonation}
+                                    addLoan={addLoan}
+                                    sendSMS={sendSMS}
+                                    sendReminder={sendReminder}
                                 />
                             </>
                         )

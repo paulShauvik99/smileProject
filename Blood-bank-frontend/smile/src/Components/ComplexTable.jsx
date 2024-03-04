@@ -1,11 +1,12 @@
-import { Box, Button, Chip, Typography } from '@mui/material';
+import { Box, Button, Chip, Tooltip, Typography } from '@mui/material';
 import { DataGrid,  GridActionsCellItem, GridToolbarFilterButton, } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-
-
-
+import PlusOneIcon from '@mui/icons-material/PlusOne';
+import SmsIcon from '@mui/icons-material/Sms';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import DoneIcon from '@mui/icons-material/Done';
 
 
 const ComplexTable = (props) => {
@@ -186,11 +187,21 @@ const ComplexTable = (props) => {
             headerName: 'Blood Group',
             type : 'singleSelect',
             valueOptions : ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'],
-            width: 200,
+            width: 150,
             sortable : false,   
             align : 'center',
             headerAlign: 'center',
             filterable : true,
+        },
+        {
+            field: 'loan',
+            headerName: 'Has Loan',
+            width: 100,
+            sortable : false,   
+            align : 'center',
+            headerAlign: 'center',
+            filterable : true,
+            renderCell : (params) => {return (params.row.loan ?  (<DoneIcon className='con' />) : '')}
         },
         {
             field: 'actions',
@@ -201,24 +212,21 @@ const ComplexTable = (props) => {
             getActions: (params) => {
                 return [
                 <GridActionsCellItem
-                    icon={<CheckCircleIcon />}
+                    icon={<Tooltip title="Confirm Donation"><CheckCircleIcon /></Tooltip>}
                     label="Confirm Donor"
                     className='con'
                     onClick={() => props.sentForDonation(params.id)}    
-                    color="success"
+                    // color="success"
                     // showInMenu
-                    
                 />,
                 <GridActionsCellItem
-                    icon={<CheckCircleIcon />}
-                    label="Confirm Donor"
-                    className='con'
-                    onClick={() => props.sentForDonation(params.id)}    
-                    color="success"
+                    icon={<Tooltip title="Add Donor for Loan"><PlusOneIcon /></Tooltip>}
+                    label="Add Loan"
+                    className='loan'
+                    onClick={() => props.addLoan(params.id)}    
+                    // color="success"
                     // showInMenu
-                    
                 />,
-
                 ];
             },
         },
@@ -231,22 +239,21 @@ const ComplexTable = (props) => {
             getActions: (params) => {
                 return [
                 <GridActionsCellItem
-                    icon={<CheckCircleIcon />}
-                    label="Confirm Donor"
-                    className='con'
-                    onClick={() => props.sentForDonation(params.id)}    
-                    color="success"
+                    icon={<Tooltip title="Send SMS"><SmsIcon /></Tooltip>}
+                    label="Send SMS"
+                    className='sms'
+                    onClick={() => props.sendSMS(params.id)}    
+                    // color="success"
                     // showInMenu
-                    
                 />,
                 <GridActionsCellItem
-                    icon={<CheckCircleIcon />}
-                    label="Confirm Donor"
-                    className='con'
-                    onClick={() => props.sentForDonation(params.id)}    
-                    color="success"
+                    icon={<Tooltip title="Send Reminder For Loan"><FeedbackIcon /></Tooltip>}
+                    label="Send Reminder"
+                    className='rem'
+                    onClick={() => props.sendReminder(params.id)} 
+                       
+                    // color="success"
                     // showInMenu
-                    
                 />,
                 ];
             },

@@ -288,17 +288,15 @@ def requirement_msg(request, donor_id):
     if request.method == "GET":
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
+        donor_id = uuid.UUID(donor_id)
         donor = get_object_or_404(Donor, id=donor_id)
         current_date_string= datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
         current_date = datetime.strptime(current_date_string, "%Y-%m-%d").date()
         three_months_ago = current_date - timedelta(days=3*30)
         if donor.lastDonated >three_months_ago :
-            return JsonResponse({"Donor not eligible for Donation"}, status=500)
+            return JsonResponse({'error': "Donor not eligible for Donation"}, status=500)
         try: 
             client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-
-          
-
             # Replace 'to' with the recipient's phone number
             to =donor.phoneNumber
             
@@ -324,8 +322,12 @@ def loan_msg(request, donor_id):
     if request.method == "GET":
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
-        donor = get_object_or_404(Donor, id=donor_id, loan=True)
-        
+        donor_id = uuid.UUID(donor_id)
+        # donor = get_object_or_404(Donor, id=donor_id, loan=True)
+        donor= Donor.objects.filter(id = donor_id).first()
+        print(donor.firstName)
+        if donor.loan == False : 
+            return JsonResponse({"error" : "Donor doesn't have any existing loan"},status = 500)
         try: 
             client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
@@ -356,7 +358,7 @@ def confirm_loan(request, donor_id):
     if request.method=="GET":
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
-         
+        donor_id = uuid.UUID(donor_id)
     
         try:
 
