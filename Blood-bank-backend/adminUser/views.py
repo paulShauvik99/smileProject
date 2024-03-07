@@ -477,14 +477,14 @@ def  getLeaderboardImage(request):
 
 @csrf_exempt
 def getFirstDon(request, recipient_id):
-    if request.method == 'POST':
+    if request.method == 'GET':
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
         try:
             recipient_id= uuid.UUID(recipient_id)
-            recipient = Recipient.objects.filter(recipient_id = recipient_id).first()
+            recipient = Recipient.objects.filter(id = recipient_id).first()
             if recipient:
-                if recipient.firstDonCheck:
+                if  not recipient.firstDonCheck:
                     return JsonResponse({'firstDonation' : {
                                             'donBlood' : recipient.firstDonation.donBlood,
                                             'bloodBankName':recipient.firstDonation.bloodBankName,
@@ -497,6 +497,7 @@ def getFirstDon(request, recipient_id):
                     return JsonResponse({"error" : "No details available"},status=400)
             else:
                 return JsonResponse({"error":"Invaild recipient Id"},status=400)
-        except:
+        except Exception as e:
+            print(e)
             return JsonResponse({"error" : "Something Went Wrong"},status=500)
     return JsonResponse({"error" : "Invalid Request Method"},status=400)   
