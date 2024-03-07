@@ -295,7 +295,7 @@ def requirement_msg(request, donor_id):
         current_date_string= datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
         current_date = datetime.strptime(current_date_string, "%Y-%m-%d").date()
         three_months_ago = current_date - timedelta(days=3*30)
-        if donor.lastDonated >three_months_ago :
+        if (donor.lastDonated is not None) and donor.lastDonated >three_months_ago :
             return JsonResponse({"error" : "Donor not eligible for Donation"}, status=500)
         try: 
             client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
@@ -331,7 +331,7 @@ def loan_msg(request, donor_id):
        # donor = get_object_or_404(Donor, id=donor_id, loan=True)
         donor= Donor.objects.filter(id = donor_id).first()
         if donor.loan == False : 
-            return JsonResponse({"error" : "Donor doesn't have any existing loan"})
+            return JsonResponse({"error" : "Donor doesn't have any existing loan"},status=500)
         
         try: 
             client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
@@ -411,8 +411,11 @@ def addPhotos(request):
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
          
-        images = request.FILES.getlist('images')
+        images = request.FILES.getlist('images[]')
         print(images)
+
+        if len(images) != 5 :
+            return JsonResponse({"error" : "Exactly 5 images allowed"},status=500)
    
 
         leaderBoards = LeaderBoard.objects.all()
@@ -471,3 +474,29 @@ def  getLeaderboardImage(request):
         
         return JsonResponse({'success' : 'Images loaded successfully', 'data' : data},status=200)
     return JsonResponse({"error" : "Invalid request method"},status = 400)   
+
+@csrf_exempt
+def getFirstDon(request, recipient_id):
+    if request.method == 'POST':
+        if authorize_admin(request) == False:
+            return JsonResponse({"error" : "Unauthorized"},status = 401)
+        try:
+            recipient_id= uuid.UUID(recipient_id)
+            recipient = Recipient.objects.filter(recipient_id = recipient_id).first()
+            if recipient:
+                if recipient.firstDonCheck:
+                    return JsonResponse({'firstDonation' : {
+                                            'donBlood' : recipient.firstDonation.donBlood,
+                                            'bloodBankName':recipient.firstDonation.bloodBankName,
+                                            'donorName':recipient.firstDonation.donorName,
+                                            'donationDate':recipient.firstDonation.donationDate,
+                                            'donationReceipt': 'http://192.168.56.1:8000' + recipient.firstDonation.donationReceipt.url
+                                        }}, status= 200)
+
+                else:
+                    return JsonResponse({"error" : "No details available"},status=400)
+            else:
+                return JsonResponse({"error":"Invaild recipient Id"},status=400)
+        except:
+            return JsonResponse({"error" : "Something Went Wrong"},status=500)
+    return JsonResponse({"error" : "Invalid Request Method"},status=400)   

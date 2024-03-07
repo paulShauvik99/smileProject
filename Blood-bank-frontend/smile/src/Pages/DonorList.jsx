@@ -74,7 +74,7 @@ const DonorList = () => {
         //API for matched donor
         console.log(id)
         try {
-            const res = await axios.post('http://192.168.1.12:8000/adminUser/confirm_donor/',{donor_id : id})
+            const res = await axios.post('http://192.168.56.1:8000/adminUser/confirm_donor/',{donor_id : id})
             console.log(res)
             setReload(!reload)
 
@@ -90,7 +90,7 @@ const DonorList = () => {
 
     const getAvailableDonors = async () => {
         setLoadingPage(true)
-        const res = await axios.get('http://192.168.1.12:8000/adminUser/get_donor_list/')
+        const res = await axios.get('http://192.168.56.1:8000/adminUser/get_donor_list/')
         console.log(res)
         setDonorList(res.data.donor_list)
         setLoadingPage(false)
@@ -98,7 +98,7 @@ const DonorList = () => {
 
     const adminLogout = () => {
         try{
-            axios.get('http://192.168.1.12:8000/adminUser/admin_logout/').then((res)=>{
+            axios.get('http://192.168.56.1:8000/adminUser/admin_logout/').then((res)=>{
                 setLoadingPage(true)
                 localStorage.removeItem('adminCheck')
                 Swal.fire({
