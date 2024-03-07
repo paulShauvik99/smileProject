@@ -97,14 +97,14 @@ def get_donor_list(request):
 #confirm donor-recipient pair
 
 @csrf_exempt
-def confirm_donor(request):
-    if request.method=="POST":
+def confirm_donor(request,donor_id):
+    if request.method=="GET":
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
          
-        body  = json.loads(request.body)
-        id  = body['donor_id'] 
-        donor_id = uuid.UUID(id)
+        # body  = json.loads(request.body)
+        # id  = body['donor_id'] 
+        donor_id = uuid.UUID(donor_id)
         current_date_string= datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
         current_date = datetime.strptime(current_date_string, "%Y-%m-%d").date()
         three_months_ago = current_date - timedelta(days=3*30)
@@ -204,15 +204,15 @@ def get_recipient_list(request):
 #confirm Donation
 
 @csrf_exempt
-def confirmRecipientDonation(request):
-    if request.method == "POST" : 
+def confirmRecipientDonation(request,recipient_id):
+    if request.method == "GET" : 
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
-        body  = json.loads(request.body)
-        id  = body['recipient_id'] 
-        matched_id = uuid.UUID(id) 
+        # body  = json.loads(request.body)
+        # id  = body['recipient_id'] 
+        recipient_id = uuid.UUID(recipient_id) 
         try:
-            recipient = Recipient.objects.filter(id = matched_id).first()
+            recipient = Recipient.objects.filter(id = recipient_id).first()
             recipient.status = "Confirmed"
             recipient.save()
             return JsonResponse({"status" : "Request approved successfully"},status=200)
@@ -223,12 +223,13 @@ def confirmRecipientDonation(request):
     return JsonResponse({"error" : "Invalid Request Method"},status = 400)
 
 @csrf_exempt
-def reject_request(request):
-    if request.method == "POST" : 
+def reject_request(request,recipient_id):
+    if request.method == "GET" : 
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
-        body  = json.loads(request.body)
-        recipient_id = body['recipient_id']
+        # body  = json.loads(request.body)
+        # recipient_id = body['recipient_id']
+        recipient_id = uuid.UUID(recipient_id) 
         try:
             recipient = Recipient.objects.filter(id = recipient_id).first()
             recipient.status = "Rejected"
