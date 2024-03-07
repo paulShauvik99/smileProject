@@ -188,8 +188,9 @@ const RequestList = () => {
         setModalLoad(true)
         console.log(id)
         try{
-            const data = await axios.get('http://192.168.1.15:8000/adminUser/get_recipient_list/')
-            setModalData(data.data.list.filter(e => e.id === id))
+            const data = await axios.get(`http://192.168.1.15:8000/adminUser/getFirstDon/${id}`)
+            console.log(data)
+            setModalData(data.data.list)
             setModalLoad(false)
         }catch(e) {
             toast.error(e.response.data.status)
@@ -323,7 +324,7 @@ const RequestList = () => {
                                 ) : (
                                     <>
                                         
-                                        <div className="receipt_view">
+                                        {/* <div className="receipt_view">
                                             <IconButton sx={{position : 'absolute', right : 30 }} onClick={handleClose}>
                                                 <CloseIcon color='#191818'/>
                                             </IconButton>
@@ -340,7 +341,7 @@ const RequestList = () => {
                                                 <b> Donor's Name : </b> {modalData[0].firstDonation.donorName !== '' ? modalData[0].firstDonation.donorName : '-'}
                                             </Typography>
                                             <img src={modalData[0].firstDonation.donationReceipt} height='200px' width='auto' alt="Receipt" />
-                                        </div>
+                                        </div> */}
                                     </>
                                 )
                             }

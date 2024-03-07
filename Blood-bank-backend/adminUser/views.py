@@ -480,6 +480,7 @@ def getFirstDon(request, recipient_id):
         try:
             recipient_id= uuid.UUID(recipient_id)
             recipient = Recipient.objects.filter(recipient_id = recipient_id).first()
+            print(recipient)
             if recipient:
                 if recipient.firstDonCheck:
                     return JsonResponse({'firstDonation' : {
