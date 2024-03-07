@@ -189,8 +189,8 @@ const RequestList = () => {
         console.log(id)
         try{
             const data = await axios.get(`http://192.168.1.15:8000/adminUser/getFirstDon/${id}`)
-            console.log(data)
-            setModalData(data.data.list)
+            console.log(data.data.firstDonation)
+            setModalData(data.data.firstDonation)
             setModalLoad(false)
         }catch(e) {
             toast.error(e.response.data.status)
@@ -324,24 +324,24 @@ const RequestList = () => {
                                 ) : (
                                     <>
                                         
-                                        {/* <div className="receipt_view">
+                                        <div className="receipt_view">
                                             <IconButton sx={{position : 'absolute', right : 30 }} onClick={handleClose}>
                                                 <CloseIcon color='#191818'/>
                                             </IconButton>
                                             <Typography variant='h4' sx={modalTypStyle} >
-                                                <b>Blood Bank Name : </b> {modalData[0].firstDonation.bloodBankName}
+                                                <b>Blood Bank Name : </b> {modalData.bloodBankName}
                                             </Typography>
                                             <Typography variant='h4' sx={modalTypStyle} >
-                                                <b> Donor's Blood : </b> {modalData[0].firstDonation.donBlood}
+                                                <b> Donor's Blood : </b> {modalData.donBlood}
                                             </Typography>
                                             <Typography variant='h4' sx={modalTypStyle} >
-                                                <b>Donation Date : </b> {modalData[0].firstDonation.donationDate}
+                                                <b>Donation Date : </b> {modalData.donationDate}
                                             </Typography>
                                             <Typography variant='h4' sx={modalTypStyle} >
-                                                <b> Donor's Name : </b> {modalData[0].firstDonation.donorName !== '' ? modalData[0].firstDonation.donorName : '-'}
+                                                <b> Donor's Name : </b> {modalData.donorName !== '' ? modalData.donorName : '-'}
                                             </Typography>
-                                            <img src={modalData[0].firstDonation.donationReceipt} height='200px' width='auto' alt="Receipt" />
-                                        </div> */}
+                                            <img src={modalData.donationReceipt} height='200px' width='auto' alt="Receipt" />
+                                        </div>
                                     </>
                                 )
                             }
