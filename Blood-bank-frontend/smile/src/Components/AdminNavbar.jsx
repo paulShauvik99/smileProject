@@ -5,6 +5,7 @@ import { Backdrop, Box, Button, Chip, Divider, Drawer, Fade, IconButton, List, L
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 
 
 //Add Top Donor Modal Style
@@ -55,9 +56,24 @@ function AdminNavbar (){
         setSelectedImgs(updatedArr)
     }
 
-    const uploadImg = (e) => {
-        console.log(selectedImgs);
-        selectedImgs.forEach(files => {console.log(files.name)})
+    const uploadImg = async () => {
+
+        if(selectedImgs.length !== 5) {
+            toast.error("Please Select 5 Images")
+            return
+        }
+
+        const formData = new FormData();
+        selectedImgs.forEach(files => formData.append('images' , files));
+        console.log(formData.getAll('images'))
+        
+        try {
+            const res = await axios.post('http://192.168.1.15:8000/adminUser/addPhotos/',formData)
+            console.log(res)
+        } catch (error) {
+            toast.error(error.data.status)
+        }
+
     }
     
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -148,7 +164,7 @@ function AdminNavbar (){
                     <Fade in={open}>
                         <Box sx={style}>
                             <div className="add_top_donor">
-                                <IconButton sx={{position : 'absolute', right : 30 }} onClick={handleClose}>
+                                <IconButton sx={{position : 'absolute', right : {lg : 30, xs : 10} }} onClick={handleClose}>
                                     <CloseIcon color='#191818'/>
                                 </IconButton>
                                 <div className="input_files">

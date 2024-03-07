@@ -36,16 +36,16 @@ const Footer = () => {
                                 </IconButton>
                         </div>
                         <div className="part3">
-                                <div className="con">
+                                <div className="footer_text">
                                     <MapPin size={26} className='con_icons'color="#191818" weight="duotone" /> <p>  Some Lane, Silchar, Cachar, Assam, Pincode - 788 005 </p>
                                 </div>
-                                <div className="con">
+                                <div className="footer_text">
                                     <Phone size={26} className='con_icons' color="#191818" weight="duotone" /> <p>  +91 9832738882 </p>
                                 </div>
-                                <div className="con">
+                                <div className="footer_text">
                                     <Envelope size={26} className='con_icons' color="#191818" weight="duotone" /> <p>  somesmile@gmail.com </p>
                                 </div>
-                                <div className="con">
+                                <div className="footer_text">
                                     <Clock size={26} className='con_icons' color="#191818" weight="duotone" /> <p>  Working Hours : 9:00 AM - 6:00 PM </p>
                                 </div>
 

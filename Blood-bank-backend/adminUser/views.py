@@ -173,7 +173,7 @@ def get_recipient_list(request):
                                             'bloodBankName':recipient.firstDonation.bloodBankName,
                                             'donorName':recipient.firstDonation.donorName,
                                             'donationDate':recipient.firstDonation.donationDate,
-                                            'donationReceipt': 'http://192.168.56.1:8000' + recipient.firstDonation.donationReceipt.url
+                                            'donationReceipt': 'http://192.168.1.15:8000' + recipient.firstDonation.donationReceipt.url
                                         }
                     recipient_list_data.append({'id': recipient.id,  
                                                 'sl' : sl,
@@ -295,7 +295,7 @@ def requirement_msg(request, donor_id):
         current_date_string= datetime.now(tz=pytz.timezone('Asia/Kolkata')).date().isoformat()
         current_date = datetime.strptime(current_date_string, "%Y-%m-%d").date()
         three_months_ago = current_date - timedelta(days=3*30)
-        if donor.lastDonated >three_months_ago :
+        if (donor.lastDonated is not None) and donor.lastDonated >three_months_ago :
             return JsonResponse({"error" : "Donor not eligible for Donation"}, status=500)
         try: 
             client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
@@ -454,7 +454,7 @@ def addPhotos(request):
 def  getLeaderboardImage(request):
     if request.method == 'GET':
         leaderboard = LeaderBoard.objects.first()
-        base_url = 'http://127.0.0.1:8000'
+        base_url = 'http://192.168.1.15:8000'
         data = {
             'image1' : base_url+leaderboard.p1.url,
             'image2' : base_url+leaderboard.p2.url,

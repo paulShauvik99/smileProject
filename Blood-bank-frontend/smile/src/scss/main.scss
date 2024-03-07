@@ -90,16 +90,16 @@ html{
                 font-size: 2rem;
             }
         }
+        //Filter Button
+        .css-1knaqv7-MuiButtonBase-root-MuiButton-root {
+            background-color: #d22228 !important;
+            width: 12rem;
+            height: 3rem;
+            color: #ede4e2 !important;
+            font-size: 1.2rem;
+            border-radius: 1.3rem;
+        }
 } 
-//Filter Button
-.css-1knaqv7-MuiButtonBase-root-MuiButton-root {
-    background-color: #d22228 !important;
-    width: 12rem;
-    height: 3rem;
-    color: #ede4e2 !important;
-    font-size: 1.2rem;
-    border-radius: 1.3rem;
-}
 //Complex Table Filter Form  
 .css-154sxbz-MuiPaper-root-MuiDataGrid-paper{
     background-color: rgb(181, 178, 178) !important;
@@ -342,46 +342,47 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                 grid-column: 1/2;
                 position: relative; 
                 // left: 10rem;    
-                & img{
+                & .imgs{
                     position: absolute;
-                    border-radius: 13px;
+                    height: 32rem;
+                    width: 30rem;
                     box-shadow: 0 0 50px rgba(0,0,0,0.5);
-                    width: auto;
-                    
-                    &:nth-child(1){
-                        top: 20rem;
-                        left: 5rem;
-                        z-index: 4;
-                        height: 30rem;
-                        // aspect-ratio: 6/9;                        
-                    }
-                    &:nth-child(2){
-                        z-index: 5;
-                        top:72rem;
-                        left: 30rem;
-                        height: 30rem;
-                    }
-                    &:nth-child(3){
-                        z-index: 4;
-                        top: 48rem;
-                        left: 7rem;
-                        height: 36rem;
-                        
-                    }
-                    &:nth-child(4){
-                        top: 5rem;
-                        left: 28rem;
-                        z-index:1;
-                        height: 35rem;
-                    }
-                    &:nth-child(5){
-                        top: 34rem;
-                        left: 32rem;
-                        z-index: 4;
-                        height: 40rem;
+                    background-color: #fff7f7;
+                    // border: 2px solid #d22228;
+                    & img{
+                        object-fit: contain;
+                        box-shadow: 0 0 7rem rgba(0,0,0,0.5);
+                        height: 100%;
+                        width: 100%;
                     }
 
-                }           
+                    &:nth-child(1){
+                        top: 30rem;
+                        left: 38rem;
+                        z-index: 5;
+                    }
+                    &:nth-child(2){
+                        top: 2rem;
+                        left: 45rem;
+                        z-index: 4;
+                    }
+                    &:nth-child(3){
+                        top: 65rem;
+                        left: 39rem;
+                        z-index: 6;
+                    }
+                    &:nth-child(4){
+                        z-index: 3;
+                        top: 47rem;
+                        left: 10rem;
+                    }
+                    &:nth-child(5){
+                        top: 12rem;
+                        left: 15rem;
+                        z-index: 2;
+                    }
+                    
+                }
             }
 
             & .about_smile{
@@ -836,7 +837,7 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                 justify-content: center;
                 z-index: 4;
                 font-size: 1.4rem;
-                & .con{
+                & .footer_text{
                     display: flex;
                     column-gap: 2rem;
                     margin-bottom: 1rem;
@@ -955,31 +956,31 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
             
             //Admin Table Column Padding
             & .reqList{
-                & .css-1iyq7zh-MuiDataGrid-columnHeaders{
-                    padding-left: 60rem;
+                & .MuiDataGrid-columnHeaders{
+                    padding-left: 58rem;
                 }
             }
             & .nonPendingList{
-                & .css-1iyq7zh-MuiDataGrid-columnHeaders{
-                    padding-left: 64.5rem;
+                & .MuiDataGrid-columnHeaders{
+                    padding-left: 59rem;
                 }
             }
             & .donorList{
-                & .css-1iyq7zh-MuiDataGrid-columnHeaders{
-                    padding-left: 51.5rem;
+                & .MuiDataGrid-columnHeaders{
+                    padding-left: 65rem;
                 }
             }
             
+            //Filter Button 
+            .css-1knaqv7-MuiButtonBase-root-MuiButton-root {
+                    background-color: #d22228 !important;
+                    width: 10rem;
+                    height: 3rem;
+                    color: #ede4e2 !important;
+                    font-size: 1rem;
+                    border-radius: 1.3rem;
+            }
             
-    }
-    //Filter Button 
-    .css-1knaqv7-MuiButtonBase-root-MuiButton-root {
-            background-color: #d22228 !important;
-            width: 12rem;
-            height: 3rem;
-            color: #ede4e2 !important;
-            font-size: 1.2rem;
-            border-radius: 1.3rem;
     }
     //Complex Table Filter Form     
     .css-1t5wrdm-MuiDataGrid-filterForm {
@@ -1028,7 +1029,38 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
         font-size: 2rem;
         color : #049f0c !important;
     }
-   
+
+
+    //Mobile Version Top Donors Page
+    .add_top_donor{
+        
+        & .input_files{
+            min-height: 7rem;
+            & .browse_img{
+                width: 15rem;
+                height: 3rem;
+                font-size: 1.2rem;
+            }
+            & .img_chips{
+                min-height: 3rem;
+            }
+        }
+        & .inp_img_div{
+            & img{
+                height: 10rem;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
     //Navbar
     .outer_nav{
         position: fixed;
@@ -1141,24 +1173,28 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                     align-items: center; 
                     width: 100%;
                     height: 50rem;
-                    & img{
+                    & .imgs{
                         position: absolute;
-                        border-radius: 13px;
+                        height: 15rem;
+                        width: 13rem;
                         box-shadow: 0 0 50px rgba(0,0,0,0.5);
-                        width: auto;
-                        
+                        background-color: #fff7f7;
+                        & img{
+                            object-fit: contain;
+                            height: 100%;
+                            width: 100%;
+                        }
+    
                         &:nth-child(1){
                             top: 0;
                             left: 0;
                             z-index: 0;
-                            height: 13rem;
                         }
                         &:nth-child(2){
                             top: auto;             
                             left: auto;
                             right : 0;
                             z-index: 3;
-                            height: 13rem;
                         }
                         &:nth-child(3){
                             top: auto;
@@ -1166,25 +1202,21 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                             left: auto;
                             right: 0;
                             z-index: 4;
-                            height: 15rem;
-                            
                         }
                         &:nth-child(4){
                             top: auto;                           
                             left: 0;
                             bottom: 0;
                             z-index:3;
-                            height: 15rem;
                         }
                         &:nth-child(5){
                             top: 50%;                            
                             left:50%;
                             transform: translate(-50%,-50%);
                             z-index: 4;
-                            height: 18rem;
                         }
-
-                    }           
+                        
+                    }
                 }
 
                 & .about_smile{
@@ -1626,7 +1658,7 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                     justify-content: center;
                     z-index: 4;
                     font-size: 1rem;
-                    & .con{
+                    & .footer_text{
                         display: flex;
                         column-gap: 1rem;
                         margin-bottom: 1.2rem;

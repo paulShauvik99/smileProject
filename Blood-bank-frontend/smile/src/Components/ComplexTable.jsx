@@ -110,6 +110,7 @@ const ComplexTable = (props) => {
                                     color : '#f0e3e4',
                                 }
                             }}
+                            disabled={params.row.firstDonCheck}
                             onClick={() => props.viewPrevDonation(params.id)}> View Receipt </Button>)
             }
             // valueFormatter: ({ value }) => new Date(value).toISOString().split('T')[0]
@@ -193,9 +194,32 @@ const ComplexTable = (props) => {
             headerAlign: 'center',
             filterable : true,
         },
+        // {
+        //     field: 'isAvailable',
+        //     headerName: 'Eligible?',
+        //     type: 'boolean',
+        //     width: 100,
+        //     sortable : false,   
+        //     align : 'center',
+        //     headerAlign: 'center',
+        //     filterable : true,
+        //     renderCell : (params) => {return (params.row.isAvailable ?  (<DoneIcon className='con' />) : '')}
+        // },
+        {
+            field: 'isAvailable',
+            headerName: 'Eligible?',
+            type: 'boolean',
+            width: 100,
+            sortable : false,   
+            align : 'center',
+            headerAlign: 'center',
+            filterable : true,
+            renderCell : (params) => {return (params.row.isAvailable ?  (<DoneIcon className='con' />) : '')}
+        },
         {
             field: 'loan',
             headerName: 'Has Loan',
+            type: 'boolean',
             width: 100,
             sortable : false,   
             align : 'center',
@@ -210,12 +234,14 @@ const ComplexTable = (props) => {
             width: 100,
             cellClassName: 'actions',
             getActions: (params) => {
+                // console.log(!(params.row.loan && params.row.isAvailable));
                 return [
                 <GridActionsCellItem
                     icon={<Tooltip title="Confirm Donation"><CheckCircleIcon /></Tooltip>}
                     label="Confirm Donor"
                     className='con'
                     onClick={() => props.sentForDonation(params.id)}    
+                    disabled={!params.row.isAvailable}
                     // color="success"
                     // showInMenu
                 />,
@@ -224,6 +250,7 @@ const ComplexTable = (props) => {
                     label="Add Loan"
                     className='loan'
                     onClick={() => props.addLoan(params.id)}    
+                    disabled={params.row.isAvailable || params.row.loan}
                     // color="success"
                     // showInMenu
                 />,
@@ -243,6 +270,7 @@ const ComplexTable = (props) => {
                     label="Send SMS"
                     className='sms'
                     onClick={() => props.sendSMS(params.id)}    
+                    disabled={!(params.row.isAvailable && !params.row.loan)}
                     // color="success"
                     // showInMenu
                 />,
@@ -250,8 +278,8 @@ const ComplexTable = (props) => {
                     icon={<Tooltip title="Send Reminder For Loan"><FeedbackIcon /></Tooltip>}
                     label="Send Reminder"
                     className='rem'
+                    disabled={!(params.row.isAvailable && params.row.loan)}
                     onClick={() => props.sendReminder(params.id)} 
-                       
                     // color="success"
                     // showInMenu
                 />,
@@ -367,6 +395,7 @@ const ComplexTable = (props) => {
                                 color : '#f0e3e4',
                             }
                         }}
+                        disabled={params.row.firstDonCheck}
                         variant='contained' onClick={() => props.viewPrevDonation(params.id)}> View Receipt </Button>)
             }
             // valueFormatter: ({ value }) => new Date(value).toISOString().split('T')[0]
@@ -431,7 +460,7 @@ const ComplexTable = (props) => {
                     columnVisibilityModel={columnVisibility}    
                 />
             </Box>
-
+            
         </>
     )
 }

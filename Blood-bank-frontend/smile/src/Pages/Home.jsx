@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import HomePage from '../assets/NewHome.svg'
 import Img1 from '../assets/Home1.jpeg'
 import Img2 from '../assets/Home2.jpg'
@@ -6,6 +6,7 @@ import Img3 from '../assets/Home3.jpg'
 import Img4 from '../assets/Home4.jpg'
 import Img5 from '../assets/Home5.jpg'
 import { motion } from 'framer-motion'
+import axios from 'axios'
 
 
 const imgDiv = {
@@ -45,8 +46,26 @@ const sentence = {
 }
 
 
-
 const Home = () => {
+
+    const [images,setImages] = useState({})
+
+    const loadImgs = async() =>{
+        try{
+    
+            const res = await axios.get('http://192.168.1.15:8000/adminUser/getLeaderboardImages/')
+            setImages(res.data.data)
+        }catch(e){
+            console.log(e.data.status)
+        }
+    }
+    
+    
+    useEffect(()=>{
+        loadImgs();
+    },[])
+
+    
     return (
         <>
             <div className="home_outer">
@@ -67,11 +86,21 @@ const Home = () => {
                 <div className="about">
                     <div className="about_content">
                         <motion.div variants={imgDiv} initial='hidden' animate='show'  className="photo_gallery">
-                            <img src={Img4} alt="Img2" />
-                            <img src={Img3} alt="Img1" />
-                            <img src={Img1} alt="Img3" />
-                            <img src={Img5} alt="Img4" />
-                            <img src={Img2} alt="Img5" />
+                            <div className="imgs">
+                                <img src={images.image1} alt="Img2" />
+                            </div>
+                            <div className="imgs">
+                                <img src={images.image5} alt="Img2" />
+                            </div>
+                            <div className="imgs">
+                                <img src={images.image4} alt="Img2" />
+                            </div>
+                            <div className="imgs">
+                                <img src={images.image3} alt="Img2" />
+                            </div>
+                            <div className="imgs">
+                                <img src={images.image2} alt="Img2" />
+                            </div>
                         </motion.div>  
                         <div className="about_smile">
                             <motion.div className="container"
