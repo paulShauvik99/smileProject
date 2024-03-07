@@ -32,6 +32,10 @@ key = settings.SECRET_KEY
 
 #ADMIN API's
 
+#Base URL form image store and get
+base_url = 'http://192.168.1.15:8000'
+
+
 #Get all matched donors and recipients
 def authorize_admin(request):
     username  =  request.user
@@ -173,7 +177,7 @@ def get_recipient_list(request):
                                             'bloodBankName':recipient.firstDonation.bloodBankName,
                                             'donorName':recipient.firstDonation.donorName,
                                             'donationDate':recipient.firstDonation.donationDate,
-                                            'donationReceipt': 'http://192.168.1.15:8000' + recipient.firstDonation.donationReceipt.url
+                                            'donationReceipt': base_url + recipient.firstDonation.donationReceipt.url
                                         }
                     recipient_list_data.append({'id': recipient.id,  
                                                 'sl' : sl,
@@ -457,7 +461,7 @@ def addPhotos(request):
 def  getLeaderboardImage(request):
     if request.method == 'GET':
         leaderboard = LeaderBoard.objects.first()
-        base_url = 'http://192.168.1.15:8000'
+        
         data = {
             'image1' : base_url+leaderboard.p1.url,
             'image2' : base_url+leaderboard.p2.url,
@@ -474,27 +478,27 @@ def  getLeaderboardImage(request):
 
 @csrf_exempt
 def getFirstDon(request, recipient_id):
-    if request.method == 'POST':
+    if request.method == 'GET':
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
         try:
             recipient_id= uuid.UUID(recipient_id)
-            recipient = Recipient.objects.filter(recipient_id = recipient_id).first()
-            print(recipient)
+            recipient = Recipient.objects.filter(id = recipient_id).first()
             if recipient:
-                if recipient.firstDonCheck:
+                if  not recipient.firstDonCheck:
                     return JsonResponse({'firstDonation' : {
                                             'donBlood' : recipient.firstDonation.donBlood,
                                             'bloodBankName':recipient.firstDonation.bloodBankName,
                                             'donorName':recipient.firstDonation.donorName,
                                             'donationDate':recipient.firstDonation.donationDate,
-                                            'donationReceipt': 'http://192.168.56.1:8000' + recipient.firstDonation.donationReceipt.url
+                                            'donationReceipt': base_url + recipient.firstDonation.donationReceipt.url
                                         }}, status= 200)
 
                 else:
                     return JsonResponse({"error" : "No details available"},status=400)
             else:
                 return JsonResponse({"error":"Invaild recipient Id"},status=400)
-        except:
+        except Exception as e:
+            print(e)
             return JsonResponse({"error" : "Something Went Wrong"},status=500)
     return JsonResponse({"error" : "Invalid Request Method"},status=400)   
