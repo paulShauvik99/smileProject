@@ -32,6 +32,10 @@ key = settings.SECRET_KEY
 
 #ADMIN API's
 
+#Base URL form image store and get
+base_url = 'http://192.168.56.1:8000'
+
+
 #Get all matched donors and recipients
 def authorize_admin(request):
     username  =  request.user
@@ -173,7 +177,7 @@ def get_recipient_list(request):
                                             'bloodBankName':recipient.firstDonation.bloodBankName,
                                             'donorName':recipient.firstDonation.donorName,
                                             'donationDate':recipient.firstDonation.donationDate,
-                                            'donationReceipt': 'http://192.168.56.1:8000' + recipient.firstDonation.donationReceipt.url
+                                            'donationReceipt': base_url + recipient.firstDonation.donationReceipt.url
                                         }
                     recipient_list_data.append({'id': recipient.id,  
                                                 'sl' : sl,
@@ -460,7 +464,7 @@ def addPhotos(request):
 def  getLeaderboardImage(request):
     if request.method == 'GET':
         leaderboard = LeaderBoard.objects.first()
-        base_url = 'http://127.0.0.1:8000'
+        
         data = {
             'image1' : base_url+leaderboard.p1.url,
             'image2' : base_url+leaderboard.p2.url,
@@ -490,7 +494,7 @@ def getFirstDon(request, recipient_id):
                                             'bloodBankName':recipient.firstDonation.bloodBankName,
                                             'donorName':recipient.firstDonation.donorName,
                                             'donationDate':recipient.firstDonation.donationDate,
-                                            'donationReceipt': 'http://192.168.56.1:8000' + recipient.firstDonation.donationReceipt.url
+                                            'donationReceipt': base_url + recipient.firstDonation.donationReceipt.url
                                         }}, status= 200)
 
                 else:
