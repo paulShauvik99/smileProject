@@ -74,7 +74,7 @@ const DonorList = () => {
         //API for matched donor
         console.log(id)
         try {
-            const res = await axios.post('http://192.168.1.15:8000/adminUser/confirm_donor/',{donor_id : id})
+            const res = await axios.get(`http://192.168.1.15:8000/adminUser/confirm_donor/${id}`)
             console.log(res)
             setReload(!reload)
 

@@ -194,17 +194,17 @@ const ComplexTable = (props) => {
             headerAlign: 'center',
             filterable : true,
         },
-        // {
-        //     field: 'isAvailable',
-        //     headerName: 'Eligible?',
-        //     type: 'boolean',
-        //     width: 100,
-        //     sortable : false,   
-        //     align : 'center',
-        //     headerAlign: 'center',
-        //     filterable : true,
-        //     renderCell : (params) => {return (params.row.isAvailable ?  (<DoneIcon className='con' />) : '')}
-        // },
+        {
+            field: 'isAvailable',
+            headerName: 'Eligible?',
+            type: 'boolean',
+            width: 100,
+            sortable : false,   
+            align : 'center',
+            headerAlign: 'center',
+            filterable : true,
+            renderCell : (params) => {return (params.row.isAvailable ?  (<DoneIcon className='con' />) : '')}
+        },
         {
             field: 'isAvailable',
             headerName: 'Eligible?',

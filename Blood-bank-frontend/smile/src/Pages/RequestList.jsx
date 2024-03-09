@@ -122,7 +122,7 @@ const RequestList = () => {
 
             if(res.isConfirmed){
                 try {
-                    const res = await axios.post('http://192.168.1.15:8000/adminUser/reject_request/',JSON.stringify({recipient_id : id}))
+                    const res = await axios.post(`http://192.168.1.15:8000/adminUser/reject_request/${id}`)
                     console.log(res)
                     Swal.fire({
                         text : "The Request Has Been Rejected",
@@ -146,7 +146,7 @@ const RequestList = () => {
     const acceptRequest = async (id) =>{
         console.log(id)
         try {
-            const res = await axios.post('http://192.168.1.15:8000/adminUser/confirm_recipient_donation/', JSON.stringify({recipient_id : id}) )
+            const res = await axios.get(`http://192.168.1.15:8000/adminUser/confirm_recipient_donation/${id}`)
             console.log(res)
             toast.success( res.data.status)
         } catch (error) {
