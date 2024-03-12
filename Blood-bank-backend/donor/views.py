@@ -39,7 +39,7 @@ def register(request) :
         gender = body['gender']
         lastDonated = body['lastDonated']
         isThalassemia = body['isThalassemia']
-
+    
         isDonor = Donor.objects.filter(phoneNumber = phoneNumber).first()
         if isDonor is not None:
             return JsonResponse({"error":"PhoneNumber Already Exists for another Donor"},status=409)

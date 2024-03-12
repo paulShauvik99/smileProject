@@ -110,7 +110,7 @@ def confirm_donor(request,donor_id):
         three_months_ago = current_date - timedelta(days=3*30)
         try:
 
-            donor = Donor.objects.filter(id = donor_id, lastDonated__lte=three_months_ago).first()
+            donor = Donor.objects.filter(Q(id = donor_id)& (Q(lastDonated__lte=three_months_ago) | Q(lastDonated = None))).first()
             if not donor:
                 return JsonResponse({'error' : 'Donor is not Eligible for Donation'},status=500)
             dateObj = datetime.now(tz=pytz.timezone('Asia/Kolkata'))
