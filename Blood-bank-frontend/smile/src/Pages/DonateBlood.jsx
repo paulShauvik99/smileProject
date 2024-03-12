@@ -326,7 +326,6 @@ const DonateBlood = () => {
             otp : otpVal
         }
         console.log(JSON.stringify(donorDet))
-        return
         try {
             const res = await axios.post('http://192.168.1.15:8000/donor/register/',JSON.stringify(donorDet))
             if('success' in res.data){

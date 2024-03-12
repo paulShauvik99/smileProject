@@ -86,12 +86,12 @@ html{
         }
         & .MuiDataGrid-actionsCell{
             
-            & .css-ptiqhd-MuiSvgIcon-root{
+            & .css-ptiqhd-MuiSvgIcon-root,& .css-1k33q06{
                 font-size: 2rem;
             }
         }
         //Filter Button
-        .css-1knaqv7-MuiButtonBase-root-MuiButton-root {
+        & .css-1knaqv7-MuiButtonBase-root-MuiButton-root , & .css-1rtnrqa{
             background-color: #d22228 !important;
             width: 12rem;
             height: 3rem;
@@ -101,41 +101,30 @@ html{
         }
 } 
 //Complex Table Filter Form  
-.css-154sxbz-MuiPaper-root-MuiDataGrid-paper{
-    background-color: rgb(181, 178, 178) !important;
-}   
-.css-1t5wrdm-MuiDataGrid-filterForm {
+
+.css-1t5wrdm-MuiDataGrid-filterForm, .css-1ckupud {
     background-color: rgb(181, 178, 178);
     height: 8rem;
-    & .css-1717ajk-MuiFormLabel-root-MuiInputLabel-root {
+    & .css-1717ajk-MuiFormLabel-root-MuiInputLabel-root, & .css-k7fm7m {
         font-size: 1.8rem !important;
 
     }
 }
-label+.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root{
+label+.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root, label + .css-o3ukdw {
     margin-top: 3rem !important;
 }
-.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root{
+.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root, label + .css-o3ukdw {
     font-size: 1.4rem !important ;
 }
-label+.css-v4u5dn-MuiInputBase-root-MuiInput-root{
+label+.css-v4u5dn-MuiInputBase-root-MuiInput-root, label + .css-zrqpq1 {
     margin-top: 3rem !important;
 }
-.css-v4u5dn-MuiInputBase-root-MuiInput-root{
+.css-v4u5dn-MuiInputBase-root-MuiInput-root, .css-zrqpq1 {
     font-size: 1.4rem !important ;
 }
-.css-1h51icj-MuiAutocomplete-root .MuiAutocomplete-input{
-    font-size: 1.4rem !important ;
-}
-label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
-    margin-top: 3rem !important;
-}
-.css-rne967-MuiFormControl-root-MuiDataGrid-filterFormDeleteIcon{
+
+.css-rne967-MuiFormControl-root-MuiDataGrid-filterFormDeleteIcon, .css-1fmndo1{
     margin-bottom: 0.6rem !important;
-}
-.css-1ek52f7-MuiButtonBase-root-MuiChip-root{
-    background-color: #E9E8EA !important;
-    font-size: 1.2rem !important;
 }
 
 
@@ -960,31 +949,31 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
             }
             & .MuiDataGrid-actionsCell{
                 
-                & .css-ptiqhd-MuiSvgIcon-root{
+                & .css-ptiqhd-MuiSvgIcon-root,& .css-1k33q06{
                     font-size: 2rem;
                 }
             }
 
-            
+        // In the Build Version, this is not required as the table headers are already adjusted
             //Admin Table Column Padding
-            & .reqList{
-                & .MuiDataGrid-columnHeaders{
-                    padding-left: 58rem;
-                }
-            }
-            & .nonPendingList{
-                & .MuiDataGrid-columnHeaders{
-                    padding-left: 59rem;
-                }
-            }
-            & .donorList{
-                & .MuiDataGrid-columnHeaders{
-                    padding-left: 65rem;
-                }
-            }
+            // & .reqList{
+            //     & .MuiDataGrid-columnHeaders, .css-y599qu{
+            //         padding-left: 58rem;
+            //     }
+            // }
+            // & .nonPendingList{
+            //     & .MuiDataGrid-columnHeaders, .css-y599qu{
+            //         padding-left: 59rem;
+            //     }
+            // }
+            // & .donorList{
+            //     & .MuiDataGrid-columnHeaders, .css-y599qu{
+            //         padding-left: 63.5rem;
+            //     }
+            // }
             
             //Filter Button 
-            .css-1knaqv7-MuiButtonBase-root-MuiButton-root {
+            & .css-1knaqv7-MuiButtonBase-root-MuiButton-root,& .css-1rtnrqa {
                     background-color: #d22228 !important;
                     width: 10rem;
                     height: 3rem;
@@ -995,30 +984,35 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
             
     }
     //Complex Table Filter Form     
-    .css-1t5wrdm-MuiDataGrid-filterForm {
+    .css-1t5wrdm-MuiDataGrid-filterForm, .css-1ckupud {
         background-color: rgb(181, 178, 178);
         height: 7rem;
         width: 30rem;
-        & .css-1717ajk-MuiFormLabel-root-MuiInputLabel-root {
+        & .css-1717ajk-MuiFormLabel-root-MuiInputLabel-root, & .css-k7fm7m {
             font-size: 1.6rem !important;
 
         }
     }
-    label+.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root{
+    label+.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root, label + .css-o3ukdw {
         margin-top: 2rem !important;
     }
-    .css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root{
+    .css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root, .css-o3ukdw {
         font-size: 1.4rem !important ;
     }
-    label+.css-v4u5dn-MuiInputBase-root-MuiInput-root{
+
+    label+.css-v4u5dn-MuiInputBase-root-MuiInput-root, label + .css-zrqpq1{
         margin-top: 2rem !important;
     }
-    .css-v4u5dn-MuiInputBase-root-MuiInput-root{
+    .css-v4u5dn-MuiInputBase-root-MuiInput-root, .css-zrqpq1{
         font-size: 1.4rem !important ;
     }
-    .css-rne967-MuiFormControl-root-MuiDataGrid-filterFormDeleteIcon{
+
+    .css-rne967-MuiFormControl-root-MuiDataGrid-filterFormDeleteIcon, .css-1fmndo1{
         margin-bottom: 0.6rem !important;
     }
+
+
+
 
     //Admin Request List View Receipt Modal
     .receipt_view {
@@ -1106,7 +1100,7 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
 
     }
     //Side Navbar
-    .css-1d4vqq0-MuiButtonBase-root-MuiListItemButton-root{
+    .css-1d4vqq0-MuiButtonBase-root-MuiListItemButton-root, .css-1hhjps1 {
         & .nav-link{
             text-decoration: none;
             font-weight: 600;

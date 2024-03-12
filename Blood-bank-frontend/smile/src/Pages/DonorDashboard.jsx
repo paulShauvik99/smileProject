@@ -147,7 +147,7 @@ const DonorDashboard = () => {
                     icon : 'success',
                 }).then((res) =>{
                     if(res.isConfirmed || res.dismiss === 'backdrop'){
-                        navigate('/request')
+                        navigate('/donate')
                     }
                 })
             })
@@ -227,7 +227,7 @@ const DonorDashboard = () => {
                                                                     <b> Blood Group :</b> {donorDetails.bloodGroup}
                                                                 </Typography>
                                                                 <Typography  variant="h5" m={0.5}>
-                                                                    <b> Last Donated : </b> {donorDetails.lastDonated}
+                                                                    <b> Last Donated : </b> {donorDetails.lastDonated === null ? 'N/A' : donorDetails.lastDonated}
                                                                 </Typography>
                                                         </div>                                               
                                                     </div>

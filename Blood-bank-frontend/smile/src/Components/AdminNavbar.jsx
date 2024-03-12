@@ -103,7 +103,6 @@ function AdminNavbar (){
         </Box>
     );
     
-   console.log(selectedImgs)
     
     return (
         <>

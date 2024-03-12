@@ -156,7 +156,7 @@ const ComplexTable = (props) => {
         },
         { field: 'name', headerName: "Name" , 
             type : 'string',
-            width: 250,
+            width: 150,
             sortable : false, align : 'center',
             headerAlign : 'center' ,
             filterable : true,
@@ -177,7 +177,7 @@ const ComplexTable = (props) => {
             field: 'phoneNumber',
             headerName: "Phone Number",
             type : 'string',
-            width: 200,
+            width: 150,
             align: 'center',
             headerAlign: 'center',
             sortable : false,   
@@ -195,15 +195,15 @@ const ComplexTable = (props) => {
             filterable : true,
         },
         {
-            field: 'isAvailable',
-            headerName: 'Eligible?',
+            field: 'thalassemia',
+            headerName: 'Thalassemia?',
             type: 'boolean',
-            width: 100,
+            width: 130,
             sortable : false,   
             align : 'center',
             headerAlign: 'center',
             filterable : true,
-            renderCell : (params) => {return (params.row.isAvailable ?  (<DoneIcon className='con' />) : '')}
+            renderCell : (params) => {return (params.row.thalassemia ?  (<DoneIcon className='con' />) : '')}
         },
         {
             field: 'isAvailable',
@@ -234,7 +234,6 @@ const ComplexTable = (props) => {
             width: 100,
             cellClassName: 'actions',
             getActions: (params) => {
-                // console.log(!(params.row.loan && params.row.isAvailable));
                 return [
                 <GridActionsCellItem
                     icon={<Tooltip title="Confirm Donation"><CheckCircleIcon /></Tooltip>}
@@ -242,8 +241,6 @@ const ComplexTable = (props) => {
                     className='con'
                     onClick={() => props.sentForDonation(params.id)}    
                     disabled={!params.row.isAvailable}
-                    // color="success"
-                    // showInMenu
                 />,
                 <GridActionsCellItem
                     icon={<Tooltip title="Add Donor for Loan"><PlusOneIcon /></Tooltip>}
@@ -251,8 +248,6 @@ const ComplexTable = (props) => {
                     className='loan'
                     onClick={() => props.addLoan(params.id)}    
                     disabled={params.row.isAvailable || params.row.loan}
-                    // color="success"
-                    // showInMenu
                 />,
                 ];
             },
@@ -271,8 +266,6 @@ const ComplexTable = (props) => {
                     className='sms'
                     onClick={() => props.sendSMS(params.id)}    
                     disabled={!(params.row.isAvailable && !params.row.loan)}
-                    // color="success"
-                    // showInMenu
                 />,
                 <GridActionsCellItem
                     icon={<Tooltip title="Send Reminder For Loan"><FeedbackIcon /></Tooltip>}
