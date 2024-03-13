@@ -413,7 +413,7 @@ def addPhotos(request):
         if authorize_admin(request) == False:
             return JsonResponse({"error" : "Unauthorized"},status = 401)
          
-        images = request.FILES.getlist('images[]')
+        images = request.FILES.getlist('images')
         print(images)
 
         if len(images) != 5 :
