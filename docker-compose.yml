@@ -1,31 +1,55 @@
 
+# services:
+#   backend:
+#     build: 
+#       context: ./Blood-bank-backend
+#     command: gunicorn smile.wsgi --bind 0.0.0.0:8000
+#     ports:
+#       - "8000:8000"
+#     extra_hosts:
+#       - "localhost:192.168.1.12"
+#   frontend:
+#     build:
+#       context: ./Blood-bank-frontend/smile
+#     extra_hosts:
+#       - "localhost:192.168.1.12"
+#     volumes:
+#       - react_build:/app/dist
+#   nginx:
+#     image: nginx:1.16.0-alpine
+#     ports:
+#       - 80:8080
+#     extra_hosts:
+#       - "localhost:192.168.1.12"
+#     volumes:
+#       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+#       - react_build:/var/www/react
+#     depends_on:
+#       - backend
+#       - frontend
+# volumes:
+#   react_build:
+
+
+version: '2'
+
 services:
-  backend:
-    build: 
-      context: ./Blood-bank-backend
-    command: gunicorn smile.wsgi --bind 0.0.0.0:8000
+  smile-backend: 
+    build : ./Blood-bank-backend
+    container_name: 'smile-backend'
+
+  smile-frontend: 
+    build : ./Blood-bank-frontend/smile
+    container_name: 'smile-frontend'
+    depends_on :
+      - smile-backend
+    
+  proxy:
+    build: ./nginx
+    container_name: 'smile-proxy'
+    restart: always
     ports:
-      - "8000:8000"
-    extra_hosts:
-      - "localhost:192.168.1.12"
-  frontend:
-    build:
-      context: ./Blood-bank-frontend/smile
-    extra_hosts:
-      - "localhost:192.168.1.12"
-    volumes:
-      - react_build:/app/dist
-  nginx:
-    image: nginx:1.16.0-alpine
-    ports:
-      - 80:8080
-    extra_hosts:
-      - "localhost:192.168.1.12"
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - react_build:/var/www/react
-    depends_on:
-      - backend
-      - frontend
-volumes:
-  react_build:
+      - "80:80"
+
+
+

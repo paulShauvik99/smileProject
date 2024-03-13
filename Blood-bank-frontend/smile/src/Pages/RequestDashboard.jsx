@@ -811,7 +811,7 @@ export default function RequestDashboard() {
         }
 
         try {
-            const res = await axios.post('http://192.168.1.12/recipient/request_blood/',formData);
+            const res = await axios.post('/recipient/request_blood/',formData);
             console.log(res)
             Swal.fire({
                 text : res.data.success,
@@ -853,7 +853,7 @@ export default function RequestDashboard() {
     const loadAPI = async () =>{
         setLoadingPage(true)
         try {
-            const res = await axios.get('http://192.168.1.12/recipient/get_recipient_records/')
+            const res = await axios.get('/recipient/get_recipient_records/')
             console.log(res)       
             let pendingReq = res.data.pastRecord.filter(el => el.status === 'Pending')
             let pastRecord = res.data.pastRecord.filter(el => el.status !== 'Pending')
@@ -872,7 +872,7 @@ export default function RequestDashboard() {
     //Logout API
     const logout = () => {
         try{
-            axios.get('http://192.168.1.12/donor/logout/').then((res)=>{
+            axios.get('/donor/logout/').then((res)=>{
                 setLoadingPage(true)
                 localStorage.removeItem('check')
                 Swal.fire({

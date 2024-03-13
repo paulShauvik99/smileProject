@@ -104,7 +104,7 @@ export default function LoginPage(props){
                             })
                             break
                     }
-                    const res = await axios.post(`http://192.168.1.12/${url}`, data)
+                    const res = await axios.post(`/${url}`, data)
                     console.log(res)
                     toast.success("OTP Sent Successfully !",{
                         position : toast.POSITION.TOP_CENTER
@@ -138,7 +138,7 @@ export default function LoginPage(props){
                     otp : otpVal
                 })
                 try {
-                    const res = await axios.post('http://192.168.1.12/donor/verify_otp/',data)
+                    const res = await axios.post('/donor/verify_otp/',data)
                     console.log(res)
                     if( 'success' in res.data){
                         const now = new Date().getTime()

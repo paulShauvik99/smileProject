@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import HomePage from '../assets/NewHome.svg'
-import Img1 from '../assets/Home1.jpeg'
-import Img2 from '../assets/Home2.jpg'
-import Img3 from '../assets/Home3.jpg'
-import Img4 from '../assets/Home4.jpg'
-import Img5 from '../assets/Home5.jpg'
 import { motion } from 'framer-motion'
 import axios from 'axios'
 
@@ -53,7 +48,7 @@ const Home = () => {
     const loadImgs = async() =>{
         try{
     
-            const res = await axios.get('http://192.168.1.15:8000/adminUser/getLeaderboardImages/')
+            const res = await axios.get('/adminUser/getLeaderboardImages/')
             setImages(res.data.data)
         }catch(e){
             console.log(e.data.status)

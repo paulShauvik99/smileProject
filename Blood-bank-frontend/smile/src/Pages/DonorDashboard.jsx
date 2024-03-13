@@ -107,7 +107,7 @@ const DonorDashboard = () => {
     const getDonorRecords = async () =>{
         setLoadingPage(true)
         try {
-            const res = await axios.get('http://192.168.1.12/donor/get_donor_records/')
+            const res = await axios.get('/donor/get_donor_records/')
             console.log(res)
             setDonorList(res.data.donorList)
             setDonorDetails(res.data.donorDetails)
@@ -138,7 +138,7 @@ const DonorDashboard = () => {
     // Logout API call
     const logout = () => {
         try{
-            axios.get('http://192.168.1.12/donor/logout/').then((res)=>{
+            axios.get('/donor/logout/').then((res)=>{
                 setLoadingPage(true)
                 localStorage.removeItem('check')
                 Swal.fire({

@@ -288,7 +288,7 @@ const DonateBlood = () => {
             console.log(phoneNumber)
             timer()
             try{
-                const res =  await axios.post('http://192.168.1.12/donor/send_otp/', JSON.stringify(phoneNumber))
+                const res =  await axios.post('/donor/send_otp/', JSON.stringify(phoneNumber))
                 if('success' in res.data){
                     toast.success(res.data.success, {
                         position : toast.POSITION.TOP_RIGHT
@@ -327,7 +327,7 @@ const DonateBlood = () => {
         }
         console.log(JSON.stringify(donorDet))
         try {
-            const res = await axios.post('http://192.168.1.12/donor/register/',JSON.stringify(donorDet))
+            const res = await axios.post('/donor/register/',JSON.stringify(donorDet))
             if('success' in res.data){
                 const now = new Date().getTime()
                         let check = {
