@@ -74,13 +74,62 @@ const DonorList = () => {
         //API for matched donor
         console.log(id)
         try {
-            const res = await axios.post('http://192.168.1.12/adminUser/confirm_donor/',{donor_id : id})
-            console.log(res)
+            const res = await axios.get(`http://192.168.1.15:8000/adminUser/confirm_donor/${id}`)
+            // console.log(res)
+            toast.success(res.data.status)
             setReload(!reload)
 
         } catch (error) {
             Swal.fire({
                 text : error.response.data.error,
+                icon : 'error',
+            })
+        }
+    }
+    //Add Loan to Donor
+    const addLoan = async (id) =>{
+        //API for matched donor
+        console.log(id)
+        try {
+            const res = await axios.get(`http://192.168.1.15:8000/adminUser/confirm_loan/${id}` )
+            toast.success('Donor Added For Loan Successfully')
+            setReload(!reload)
+
+        } catch (error) {
+            Swal.fire({
+                text : 'Something went Wrong',
+                icon : 'error',
+            })
+        }
+    }
+    //Send Donation Message to Donor
+    const sendSMS = async (id) =>{
+        //API for matched donor
+        try {
+            const res = await axios.get(`http://192.168.1.15:8000/adminUser/send_requirement/${id}`)
+            toast.success(res.data.success)
+            setReload(!reload)
+
+        } catch (error) {
+            Swal.fire({
+                text : 'Message Not Sent',
+                icon : 'error',
+            })
+        }
+    }
+    //Send Loan Reminder to Donor
+    const sendReminder = async (id) =>{
+        //API for matched donor
+        console.log(id)
+        try {
+            const res = await axios.get(`http://192.168.1.15:8000/adminUser/loan_msg/${id}`)
+            console.log(res)
+            toast.success('Reminder Sent Successfully')
+            setReload(!reload)
+
+        } catch (error) {
+            Swal.fire({
+                text : 'Reminder Not Sent',
                 icon : 'error',
             })
         }
@@ -167,6 +216,9 @@ const DonorList = () => {
                                     type='donorList'
                                     rows={donorList}
                                     sentForDonation={sentForDonation}
+                                    addLoan={addLoan}
+                                    sendSMS={sendSMS}
+                                    sendReminder={sendReminder}
                                 />
                             </>
                         )

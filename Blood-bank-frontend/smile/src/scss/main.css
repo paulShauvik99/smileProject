@@ -1,0 +1,1228 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,100;8..144,200;8..144,300;8..144,400;8..144,500;8..144,600;8..144,700;8..144,800;8..144,900;8..144,1000&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Roboto Flex", sans-serif !important;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.admin_outer_div {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #EAEAEA;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.admin_outer_div::before {
+  content: "";
+  top: 2rem;
+  width: 150rem;
+  height: 150rem;
+  background-color: rgba(210, 34, 40, 0.9019607843);
+  position: absolute;
+  z-index: 1;
+  transform: rotate(114deg);
+  left: -61rem;
+  box-shadow: 0 0 12rem rgba(0, 0, 0, 0.7);
+}
+.admin_outer_div .admin_login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.admin_outer_div .admin_login .admin_login_form {
+  width: 50rem;
+  height: 50rem;
+  padding: 4rem;
+  background-color: #daccca;
+  border-radius: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 0 12rem rgba(0, 0, 0, 0.6);
+}
+.admin_outer_div .admin_dashboard {
+  padding-top: 15rem;
+  display: flex;
+  z-index: 2;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10rem;
+}
+.admin_outer_div .admin_dashboard .logout {
+  position: absolute;
+  right: 3rem;
+  top: 12rem;
+  z-index: 2;
+}
+.admin_outer_div .css-10hburv-MuiTypography-root {
+  font-size: 2rem;
+}
+.admin_outer_div .css-1iyq7zh-MuiDataGrid-columnHeaders {
+  justify-content: center;
+}
+.admin_outer_div .css-siqkc4-MuiDataGrid-root {
+  align-items: center;
+}
+.admin_outer_div .MuiDataGrid-actionsCell .css-ptiqhd-MuiSvgIcon-root {
+  font-size: 2rem;
+}
+
+.css-1knaqv7-MuiButtonBase-root-MuiButton-root {
+  background-color: #d22228 !important;
+  width: 12rem;
+  height: 3rem;
+  color: #ede4e2 !important;
+  font-size: 1.2rem;
+  border-radius: 1.3rem;
+}
+
+.css-154sxbz-MuiPaper-root-MuiDataGrid-paper {
+  background-color: rgb(181, 178, 178) !important;
+}
+
+.css-1t5wrdm-MuiDataGrid-filterForm {
+  background-color: rgb(181, 178, 178);
+  height: 8rem;
+}
+.css-1t5wrdm-MuiDataGrid-filterForm .css-1717ajk-MuiFormLabel-root-MuiInputLabel-root {
+  font-size: 1.8rem !important;
+}
+
+label + .css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root {
+  margin-top: 3rem !important;
+}
+
+.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root {
+  font-size: 1.4rem !important;
+}
+
+label + .css-v4u5dn-MuiInputBase-root-MuiInput-root {
+  margin-top: 3rem !important;
+}
+
+.css-v4u5dn-MuiInputBase-root-MuiInput-root {
+  font-size: 1.4rem !important;
+}
+
+.css-1h51icj-MuiAutocomplete-root .MuiAutocomplete-input {
+  font-size: 1.4rem !important;
+}
+
+label + .css-l4u8b9-MuiInputBase-root-MuiInput-root {
+  margin-top: 3rem !important;
+}
+
+.css-rne967-MuiFormControl-root-MuiDataGrid-filterFormDeleteIcon {
+  margin-bottom: 0.6rem !important;
+}
+
+.css-1ek52f7-MuiButtonBase-root-MuiChip-root {
+  background-color: #E9E8EA !important;
+  font-size: 1.2rem !important;
+}
+
+.receipt_view {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.receipt_view img {
+  justify-self: center;
+  align-self: center;
+  grid-column: 1/3;
+  height: 45rem;
+}
+
+.css-15ghhi9-MuiButtonBase-root-MuiIconButton-root {
+  font-size: 2rem;
+  color: #049f0c !important;
+}
+
+.outer_nav {
+  position: fixed;
+  margin-top: 0 !important;
+  width: 100%;
+  z-index: 9;
+  height: 10rem;
+  background-color: #EAEAEA;
+  display: grid;
+  grid-template-columns: 1fr 40rem 20rem 80rem 1fr;
+  align-items: center;
+  box-shadow: 0 0 5rem rgba(0, 0, 0, 0.2);
+}
+.outer_nav .logo {
+  max-height: 8rem;
+  grid-column: 2/3;
+  display: flex;
+  justify-content: center;
+}
+.outer_nav .logo img {
+  height: 8rem;
+}
+.outer_nav .menu {
+  height: 8rem;
+  grid-column: 4/5;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.outer_nav .menu .nav-link {
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #191818;
+}
+.outer_nav .menu .active {
+  color: rgba(215, 88, 20, 0.7764705882);
+}
+
+.home_outer {
+  padding-top: 10rem;
+  min-height: calc(100vh - 20rem);
+  width: 100%;
+}
+.home_outer .landing {
+  margin-top: 1rem;
+  box-shadow: 0 0 8rem rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  position: relative;
+}
+.home_outer .landing .left {
+  position: absolute;
+  background-color: rgba(65, 92, 101, 0.16);
+  height: 100%;
+  width: 75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 4rem;
+}
+.home_outer .landing .left h5 {
+  font-size: 6rem;
+  padding: 0 7rem;
+  text-align: right;
+}
+.home_outer .landing .left p {
+  font-size: 2rem;
+  padding: 0 8rem;
+  text-align: right;
+}
+.home_outer .about {
+  height: 100rem;
+  background-color: #EAEAEA;
+  position: relative;
+}
+.home_outer .about .about_content {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: repeat(2, 1fr);
+}
+.home_outer .about .about_content .photo_gallery {
+  grid-column: 1/2;
+  position: relative;
+}
+.home_outer .about .about_content .photo_gallery img {
+  position: absolute;
+  border-radius: 13px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  width: auto;
+}
+.home_outer .about .about_content .photo_gallery img:nth-child(1) {
+  top: 20rem;
+  left: 5rem;
+  z-index: 4;
+  height: 30rem;
+}
+.home_outer .about .about_content .photo_gallery img:nth-child(2) {
+  z-index: 5;
+  top: 72rem;
+  left: 30rem;
+  height: 30rem;
+}
+.home_outer .about .about_content .photo_gallery img:nth-child(3) {
+  z-index: 4;
+  top: 48rem;
+  left: 7rem;
+  height: 36rem;
+}
+.home_outer .about .about_content .photo_gallery img:nth-child(4) {
+  top: 5rem;
+  left: 28rem;
+  z-index: 1;
+  height: 35rem;
+}
+.home_outer .about .about_content .photo_gallery img:nth-child(5) {
+  top: 34rem;
+  left: 32rem;
+  z-index: 4;
+  height: 40rem;
+}
+.home_outer .about .about_content .about_smile {
+  grid-column: 2/3;
+  position: relative;
+  height: 100%;
+}
+.home_outer .about .about_content .about_smile .container {
+  top: 20rem;
+  right: 0;
+  width: 127%;
+  z-index: 0;
+  height: 50rem;
+  background-color: #C0463B;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+}
+.home_outer .about .about_content .about_smile .container h5 {
+  font-size: 6rem;
+  padding: 0 7rem;
+  text-align: right;
+  color: #f0e3e4;
+}
+.home_outer .about .about_content .about_smile .container p {
+  color: #f0e3e4;
+  margin-top: 3rem;
+  font-size: 2rem;
+  padding: 0 8rem 0 20rem;
+  text-align: right;
+}
+
+.css-79ws1d-MuiModal-root .css-1hv8oq8-MuiStepLabel-label {
+  font-size: 1.2rem !important;
+}
+
+.donate_outer_div, .request_outer_div, .req_dashboard_outer_div, .don_dashboard_outer_div {
+  min-height: calc(100vh - 20rem);
+  width: 100%;
+  background-color: #EAEAEA;
+  position: relative;
+  overflow: hidden;
+}
+.donate_outer_div .donate_register, .donate_outer_div .request_register, .donate_outer_div .donate_login, .request_outer_div .donate_register, .request_outer_div .request_register, .request_outer_div .donate_login, .req_dashboard_outer_div .donate_register, .req_dashboard_outer_div .request_register, .req_dashboard_outer_div .donate_login, .don_dashboard_outer_div .donate_register, .don_dashboard_outer_div .request_register, .don_dashboard_outer_div .donate_login {
+  width: 100%;
+  height: 85rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.donate_outer_div .donate_register::before, .donate_outer_div .request_register::before, .donate_outer_div .donate_login::before, .request_outer_div .donate_register::before, .request_outer_div .request_register::before, .request_outer_div .donate_login::before, .req_dashboard_outer_div .donate_register::before, .req_dashboard_outer_div .request_register::before, .req_dashboard_outer_div .donate_login::before, .don_dashboard_outer_div .donate_register::before, .don_dashboard_outer_div .request_register::before, .don_dashboard_outer_div .donate_login::before {
+  content: "";
+  top: -90rem;
+  left: 0rem;
+  width: 130rem;
+  height: 150rem;
+  background-color: rgba(210, 34, 40, 0.9019607843);
+  position: absolute;
+  z-index: 1;
+  transform: rotate(114deg);
+  box-shadow: 0 0 10rem rgba(0, 0, 0, 0.7);
+}
+.donate_outer_div .donate_register .request_registration_form, .donate_outer_div .donate_register .donate_login_form, .donate_outer_div .request_register .request_registration_form, .donate_outer_div .request_register .donate_login_form, .donate_outer_div .donate_login .request_registration_form, .donate_outer_div .donate_login .donate_login_form, .request_outer_div .donate_register .request_registration_form, .request_outer_div .donate_register .donate_login_form, .request_outer_div .request_register .request_registration_form, .request_outer_div .request_register .donate_login_form, .request_outer_div .donate_login .request_registration_form, .request_outer_div .donate_login .donate_login_form, .req_dashboard_outer_div .donate_register .request_registration_form, .req_dashboard_outer_div .donate_register .donate_login_form, .req_dashboard_outer_div .request_register .request_registration_form, .req_dashboard_outer_div .request_register .donate_login_form, .req_dashboard_outer_div .donate_login .request_registration_form, .req_dashboard_outer_div .donate_login .donate_login_form, .don_dashboard_outer_div .donate_register .request_registration_form, .don_dashboard_outer_div .donate_register .donate_login_form, .don_dashboard_outer_div .request_register .request_registration_form, .don_dashboard_outer_div .request_register .donate_login_form, .don_dashboard_outer_div .donate_login .request_registration_form, .don_dashboard_outer_div .donate_login .donate_login_form {
+  width: 55rem;
+  padding: 4rem;
+  z-index: 7;
+  background-color: #daccca;
+  border-radius: 2.5rem;
+  box-shadow: 0 0 12rem rgba(0, 0, 0, 0.6);
+}
+.donate_outer_div .donate_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .donate_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .request_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .request_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .donate_login .request_registration_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .donate_login .donate_login_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .request_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .request_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_login .request_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_login .donate_login_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .request_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .request_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_login .request_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_login .donate_login_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .request_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .request_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_login .request_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_login .donate_login_form .reg form .chakra-form-control:nth-child(1) {
+  margin-top: 3rem;
+}
+.donate_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .request_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .request_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .request_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .request_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .request_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .request_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .request_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .request_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .chakra-form__label {
+  font-size: 1.4rem;
+}
+.donate_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .donate_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .css-1aih2i9, .donate_outer_div .request_register .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .donate_outer_div .request_register .donate_login_form .reg form .chakra-form-control .css-1aih2i9, .donate_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .donate_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .css-1aih2i9, .request_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .request_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .css-1aih2i9, .request_outer_div .request_register .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .request_outer_div .request_register .donate_login_form .reg form .chakra-form-control .css-1aih2i9, .request_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .request_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .css-1aih2i9, .req_dashboard_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .req_dashboard_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .css-1aih2i9, .req_dashboard_outer_div .request_register .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .req_dashboard_outer_div .request_register .donate_login_form .reg form .chakra-form-control .css-1aih2i9, .req_dashboard_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .req_dashboard_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .css-1aih2i9, .don_dashboard_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .don_dashboard_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .css-1aih2i9, .don_dashboard_outer_div .request_register .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .don_dashboard_outer_div .request_register .donate_login_form .reg form .chakra-form-control .css-1aih2i9, .don_dashboard_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .css-1aih2i9, .don_dashboard_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .css-1aih2i9 {
+  border-color: #d22228;
+}
+.donate_outer_div .donate_register .donate_registration_form, .donate_outer_div .request_register .donate_registration_form, .donate_outer_div .donate_login .donate_registration_form, .request_outer_div .donate_register .donate_registration_form, .request_outer_div .request_register .donate_registration_form, .request_outer_div .donate_login .donate_registration_form, .req_dashboard_outer_div .donate_register .donate_registration_form, .req_dashboard_outer_div .request_register .donate_registration_form, .req_dashboard_outer_div .donate_login .donate_registration_form, .don_dashboard_outer_div .donate_register .donate_registration_form, .don_dashboard_outer_div .request_register .donate_registration_form, .don_dashboard_outer_div .donate_login .donate_registration_form {
+  width: 75rem;
+  padding: 4rem;
+  z-index: 7;
+  background-color: #daccca;
+  border-radius: 2.5rem;
+  box-shadow: 0 0 12rem rgba(0, 0, 0, 0.6);
+}
+.donate_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .request_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .request_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .request_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .request_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control:nth-child(1) {
+  margin-top: 3rem;
+}
+.donate_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .chakra-form__label {
+  font-size: 1.4rem;
+}
+.donate_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .css-1aih2i9, .donate_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .css-1aih2i9, .donate_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .css-1aih2i9, .request_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .css-1aih2i9, .request_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .css-1aih2i9, .request_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .css-1aih2i9, .req_dashboard_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .css-1aih2i9, .req_dashboard_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .css-1aih2i9, .req_dashboard_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .css-1aih2i9, .don_dashboard_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .css-1aih2i9, .don_dashboard_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .css-1aih2i9, .don_dashboard_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .css-1aih2i9 {
+  border-color: #d22228;
+}
+.donate_outer_div .req_dashboard_content, .donate_outer_div .don_dashboard_content, .request_outer_div .req_dashboard_content, .request_outer_div .don_dashboard_content, .req_dashboard_outer_div .req_dashboard_content, .req_dashboard_outer_div .don_dashboard_content, .don_dashboard_outer_div .req_dashboard_content, .don_dashboard_outer_div .don_dashboard_content {
+  width: 100%;
+  min-height: 120rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.donate_outer_div .req_dashboard_content::before, .donate_outer_div .don_dashboard_content::before, .request_outer_div .req_dashboard_content::before, .request_outer_div .don_dashboard_content::before, .req_dashboard_outer_div .req_dashboard_content::before, .req_dashboard_outer_div .don_dashboard_content::before, .don_dashboard_outer_div .req_dashboard_content::before, .don_dashboard_outer_div .don_dashboard_content::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 120rem;
+  height: 95rem;
+  background-color: rgba(210, 34, 40, 0.9019607843);
+  border-radius: 0 50% 50% 0;
+  box-shadow: 0 0 8rem rgba(0, 0, 0, 0.7);
+}
+.donate_outer_div .req_dashboard_content .actual_content, .donate_outer_div .don_dashboard_content .actual_content, .request_outer_div .req_dashboard_content .actual_content, .request_outer_div .don_dashboard_content .actual_content, .req_dashboard_outer_div .req_dashboard_content .actual_content, .req_dashboard_outer_div .don_dashboard_content .actual_content, .don_dashboard_outer_div .req_dashboard_content .actual_content, .don_dashboard_outer_div .don_dashboard_content .actual_content {
+  position: relative;
+  height: 90rem;
+  width: 135rem;
+}
+.donate_outer_div .req_dashboard_content .actual_content .logout, .donate_outer_div .don_dashboard_content .actual_content .logout, .request_outer_div .req_dashboard_content .actual_content .logout, .request_outer_div .don_dashboard_content .actual_content .logout, .req_dashboard_outer_div .req_dashboard_content .actual_content .logout, .req_dashboard_outer_div .don_dashboard_content .actual_content .logout, .don_dashboard_outer_div .req_dashboard_content .actual_content .logout, .don_dashboard_outer_div .don_dashboard_content .actual_content .logout {
+  position: absolute;
+  right: 0;
+  z-index: 2;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container, .donate_outer_div .don_dashboard_content .actual_content .grid_container, .request_outer_div .req_dashboard_content .actual_content .grid_container, .request_outer_div .don_dashboard_content .actual_content .grid_container, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container {
+  display: grid;
+  grid-template-areas: "main calendar" "requests calendar";
+  grid-template-columns: 2fr 1fr;
+  min-height: 80rem;
+  gap: 1rem;
+  padding: 3rem;
+  position: relative;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .main, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main, .request_outer_div .req_dashboard_content .actual_content .grid_container .main, .request_outer_div .don_dashboard_content .actual_content .grid_container .main, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main {
+  grid-area: main;
+  padding: 2rem;
+  align-self: flex-start;
+  min-height: 35rem;
+  width: 70rem;
+  background-color: #daccca;
+  border-radius: 2rem;
+  box-shadow: 0 0 4rem rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .main .remaining_units, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main .remaining_units, .request_outer_div .req_dashboard_content .actual_content .grid_container .main .remaining_units, .request_outer_div .don_dashboard_content .actual_content .grid_container .main .remaining_units, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .remaining_units, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .remaining_units, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .remaining_units, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .remaining_units {
+  color: #191818;
+  font-size: 3rem;
+  font-weight: 400;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .main .register_patient, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main .register_patient, .request_outer_div .req_dashboard_content .actual_content .grid_container .main .register_patient, .request_outer_div .don_dashboard_content .actual_content .grid_container .main .register_patient, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .register_patient, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .register_patient, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .register_patient, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .register_patient {
+  font-size: 3rem;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .main .upper, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main .upper, .request_outer_div .req_dashboard_content .actual_content .grid_container .main .upper, .request_outer_div .don_dashboard_content .actual_content .grid_container .main .upper, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper {
+  margin-bottom: 1rem;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .first, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .first, .request_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .first, .request_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .first, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .first, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .first, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .first, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .first {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .second, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .second, .request_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .second, .request_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .second, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .second, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .second, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .second, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .second {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 2rem;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar, .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar, .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar, .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar {
+  grid-area: calendar;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time, .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time, .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time, .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time {
+  position: relative;
+  width: 100%;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date, .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date, .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date, .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date {
+  position: absolute;
+  top: 5rem;
+  left: 0rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 20rem;
+  height: 15rem;
+  font-size: 3.5rem;
+  background-color: #E9E8EA;
+  color: #2B313B;
+  box-shadow: 0 -1rem 5rem rgba(0, 0, 0, 0.6);
+  z-index: 2;
+  border-radius: 2rem 0 0 2rem;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1) {
+  font-weight: 700;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2) {
+  font-weight: 400;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time, .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time, .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time, .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time {
+  position: absolute;
+  top: 5rem;
+  left: 20rem;
+  gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2B313B;
+  color: #E9E8EA;
+  font-size: 4rem;
+  height: 15rem;
+  width: 25rem;
+  box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.6);
+  border-radius: 0 2rem 2rem 0;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1) {
+  font-weight: 600;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2) {
+  animation: blink 1s alternate infinite;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .requests, .donate_outer_div .don_dashboard_content .actual_content .grid_container .requests, .request_outer_div .req_dashboard_content .actual_content .grid_container .requests, .request_outer_div .don_dashboard_content .actual_content .grid_container .requests, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .requests, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .requests, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .requests, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .requests {
+  grid-area: requests;
+  height: 100%;
+  margin-top: 5rem;
+}
+.donate_outer_div .req_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .donate_outer_div .don_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .request_outer_div .req_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .request_outer_div .don_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root {
+  background-color: #EAEAEA;
+}
+.donate_outer_div .req_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .donate_outer_div .don_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .request_outer_div .req_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .request_outer_div .don_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .req_dashboard_outer_div .req_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .req_dashboard_outer_div .don_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .don_dashboard_outer_div .req_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .don_dashboard_outer_div .don_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label {
+  font-size: 1.8rem !important;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.pat_reg .receipt_input {
+  height: 100%;
+  width: 100%;
+  border-radius: 2rem;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px, inset rgba(239, 106, 106, 0.184) 0 0 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  border: 1px dashed #F13C3C;
+}
+.pat_reg .receipt_input .main {
+  gap: 2rem;
+  align-items: center;
+}
+.pat_reg .receipt_input p {
+  font-size: 1rem;
+}
+.pat_reg .receipt {
+  border-radius: 1.4rem;
+  width: 100%;
+  height: 20rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+.pat_reg .receipt img {
+  height: 18rem;
+  width: auto;
+}
+.pat_reg .css-rtjcmg {
+  padding: 5px;
+}
+
+.swal2-container {
+  z-index: 1500;
+}
+
+.footer_outer {
+  background-color: #EAEAEA;
+  height: 20rem;
+}
+.footer_outer .footer_inner {
+  position: relative;
+  display: flex;
+  height: 100%;
+}
+.footer_outer .footer_inner .footBg {
+  position: absolute;
+  bottom: 0;
+}
+.footer_outer .footer_inner .footer_details {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 5fr) 1.5fr;
+}
+.footer_outer .footer_inner .footer_details .part1 {
+  grid-column: 2/3;
+  display: flex;
+  z-index: 4;
+  justify-content: center;
+  align-items: center;
+}
+.footer_outer .footer_inner .footer_details .part1 .footLogo {
+  max-height: 12rem;
+  width: auto;
+}
+.footer_outer .footer_inner .footer_details .part2 {
+  position: relative;
+  grid-column: 3/4;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 4;
+}
+.footer_outer .footer_inner .footer_details .part2 .css-78trlr-MuiButtonBase-root-MuiIconButton-root {
+  font-size: 4rem;
+}
+.footer_outer .footer_inner .footer_details .part3 {
+  grid-column: 4/5;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 4;
+  font-size: 1.4rem;
+}
+.footer_outer .footer_inner .footer_details .part3 .con {
+  display: flex;
+  -moz-column-gap: 2rem;
+       column-gap: 2rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+::-webkit-scrollbar {
+  width: 0.4rem;
+  height: 0.4rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C0463B;
+  border-radius: 10rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #EAEAEA;
+}
+
+@media only screen and (max-width: 767px) {
+  .admin_outer_div {
+    min-height: 100vh;
+    width: 100%;
+    background-color: #EAEAEA;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .admin_outer_div::before {
+    content: "";
+    top: 10rem;
+    width: 110rem;
+    height: 110rem;
+    background-color: rgba(210, 34, 40, 0.9019607843);
+    position: absolute;
+    z-index: 1;
+    transform: rotate(114deg);
+    left: -61rem;
+    box-shadow: 0 0 12rem rgba(0, 0, 0, 0.7);
+  }
+  .admin_outer_div .admin_login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+  .admin_outer_div .admin_login .admin_login_form {
+    width: 33rem;
+    height: 40rem;
+    padding: 4rem;
+    background-color: #daccca;
+    border-radius: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 0 12rem rgba(0, 0, 0, 0.6);
+  }
+  .admin_outer_div .admin_dashboard {
+    padding-top: 15rem;
+    display: flex;
+    z-index: 2;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10rem;
+  }
+  .admin_outer_div .admin_dashboard .logout {
+    position: absolute;
+    right: 2rem;
+    top: 10rem;
+    z-index: 2;
+  }
+  .admin_outer_div .css-10hburv-MuiTypography-root {
+    font-size: 2rem;
+  }
+  .admin_outer_div .css-1iyq7zh-MuiDataGrid-columnHeaders {
+    justify-content: center;
+  }
+  .admin_outer_div .css-siqkc4-MuiDataGrid-root {
+    align-items: center;
+  }
+  .admin_outer_div .MuiDataGrid-actionsCell .css-ptiqhd-MuiSvgIcon-root {
+    font-size: 2rem;
+  }
+  .admin_outer_div .reqList .css-1iyq7zh-MuiDataGrid-columnHeaders {
+    padding-left: 60rem;
+  }
+  .admin_outer_div .nonPendingList .css-1iyq7zh-MuiDataGrid-columnHeaders {
+    padding-left: 64.5rem;
+  }
+  .admin_outer_div .donorList .css-1iyq7zh-MuiDataGrid-columnHeaders {
+    padding-left: 51.5rem;
+  }
+  .css-1knaqv7-MuiButtonBase-root-MuiButton-root {
+    background-color: #d22228 !important;
+    width: 12rem;
+    height: 3rem;
+    color: #ede4e2 !important;
+    font-size: 1.2rem;
+    border-radius: 1.3rem;
+  }
+  .css-1t5wrdm-MuiDataGrid-filterForm {
+    background-color: rgb(181, 178, 178);
+    height: 7rem;
+    width: 30rem;
+  }
+  .css-1t5wrdm-MuiDataGrid-filterForm .css-1717ajk-MuiFormLabel-root-MuiInputLabel-root {
+    font-size: 1.6rem !important;
+  }
+  label + .css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root {
+    margin-top: 2rem !important;
+  }
+  .css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root {
+    font-size: 1.4rem !important;
+  }
+  label + .css-v4u5dn-MuiInputBase-root-MuiInput-root {
+    margin-top: 2rem !important;
+  }
+  .css-v4u5dn-MuiInputBase-root-MuiInput-root {
+    font-size: 1.4rem !important;
+  }
+  .css-rne967-MuiFormControl-root-MuiDataGrid-filterFormDeleteIcon {
+    margin-bottom: 0.6rem !important;
+  }
+  .receipt_view {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+  .receipt_view img {
+    margin-top: 2rem;
+    justify-self: center;
+    align-self: center;
+    height: 25rem;
+    width: auto;
+  }
+  .css-15ghhi9-MuiButtonBase-root-MuiIconButton-root {
+    font-size: 2rem;
+    color: #049f0c !important;
+  }
+  .outer_nav {
+    position: fixed;
+    margin-top: 0 !important;
+    width: 100%;
+    z-index: 9;
+    height: 7rem;
+    background-color: #EAEAEA;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 5rem rgba(0, 0, 0, 0.2);
+  }
+  .outer_nav .logo {
+    justify-self: center !important;
+    max-height: 5rem;
+    justify-content: center;
+    width: 65%;
+  }
+  .outer_nav .logo img {
+    height: 5rem;
+  }
+  .outer_nav .menu {
+    display: none;
+  }
+  .css-1d4vqq0-MuiButtonBase-root-MuiListItemButton-root .nav-link {
+    text-decoration: none;
+    font-weight: 600;
+    color: #191818;
+  }
+  .css-1d4vqq0-MuiButtonBase-root-MuiListItemButton-root .active {
+    color: rgba(215, 88, 20, 0.7764705882);
+  }
+  .home_outer {
+    padding-top: 10rem;
+    min-height: calc(100vh - 15rem);
+    width: 100%;
+    background-color: #EAEAEA;
+  }
+  .home_outer .landing {
+    margin-top: 1rem;
+    box-shadow: 0 0 8rem rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    position: relative;
+  }
+  .home_outer .landing .left {
+    position: absolute;
+    background-color: rgba(65, 92, 101, 0.16);
+    height: 100%;
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 2rem;
+  }
+  .home_outer .landing .left h5 {
+    font-size: 1.8rem;
+    padding: 0 2rem;
+    text-align: right;
+  }
+  .home_outer .landing .left p {
+    font-size: 0.8rem;
+    padding: 0 2.1rem;
+    text-align: right;
+  }
+  .home_outer .about {
+    height: 75rem;
+    width: 100%;
+    background-color: #EAEAEA;
+    position: relative;
+    margin-top: 5rem;
+  }
+  .home_outer .about .about_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+  .home_outer .about .about_content .photo_gallery {
+    position: relative;
+    align-items: center;
+    width: 100%;
+    height: 50rem;
+  }
+  .home_outer .about .about_content .photo_gallery img {
+    position: absolute;
+    border-radius: 13px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    width: auto;
+  }
+  .home_outer .about .about_content .photo_gallery img:nth-child(1) {
+    top: 0;
+    left: 0;
+    z-index: 0;
+    height: 13rem;
+  }
+  .home_outer .about .about_content .photo_gallery img:nth-child(2) {
+    top: auto;
+    left: auto;
+    right: 0;
+    z-index: 3;
+    height: 13rem;
+  }
+  .home_outer .about .about_content .photo_gallery img:nth-child(3) {
+    top: auto;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    z-index: 4;
+    height: 15rem;
+  }
+  .home_outer .about .about_content .photo_gallery img:nth-child(4) {
+    top: auto;
+    left: 0;
+    bottom: 0;
+    z-index: 3;
+    height: 15rem;
+  }
+  .home_outer .about .about_content .photo_gallery img:nth-child(5) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    height: 18rem;
+  }
+  .home_outer .about .about_content .about_smile {
+    position: relative;
+    height: 30rem;
+    width: 100%;
+    margin-bottom: 7rem;
+  }
+  .home_outer .about .about_content .about_smile .container {
+    top: 5rem;
+    right: 0;
+    width: 100%;
+    z-index: 1;
+    height: 20rem;
+    background-color: #C0463B;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  }
+  .home_outer .about .about_content .about_smile .container h5 {
+    font-size: 1.8rem;
+    padding: 0 1.8rem;
+    text-align: left;
+    color: #f0e3e4;
+  }
+  .home_outer .about .about_content .about_smile .container p {
+    color: #f0e3e4;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    padding: 0 4rem 0 2.2rem;
+    text-align: justify;
+  }
+  .css-79ws1d-MuiModal-root .css-1hv8oq8-MuiStepLabel-label {
+    font-size: 1.2rem !important;
+  }
+  .donate_outer_div, .request_outer_div, .req_dashboard_outer_div, .don_dashboard_outer_div {
+    min-height: calc(100vh - 20rem);
+    width: 100%;
+    background-color: #EAEAEA;
+    position: relative;
+    overflow: hidden;
+  }
+  .donate_outer_div .donate_register, .donate_outer_div .request_register, .donate_outer_div .donate_login, .request_outer_div .donate_register, .request_outer_div .request_register, .request_outer_div .donate_login, .req_dashboard_outer_div .donate_register, .req_dashboard_outer_div .request_register, .req_dashboard_outer_div .donate_login, .don_dashboard_outer_div .donate_register, .don_dashboard_outer_div .request_register, .don_dashboard_outer_div .donate_login {
+    width: 100%;
+    min-height: 85rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  .donate_outer_div .donate_register::before, .donate_outer_div .request_register::before, .donate_outer_div .donate_login::before, .request_outer_div .donate_register::before, .request_outer_div .request_register::before, .request_outer_div .donate_login::before, .req_dashboard_outer_div .donate_register::before, .req_dashboard_outer_div .request_register::before, .req_dashboard_outer_div .donate_login::before, .don_dashboard_outer_div .donate_register::before, .don_dashboard_outer_div .request_register::before, .don_dashboard_outer_div .donate_login::before {
+    content: "";
+    top: -15rem;
+    left: -30rem;
+    width: 60rem;
+    height: 90rem;
+    background-color: rgba(210, 34, 40, 0.9019607843);
+    position: absolute;
+    z-index: 1;
+    transform: rotate(114deg);
+    box-shadow: 0 0 10rem rgba(0, 0, 0, 0.7);
+  }
+  .donate_outer_div .donate_register .request_registration_form, .donate_outer_div .donate_register .donate_login_form, .donate_outer_div .request_register .request_registration_form, .donate_outer_div .request_register .donate_login_form, .donate_outer_div .donate_login .request_registration_form, .donate_outer_div .donate_login .donate_login_form, .request_outer_div .donate_register .request_registration_form, .request_outer_div .donate_register .donate_login_form, .request_outer_div .request_register .request_registration_form, .request_outer_div .request_register .donate_login_form, .request_outer_div .donate_login .request_registration_form, .request_outer_div .donate_login .donate_login_form, .req_dashboard_outer_div .donate_register .request_registration_form, .req_dashboard_outer_div .donate_register .donate_login_form, .req_dashboard_outer_div .request_register .request_registration_form, .req_dashboard_outer_div .request_register .donate_login_form, .req_dashboard_outer_div .donate_login .request_registration_form, .req_dashboard_outer_div .donate_login .donate_login_form, .don_dashboard_outer_div .donate_register .request_registration_form, .don_dashboard_outer_div .donate_register .donate_login_form, .don_dashboard_outer_div .request_register .request_registration_form, .don_dashboard_outer_div .request_register .donate_login_form, .don_dashboard_outer_div .donate_login .request_registration_form, .don_dashboard_outer_div .donate_login .donate_login_form {
+    width: 35rem;
+    padding: 4rem;
+    z-index: 7;
+    background-color: #daccca;
+    border-radius: 2.5rem;
+    box-shadow: 0 0 12rem rgba(0, 0, 0, 0.6);
+  }
+  .donate_outer_div .donate_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .donate_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .request_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .request_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .donate_login .request_registration_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .donate_login .donate_login_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .request_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .request_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_login .request_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_login .donate_login_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .request_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .request_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_login .request_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_login .donate_login_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .request_register .request_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .request_register .donate_login_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_login .request_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_login .donate_login_form .reg form .chakra-form-control:nth-child(1) {
+    margin-top: 3rem;
+  }
+  .donate_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .request_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .request_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .request_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .request_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .request_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .request_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .request_register .request_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .request_register .donate_login_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_login .request_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_login .donate_login_form .reg form .chakra-form-control .chakra-form__label {
+    font-size: 1.4rem;
+  }
+  .donate_outer_div .donate_register .donate_registration_form, .donate_outer_div .request_register .donate_registration_form, .donate_outer_div .donate_login .donate_registration_form, .request_outer_div .donate_register .donate_registration_form, .request_outer_div .request_register .donate_registration_form, .request_outer_div .donate_login .donate_registration_form, .req_dashboard_outer_div .donate_register .donate_registration_form, .req_dashboard_outer_div .request_register .donate_registration_form, .req_dashboard_outer_div .donate_login .donate_registration_form, .don_dashboard_outer_div .donate_register .donate_registration_form, .don_dashboard_outer_div .request_register .donate_registration_form, .don_dashboard_outer_div .donate_login .donate_registration_form {
+    width: 35rem;
+    padding: 4rem;
+    z-index: 7;
+    background-color: #daccca;
+    border-radius: 2.5rem;
+    box-shadow: 0 0 12rem rgba(0, 0, 0, 0.6);
+  }
+  .donate_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .request_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .donate_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .request_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .request_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .request_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .req_dashboard_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .request_register .donate_registration_form .reg form .chakra-form-control:nth-child(1), .don_dashboard_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control:nth-child(1) {
+    margin-top: 3rem;
+  }
+  .donate_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .donate_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .request_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .req_dashboard_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .request_register .donate_registration_form .reg form .chakra-form-control .chakra-form__label, .don_dashboard_outer_div .donate_login .donate_registration_form .reg form .chakra-form-control .chakra-form__label {
+    font-size: 1.4rem;
+  }
+  .donate_outer_div .req_dashboard_content, .donate_outer_div .don_dashboard_content, .request_outer_div .req_dashboard_content, .request_outer_div .don_dashboard_content, .req_dashboard_outer_div .req_dashboard_content, .req_dashboard_outer_div .don_dashboard_content, .don_dashboard_outer_div .req_dashboard_content, .don_dashboard_outer_div .don_dashboard_content {
+    width: 100%;
+    min-height: 120rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .donate_outer_div .req_dashboard_content::before, .donate_outer_div .don_dashboard_content::before, .request_outer_div .req_dashboard_content::before, .request_outer_div .don_dashboard_content::before, .req_dashboard_outer_div .req_dashboard_content::before, .req_dashboard_outer_div .don_dashboard_content::before, .don_dashboard_outer_div .req_dashboard_content::before, .don_dashboard_outer_div .don_dashboard_content::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 52rem;
+    height: 65rem;
+    background-color: rgba(210, 34, 40, 0.9019607843);
+    border-radius: 0 50% 50% 0;
+    box-shadow: 0 0 8rem rgba(0, 0, 0, 0.7);
+  }
+  .donate_outer_div .req_dashboard_content .actual_content, .donate_outer_div .don_dashboard_content .actual_content, .request_outer_div .req_dashboard_content .actual_content, .request_outer_div .don_dashboard_content .actual_content, .req_dashboard_outer_div .req_dashboard_content .actual_content, .req_dashboard_outer_div .don_dashboard_content .actual_content, .don_dashboard_outer_div .req_dashboard_content .actual_content, .don_dashboard_outer_div .don_dashboard_content .actual_content {
+    position: relative;
+    min-height: 90rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .logout, .donate_outer_div .don_dashboard_content .actual_content .logout, .request_outer_div .req_dashboard_content .actual_content .logout, .request_outer_div .don_dashboard_content .actual_content .logout, .req_dashboard_outer_div .req_dashboard_content .actual_content .logout, .req_dashboard_outer_div .don_dashboard_content .actual_content .logout, .don_dashboard_outer_div .req_dashboard_content .actual_content .logout, .don_dashboard_outer_div .don_dashboard_content .actual_content .logout {
+    position: absolute;
+    top: -5rem;
+    right: 1rem;
+    z-index: 2;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container, .donate_outer_div .don_dashboard_content .actual_content .grid_container, .request_outer_div .req_dashboard_content .actual_content .grid_container, .request_outer_div .don_dashboard_content .actual_content .grid_container, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container {
+    display: flex;
+    flex-direction: column;
+    min-height: 80rem;
+    gap: 1rem;
+    padding: 3rem;
+    width: 100%;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar, .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar, .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar, .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-self: flex-start;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time, .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time, .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time, .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date, .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date, .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date, .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date {
+    position: absolute;
+    top: 5rem;
+    left: 0rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 12rem;
+    height: 10rem;
+    font-size: 2.5rem;
+    background-color: #E9E8EA;
+    color: #2B313B;
+    box-shadow: 0 -1rem 5rem rgba(0, 0, 0, 0.6);
+    z-index: 2;
+    border-radius: 2rem 0 0 2rem;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1), .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(1) {
+    font-weight: 700;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2), .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .date p:nth-child(2) {
+    font-weight: 400;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time, .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time, .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time, .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time {
+    position: absolute;
+    top: 5rem;
+    left: 12rem;
+    gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2B313B;
+    color: #E9E8EA;
+    font-size: 3rem;
+    height: 10rem;
+    width: 20rem;
+    box-shadow: 0 1rem 5rem rgba(0, 0, 0, 0.6);
+    border-radius: 0 2rem 2rem 0;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1), .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(1) {
+    font-weight: 600;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .donate_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .request_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .request_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2), .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .calendar .date_time .time p:nth-child(2) {
+    animation: blink 1s alternate infinite;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .main, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main, .request_outer_div .req_dashboard_content .actual_content .grid_container .main, .request_outer_div .don_dashboard_content .actual_content .grid_container .main, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main {
+    margin-top: 20rem;
+    padding: 2rem;
+    min-height: 35rem;
+    width: 38rem;
+    background-color: #daccca;
+    border-radius: 2rem;
+    box-shadow: 0 0 4rem rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .main .remaining_units, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main .remaining_units, .request_outer_div .req_dashboard_content .actual_content .grid_container .main .remaining_units, .request_outer_div .don_dashboard_content .actual_content .grid_container .main .remaining_units, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .remaining_units, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .remaining_units, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .remaining_units, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .remaining_units {
+    color: #191818;
+    font-size: 3rem;
+    font-weight: 400;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .main .register_patient, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main .register_patient, .request_outer_div .req_dashboard_content .actual_content .grid_container .main .register_patient, .request_outer_div .don_dashboard_content .actual_content .grid_container .main .register_patient, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .register_patient, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .register_patient, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .register_patient, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .register_patient {
+    font-size: 3rem;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .main .upper, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main .upper, .request_outer_div .req_dashboard_content .actual_content .grid_container .main .upper, .request_outer_div .don_dashboard_content .actual_content .grid_container .main .upper, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper {
+    margin-bottom: 1rem;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .first, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .first, .request_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .first, .request_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .first, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .first, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .first, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .first, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .first {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .second, .donate_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .second, .request_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .second, .request_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .second, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .second, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .second, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .main .upper .second, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .main .upper .second {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 2rem;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .requests, .donate_outer_div .don_dashboard_content .actual_content .grid_container .requests, .request_outer_div .req_dashboard_content .actual_content .grid_container .requests, .request_outer_div .don_dashboard_content .actual_content .grid_container .requests, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .requests, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .requests, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .requests, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .requests {
+    height: 100%;
+    margin-top: 5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .donate_outer_div .don_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .request_outer_div .req_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .request_outer_div .don_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .req_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .req_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .don_dashboard_outer_div .req_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root, .don_dashboard_outer_div .don_dashboard_content .actual_content .grid_container .requests .css-1m85xzu-MuiTableCell-root {
+    background-color: #EAEAEA;
+  }
+  .donate_outer_div .req_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .donate_outer_div .don_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .request_outer_div .req_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .request_outer_div .don_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .req_dashboard_outer_div .req_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .req_dashboard_outer_div .don_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .don_dashboard_outer_div .req_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label, .don_dashboard_outer_div .don_dashboard_content .actual_content .modal_div .css-ascpo7-MuiStepLabel-root .css-1vyamtt-MuiStepLabel-labelContainer .css-1hv8oq8-MuiStepLabel-label {
+    font-size: 1.8rem !important;
+  }
+  .pat_reg .receipt_input {
+    height: 80%;
+    width: 100%;
+    border-radius: 2rem;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px, inset rgba(239, 106, 106, 0.184) 0 0 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    border: 1px dashed #F13C3C;
+  }
+  .pat_reg .receipt_input .main {
+    gap: 0.2rem;
+    align-items: center;
+  }
+  .pat_reg .receipt_input p {
+    font-size: 0.8rem;
+  }
+  .pat_reg .receipt {
+    border-radius: 1.4rem;
+    width: 100%;
+    height: 15rem;
+    margin-bottom: 5rem;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+  }
+  .pat_reg .receipt img {
+    height: 12rem;
+    width: auto;
+  }
+  .pat_reg .css-rtjcmg {
+    padding: 5px;
+  }
+  .footer_outer {
+    background-color: #EAEAEA;
+    height: 15rem;
+  }
+  .footer_outer .footer_inner {
+    position: relative;
+    display: flex;
+    height: 100%;
+  }
+  .footer_outer .footer_inner .footBg {
+    position: absolute;
+    bottom: 0;
+  }
+  .footer_outer .footer_inner .footer_details {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr 5fr 1fr;
+  }
+  .footer_outer .footer_inner .footer_details .part1 {
+    grid-column: 2/3;
+    display: flex;
+    z-index: 4;
+    justify-content: center;
+    align-items: center;
+  }
+  .footer_outer .footer_inner .footer_details .part1 .footLogo {
+    max-height: 8rem;
+    width: auto;
+  }
+  .footer_outer .footer_inner .footer_details .part2 {
+    position: relative;
+    grid-column: 3/4;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+  }
+  .footer_outer .footer_inner .footer_details .part2 .css-78trlr-MuiButtonBase-root-MuiIconButton-root {
+    font-size: 1.6rem;
+  }
+  .footer_outer .footer_inner .footer_details .part3 {
+    grid-column: 4/5;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 4;
+    font-size: 1rem;
+  }
+  .footer_outer .footer_inner .footer_details .part3 .con {
+    display: flex;
+    -moz-column-gap: 1rem;
+         column-gap: 1rem;
+    margin-bottom: 1.2rem;
+    align-items: center;
+  }
+  .footer_outer .footer_inner .footer_details .part3 .con .con_icons {
+    height: 1.6rem;
+  }
+}/*# sourceMappingURL=main.css.map */

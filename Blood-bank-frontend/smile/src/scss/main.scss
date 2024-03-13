@@ -86,56 +86,45 @@ html{
         }
         & .MuiDataGrid-actionsCell{
             
-            & .css-ptiqhd-MuiSvgIcon-root{
+            & .css-ptiqhd-MuiSvgIcon-root,& .css-1k33q06{
                 font-size: 2rem;
             }
         }
+        //Filter Button
+        & .css-1knaqv7-MuiButtonBase-root-MuiButton-root , & .css-1rtnrqa{
+            background-color: #d22228 !important;
+            width: 12rem;
+            height: 3rem;
+            color: #ede4e2 !important;
+            font-size: 1.2rem;
+            border-radius: 1.3rem;
+        }
 } 
-//Filter Button
-.css-1knaqv7-MuiButtonBase-root-MuiButton-root {
-    background-color: #d22228 !important;
-    width: 12rem;
-    height: 3rem;
-    color: #ede4e2 !important;
-    font-size: 1.2rem;
-    border-radius: 1.3rem;
-}
 //Complex Table Filter Form  
-.css-154sxbz-MuiPaper-root-MuiDataGrid-paper{
-    background-color: rgb(181, 178, 178) !important;
-}   
-.css-1t5wrdm-MuiDataGrid-filterForm {
+
+.css-1t5wrdm-MuiDataGrid-filterForm, .css-1ckupud {
     background-color: rgb(181, 178, 178);
     height: 8rem;
-    & .css-1717ajk-MuiFormLabel-root-MuiInputLabel-root {
+    & .css-1717ajk-MuiFormLabel-root-MuiInputLabel-root, & .css-k7fm7m {
         font-size: 1.8rem !important;
 
     }
 }
-label+.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root{
+label+.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root, label + .css-o3ukdw {
     margin-top: 3rem !important;
 }
-.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root{
+.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root, label + .css-o3ukdw {
     font-size: 1.4rem !important ;
 }
-label+.css-v4u5dn-MuiInputBase-root-MuiInput-root{
+label+.css-v4u5dn-MuiInputBase-root-MuiInput-root, label + .css-zrqpq1 {
     margin-top: 3rem !important;
 }
-.css-v4u5dn-MuiInputBase-root-MuiInput-root{
+.css-v4u5dn-MuiInputBase-root-MuiInput-root, .css-zrqpq1 {
     font-size: 1.4rem !important ;
 }
-.css-1h51icj-MuiAutocomplete-root .MuiAutocomplete-input{
-    font-size: 1.4rem !important ;
-}
-label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
-    margin-top: 3rem !important;
-}
-.css-rne967-MuiFormControl-root-MuiDataGrid-filterFormDeleteIcon{
+
+.css-rne967-MuiFormControl-root-MuiDataGrid-filterFormDeleteIcon, .css-1fmndo1{
     margin-bottom: 0.6rem !important;
-}
-.css-1ek52f7-MuiButtonBase-root-MuiChip-root{
-    background-color: #E9E8EA !important;
-    font-size: 1.2rem !important;
 }
 
 
@@ -153,9 +142,21 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
     }
 }
 //Complex Table Buttons
-.css-15ghhi9-MuiButtonBase-root-MuiIconButton-root {
+.con {
     font-size: 2rem;
     color : #049f0c !important;
+}
+.loan {
+    font-size: 2rem;
+    color : #d22228 !important;
+}
+.sms {
+    font-size: 2rem;
+    color : #255781 !important;
+}
+.rem {
+    font-size: 2rem;
+    color : #12807e !important;
 }
 
 
@@ -199,15 +200,85 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
             color: $text-primary;
 
         }
+        & button{
+            border: none;
+            cursor: pointer;
+            background-color: $bg;
+            transition: 0.2s ease-in;
+            &:hover{
+                color:$text-active;
+            }
+        }
         
         & .active{
             color: $text-active;
         }
     }
 
-
-
 }
+
+
+// Top Donor Modal 
+
+
+    .add_top_donor{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        & .input_files{
+            width: 90%;
+            min-height: 10rem;
+            display: flex;
+            justify-self: center;
+            align-self: center;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            background: #00000010;
+            border: 1px dashed #00000083 ;
+            & .browse_img{
+                width: 20rem;
+                height: 4rem;
+                background-color: #d22228;
+                justify-self: center;
+                align-self: center;
+                display: flex;
+                justify-content: center;
+                align-items:center;
+                border-radius: 1rem;
+                cursor: pointer;
+                font-size: 1.6rem;
+                color : #c8bcbc;
+                box-shadow: 0 0 1rem rgba(0, 0, 0, 0.4);
+                &:hover{
+                    background-color: #ba0f14;
+                }
+            }
+            & .img_chips{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                min-height: 4rem;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                // background-color: #d22228;
+            }
+        }
+        & .inp_img_div{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+    }
+
+
+
+
+
+
 
 //Home Page
 .home_outer{
@@ -260,46 +331,47 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                 grid-column: 1/2;
                 position: relative; 
                 // left: 10rem;    
-                & img{
+                & .imgs{
                     position: absolute;
-                    border-radius: 13px;
+                    height: 32rem;
+                    width: 30rem;
                     box-shadow: 0 0 50px rgba(0,0,0,0.5);
-                    width: auto;
-                    
-                    &:nth-child(1){
-                        top: 20rem;
-                        left: 5rem;
-                        z-index: 4;
-                        height: 30rem;
-                        // aspect-ratio: 6/9;                        
-                    }
-                    &:nth-child(2){
-                        z-index: 5;
-                        top:72rem;
-                        left: 30rem;
-                        height: 30rem;
-                    }
-                    &:nth-child(3){
-                        z-index: 4;
-                        top: 48rem;
-                        left: 7rem;
-                        height: 36rem;
-                        
-                    }
-                    &:nth-child(4){
-                        top: 5rem;
-                        left: 28rem;
-                        z-index:1;
-                        height: 35rem;
-                    }
-                    &:nth-child(5){
-                        top: 34rem;
-                        left: 32rem;
-                        z-index: 4;
-                        height: 40rem;
+                    background-color: #fff7f7;
+                    // border: 2px solid #d22228;
+                    & img{
+                        object-fit: contain;
+                        box-shadow: 0 0 7rem rgba(0,0,0,0.5);
+                        height: 100%;
+                        width: 100%;
                     }
 
-                }           
+                    &:nth-child(1){
+                        top: 30rem;
+                        left: 38rem;
+                        z-index: 5;
+                    }
+                    &:nth-child(2){
+                        top: 2rem;
+                        left: 45rem;
+                        z-index: 4;
+                    }
+                    &:nth-child(3){
+                        top: 65rem;
+                        left: 39rem;
+                        z-index: 6;
+                    }
+                    &:nth-child(4){
+                        z-index: 3;
+                        top: 47rem;
+                        left: 10rem;
+                    }
+                    &:nth-child(5){
+                        top: 12rem;
+                        left: 15rem;
+                        z-index: 2;
+                    }
+                    
+                }
             }
 
             & .about_smile{
@@ -424,7 +496,10 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
 
                             font-size: 1.4rem;
                         }
-                        
+                        & .chakra-radio__control {
+                            // color : red;
+                            border-color: #d22228;
+                        }
                     }
                 }
             
@@ -612,6 +687,9 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                             }
                         }
                     }
+
+                    
+
                 }
 
             }
@@ -635,6 +713,11 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
 // Style For Recipient Upload Files in Modal
 
         .pat_reg{
+
+            & .chakra-radio__control{
+                // color : red;
+                border-color: #d22228;
+            }
 
             & .receipt_input{
                 height: 100%;
@@ -727,12 +810,23 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                 grid-column: 3/4;
                 width: 100%;
                 display: flex;
-                justify-content: flex-start;
+                justify-content: center;
                 align-items : center;
-                    z-index: 4;
-                    & .css-78trlr-MuiButtonBase-root-MuiIconButton-root {
-                        font-size: 4rem;
+                z-index: 4;
+                & .container{
+                    width: 12rem;
+                    height: 6rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: absolute;
+                    bottom: 1rem;
+                    & .ibtn {
+                        height: 5rem;
+                        width: 5rem;
                     }
+
+                }
             }     
             & .part3{
                 grid-column: 4/5;
@@ -740,13 +834,14 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                 display: flex;
                 flex-direction: column;
                 align-items : flex-start;
-                justify-content: center;
+                justify-content: flex-end;
                 z-index: 4;
                 font-size: 1.4rem;
-                & .con{
+                padding-bottom: 2rem;
+                & .footer_text{
                     display: flex;
                     column-gap: 2rem;
-                    margin-bottom: 1rem;
+                    margin-bottom: 0.5rem;
                     align-items: center;
                 }
             }
@@ -854,65 +949,70 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
             }
             & .MuiDataGrid-actionsCell{
                 
-                & .css-ptiqhd-MuiSvgIcon-root{
+                & .css-ptiqhd-MuiSvgIcon-root,& .css-1k33q06{
                     font-size: 2rem;
                 }
             }
 
-            
+        // In the Build Version, this is not required as the table headers are already adjusted
             //Admin Table Column Padding
-            & .reqList{
-                & .css-1iyq7zh-MuiDataGrid-columnHeaders{
-                    padding-left: 60rem;
-                }
-            }
-            & .nonPendingList{
-                & .css-1iyq7zh-MuiDataGrid-columnHeaders{
-                    padding-left: 64.5rem;
-                }
-            }
-            & .donorList{
-                & .css-1iyq7zh-MuiDataGrid-columnHeaders{
-                    padding-left: 51.5rem;
-                }
+            // & .reqList{
+            //     & .MuiDataGrid-columnHeaders, .css-y599qu{
+            //         padding-left: 58rem;
+            //     }
+            // }
+            // & .nonPendingList{
+            //     & .MuiDataGrid-columnHeaders, .css-y599qu{
+            //         padding-left: 59rem;
+            //     }
+            // }
+            // & .donorList{
+            //     & .MuiDataGrid-columnHeaders, .css-y599qu{
+            //         padding-left: 63.5rem;
+            //     }
+            // }
+            
+            //Filter Button 
+            & .css-1knaqv7-MuiButtonBase-root-MuiButton-root,& .css-1rtnrqa {
+                    background-color: #d22228 !important;
+                    width: 10rem;
+                    height: 3rem;
+                    color: #ede4e2 !important;
+                    font-size: 1rem;
+                    border-radius: 1.3rem;
             }
             
-            
-    }
-    //Filter Button 
-    .css-1knaqv7-MuiButtonBase-root-MuiButton-root {
-            background-color: #d22228 !important;
-            width: 12rem;
-            height: 3rem;
-            color: #ede4e2 !important;
-            font-size: 1.2rem;
-            border-radius: 1.3rem;
     }
     //Complex Table Filter Form     
-    .css-1t5wrdm-MuiDataGrid-filterForm {
+    .css-1t5wrdm-MuiDataGrid-filterForm, .css-1ckupud {
         background-color: rgb(181, 178, 178);
         height: 7rem;
         width: 30rem;
-        & .css-1717ajk-MuiFormLabel-root-MuiInputLabel-root {
+        & .css-1717ajk-MuiFormLabel-root-MuiInputLabel-root, & .css-k7fm7m {
             font-size: 1.6rem !important;
 
         }
     }
-    label+.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root{
+    label+.css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root, label + .css-o3ukdw {
         margin-top: 2rem !important;
     }
-    .css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root{
+    .css-m5hdmq-MuiInputBase-root-MuiInput-root-MuiSelect-root, .css-o3ukdw {
         font-size: 1.4rem !important ;
     }
-    label+.css-v4u5dn-MuiInputBase-root-MuiInput-root{
+
+    label+.css-v4u5dn-MuiInputBase-root-MuiInput-root, label + .css-zrqpq1{
         margin-top: 2rem !important;
     }
-    .css-v4u5dn-MuiInputBase-root-MuiInput-root{
+    .css-v4u5dn-MuiInputBase-root-MuiInput-root, .css-zrqpq1{
         font-size: 1.4rem !important ;
     }
-    .css-rne967-MuiFormControl-root-MuiDataGrid-filterFormDeleteIcon{
+
+    .css-rne967-MuiFormControl-root-MuiDataGrid-filterFormDeleteIcon, .css-1fmndo1{
         margin-bottom: 0.6rem !important;
     }
+
+
+
 
     //Admin Request List View Receipt Modal
     .receipt_view {
@@ -935,7 +1035,38 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
         font-size: 2rem;
         color : #049f0c !important;
     }
-   
+
+
+    //Mobile Version Top Donors Page
+    .add_top_donor{
+        
+        & .input_files{
+            min-height: 7rem;
+            & .browse_img{
+                width: 15rem;
+                height: 3rem;
+                font-size: 1.2rem;
+            }
+            & .img_chips{
+                min-height: 3rem;
+            }
+        }
+        & .inp_img_div{
+            & img{
+                height: 10rem;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
     //Navbar
     .outer_nav{
         position: fixed;
@@ -952,8 +1083,6 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
         & .logo{
             justify-self: center !important;
             max-height: 5rem;
-            // grid-column: 2/3;
-            // display: flex;
             justify-content: center;
             width: calc(100% - 35%);
             & img{
@@ -964,17 +1093,32 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
         }
         & .menu{
             display: none; 
+            
         }
+
+
+
     }
     //Side Navbar
-    .css-1d4vqq0-MuiButtonBase-root-MuiListItemButton-root{
+    .css-1d4vqq0-MuiButtonBase-root-MuiListItemButton-root, .css-1hhjps1 {
         & .nav-link{
             text-decoration: none;
             font-weight: 600;
             color : $text-primary;
+            font-size: 1.8rem;
         }
         & .active{
             color: $text-active;
+        }
+
+        & button{
+            border: none;
+            background-color: white;
+            cursor: pointer;
+            transition: 0.2s ease-in;
+            &:hover{
+                color:$text-active;
+            }
         }
     }
 
@@ -1035,50 +1179,50 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                     align-items: center; 
                     width: 100%;
                     height: 50rem;
-                    & img{
+                    & .imgs{
                         position: absolute;
-                        border-radius: 13px;
+                        height: 15rem;
+                        width: 13rem;
                         box-shadow: 0 0 50px rgba(0,0,0,0.5);
-                        width: auto;
-                        
+                        background-color: #fff7f7;
+                        & img{
+                            object-fit: contain;
+                            height: 100%;
+                            width: 100%;
+                        }
+    
                         &:nth-child(1){
                             top: 0;
-                            left: 0;
+                            left: 1rem;
                             z-index: 0;
-                            height: 13rem;
                         }
                         &:nth-child(2){
                             top: auto;             
                             left: auto;
-                            right : 0;
+                            right : 1rem;
                             z-index: 3;
-                            height: 13rem;
                         }
                         &:nth-child(3){
                             top: auto;
                             bottom: 0;                            
                             left: auto;
-                            right: 0;
+                            right: 1rem;
                             z-index: 4;
-                            height: 15rem;
-                            
                         }
                         &:nth-child(4){
                             top: auto;                           
-                            left: 0;
+                            left: 1rem;
                             bottom: 0;
                             z-index:3;
-                            height: 15rem;
                         }
                         &:nth-child(5){
                             top: 50%;                            
                             left:50%;
-                            transform: translate(-50%,-50%);
+                            transform: translate(-50%,-50%) scale(1.25); 
                             z-index: 4;
-                            height: 18rem;
                         }
-
-                    }           
+                        
+                    }
                 }
 
                 & .about_smile{
@@ -1484,14 +1628,15 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
             & .footer_details{
                 width: 100%;
                 display: grid;
-                grid-template-columns: 1fr 3fr 2fr 5fr 1fr;
+                grid-template-columns: 1fr 3fr 2fr 5fr ;
                 
                 & .part1{
                     grid-column: 2/3;
                     display: flex;
                     z-index: 4;
                     justify-content: center;
-                    align-items : center;
+                    align-items : flex-end;
+                    padding-bottom: 1rem;
                     & .footLogo{
                         // bottom: 7rem;
                         max-height: 8rem;
@@ -1503,13 +1648,47 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                     grid-column: 3/4;
                     width: 100%;
                     display: flex;
+                    justify-content: center;
+                    align-items : center;
+                    z-index: 4;
+                    & .container{
+                        width: 12rem;
+                        height: 6rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: absolute;
+                        bottom: 1rem;
+                        & .ibtn {
+                            height: 5rem;
+                            width: 5rem;
+                        }
+    
+                    }
+                }
+                & .part2{
+                    position: relative;
+                    grid-column: 3/4;
+                    width: 100%;
+                    display: flex;
                     flex-direction: column;
                     justify-content: center;
                     align-items : center;
                     z-index: 4;
-                    & .css-78trlr-MuiButtonBase-root-MuiIconButton-root {
-                        font-size: 1.6rem;
+                    & .container{
+                        width: 8rem;
+                        height: 5rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: absolute;
+                        bottom: 0.6rem;
+                        & .ibtn {
+                            height: 3.5rem;
+                            width: 3.5rem;
+                        }
                     }
+                    
                 }     
                 & .part3{
                     grid-column: 4/5;
@@ -1517,13 +1696,13 @@ label+.css-l4u8b9-MuiInputBase-root-MuiInput-root {
                     display: flex;
                     flex-direction: column;
                     align-items : flex-start;
-                    justify-content: center;
+                    justify-content: flex-end;
                     z-index: 4;
                     font-size: 1rem;
-                    & .con{
+                    & .footer_text{
                         display: flex;
                         column-gap: 1rem;
-                        margin-bottom: 1.2rem;
+                        // margin-bottom: 1rem;
                         align-items: center;
                         & .con_icons{
                             height: 1.6rem;

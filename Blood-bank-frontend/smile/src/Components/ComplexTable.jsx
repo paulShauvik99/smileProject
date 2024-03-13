@@ -1,11 +1,12 @@
-import { Box, Button, Chip, Typography } from '@mui/material';
+import { Box, Button, Chip, Tooltip, Typography } from '@mui/material';
 import { DataGrid,  GridActionsCellItem, GridToolbarFilterButton, } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-
-
-
+import PlusOneIcon from '@mui/icons-material/PlusOne';
+import SmsIcon from '@mui/icons-material/Sms';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import DoneIcon from '@mui/icons-material/Done';
 
 
 const ComplexTable = (props) => {
@@ -109,6 +110,7 @@ const ComplexTable = (props) => {
                                     color : '#f0e3e4',
                                 }
                             }}
+                            disabled={params.row.firstDonCheck}
                             onClick={() => props.viewPrevDonation(params.id)}> View Receipt </Button>)
             }
             // valueFormatter: ({ value }) => new Date(value).toISOString().split('T')[0]
@@ -154,7 +156,7 @@ const ComplexTable = (props) => {
         },
         { field: 'name', headerName: "Name" , 
             type : 'string',
-            width: 250,
+            width: 150,
             sortable : false, align : 'center',
             headerAlign : 'center' ,
             filterable : true,
@@ -175,7 +177,7 @@ const ComplexTable = (props) => {
             field: 'phoneNumber',
             headerName: "Phone Number",
             type : 'string',
-            width: 200,
+            width: 150,
             align: 'center',
             headerAlign: 'center',
             sortable : false,   
@@ -186,11 +188,44 @@ const ComplexTable = (props) => {
             headerName: 'Blood Group',
             type : 'singleSelect',
             valueOptions : ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'],
-            width: 200,
+            width: 150,
             sortable : false,   
             align : 'center',
             headerAlign: 'center',
             filterable : true,
+        },
+        {
+            field: 'thalassemia',
+            headerName: 'Thalassemia?',
+            type: 'boolean',
+            width: 130,
+            sortable : false,   
+            align : 'center',
+            headerAlign: 'center',
+            filterable : true,
+            renderCell : (params) => {return (params.row.thalassemia ?  (<DoneIcon className='con' />) : '')}
+        },
+        {
+            field: 'isAvailable',
+            headerName: 'Eligible?',
+            type: 'boolean',
+            width: 100,
+            sortable : false,   
+            align : 'center',
+            headerAlign: 'center',
+            filterable : true,
+            renderCell : (params) => {return (params.row.isAvailable ?  (<DoneIcon className='con' />) : '')}
+        },
+        {
+            field: 'loan',
+            headerName: 'Has Loan',
+            type: 'boolean',
+            width: 100,
+            sortable : false,   
+            align : 'center',
+            headerAlign: 'center',
+            filterable : true,
+            renderCell : (params) => {return (params.row.loan ?  (<DoneIcon className='con' />) : '')}
         },
         {
             field: 'actions',
@@ -201,14 +236,46 @@ const ComplexTable = (props) => {
             getActions: (params) => {
                 return [
                 <GridActionsCellItem
-                    icon={<CheckCircleIcon />}
+                    icon={<Tooltip title="Confirm Donation"><CheckCircleIcon /></Tooltip>}
                     label="Confirm Donor"
                     className='con'
                     onClick={() => props.sentForDonation(params.id)}    
-                    color="success"
+                    disabled={!params.row.isAvailable}
+                />,
+                <GridActionsCellItem
+                    icon={<Tooltip title="Add Donor for Loan"><PlusOneIcon /></Tooltip>}
+                    label="Add Loan"
+                    className='loan'
+                    onClick={() => props.addLoan(params.id)}    
+                    disabled={params.row.isAvailable || params.row.loan}
+                />,
+                ];
+            },
+        },
+        {
+            field: 'sendsms',
+            type: 'actions',
+            headerName: 'Send SMS',
+            width: 100,
+            cellClassName: 'actions',
+            getActions: (params) => {
+                return [
+                <GridActionsCellItem
+                    icon={<Tooltip title="Send SMS"><SmsIcon /></Tooltip>}
+                    label="Send SMS"
+                    className='sms'
+                    onClick={() => props.sendSMS(params.id)}    
+                    disabled={!(params.row.isAvailable && !params.row.loan)}
+                />,
+                <GridActionsCellItem
+                    icon={<Tooltip title="Send Reminder For Loan"><FeedbackIcon /></Tooltip>}
+                    label="Send Reminder"
+                    className='rem'
+                    disabled={!(params.row.isAvailable && params.row.loan)}
+                    onClick={() => props.sendReminder(params.id)} 
+                    // color="success"
                     // showInMenu
-                    
-                />
+                />,
                 ];
             },
         },
@@ -321,6 +388,7 @@ const ComplexTable = (props) => {
                                 color : '#f0e3e4',
                             }
                         }}
+                        disabled={params.row.firstDonCheck}
                         variant='contained' onClick={() => props.viewPrevDonation(params.id)}> View Receipt </Button>)
             }
             // valueFormatter: ({ value }) => new Date(value).toISOString().split('T')[0]
@@ -385,7 +453,7 @@ const ComplexTable = (props) => {
                     columnVisibilityModel={columnVisibility}    
                 />
             </Box>
-
+            
         </>
     )
 }

@@ -3,7 +3,7 @@ import wave1 from '../assets/wave1.svg'
 import wave3 from '../assets/wave3.svg'
 import wave4 from '../assets/wave4.svg'
 import SmileLogo from '../assets/SmileLogo.png'
-import { InstagramLogo, FacebookLogo, TwitterLogo, YoutubeLogo, MapPin, Phone, Envelope, Clock} from "@phosphor-icons/react";
+import { WhatsappLogo , FacebookLogo, MapPin, Phone, Envelope, Clock} from "@phosphor-icons/react";
 import IconButton from '@mui/material/IconButton';
 
 
@@ -22,30 +22,29 @@ const Footer = () => {
                             <img src={SmileLogo} className='footLogo' alt="logo" />
                         </div>
                         <div className="part2">
-                                <IconButton href='https://www.google.com' target='_blank'>
-                                    <InstagramLogo color="#191818" className='icons' weight="duotone" />
+                            
+                            <div className="container">
+
+                                <IconButton className='ibtn' href='https://m.facebook.com/profile.php/?id=100069591442430'>
+                                    <FacebookLogo size={36} color="#191818" className='icons' weight="fill" />
                                 </IconButton>
-                                <IconButton>
-                                    <FacebookLogo color="#191818" className='icons' weight="duotone" />
+                                <IconButton className='ibtn' href='https://wa.me/7002572852'>
+                                    <WhatsappLogo size={36}  color="#191818" className='icons' weight="fill" />
                                 </IconButton>
-                                <IconButton>
-                                    <TwitterLogo color="#191818" className='icons' weight="duotone" />
-                                </IconButton>
-                                <IconButton>
-                                    <YoutubeLogo color="#191818" className='icons' weight="duotone" />
-                                </IconButton>
+                            </div>
                         </div>
                         <div className="part3">
-                                <div className="con">
+                            
+                                <div className="footer_text">
                                     <MapPin size={26} className='con_icons'color="#191818" weight="duotone" /> <p>  Some Lane, Silchar, Cachar, Assam, Pincode - 788 005 </p>
                                 </div>
-                                <div className="con">
+                                <div className="footer_text">
                                     <Phone size={26} className='con_icons' color="#191818" weight="duotone" /> <p>  +91 9832738882 </p>
                                 </div>
-                                <div className="con">
+                                <div className="footer_text">
                                     <Envelope size={26} className='con_icons' color="#191818" weight="duotone" /> <p>  somesmile@gmail.com </p>
                                 </div>
-                                <div className="con">
+                                <div className="footer_text">
                                     <Clock size={26} className='con_icons' color="#191818" weight="duotone" /> <p>  Working Hours : 9:00 AM - 6:00 PM </p>
                                 </div>
 

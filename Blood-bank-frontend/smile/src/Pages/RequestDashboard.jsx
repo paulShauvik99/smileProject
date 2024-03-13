@@ -11,7 +11,7 @@ import ContactPageIcon from '@mui/icons-material/ContactPage';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import PropTypes from 'prop-types';
 import DoneIcon from '@mui/icons-material/Done';
-import { ChakraProvider,  Flex,  HStack,  Skeleton, Spacer, VStack, position } from '@chakra-ui/react';
+import { ChakraProvider,  Flex,  HStack,  RadioGroup,  Skeleton, Spacer, VStack, position } from '@chakra-ui/react';
 import {
     FormControl,
     FormLabel,
@@ -24,6 +24,7 @@ import {
     Checkbox,
     Select,
     Textarea,
+    Radio
 } from '@chakra-ui/react'
 import { IdentificationBadge, Envelope, Phone ,Calendar, HouseLine, Drop, CalendarCheck , Bed , FirstAid , Receipt, UserCircle, CloudArrowUp, UserCirclePlus} from '@phosphor-icons/react'
 import TableComp from '../Components/Table';
@@ -195,6 +196,7 @@ export default function RequestDashboard() {
         phoneNumber : '',
         address : '',
         bloodGroup : '',
+        gender : '',
         hospitalName : '',
         isThalassemia : false,
         hasCancer : false,
@@ -291,7 +293,7 @@ export default function RequestDashboard() {
         switch(activeStep) {
             
             case 0: 
-                if(patientDetails.firstName.length <3 || patientDetails.lastName.length < 3 || patientDetails.dob === '' ) {
+                if(patientDetails.firstName.length <3 || patientDetails.lastName.length < 3 || patientDetails.dob === '' || patientDetails.gender === '' ) {
                     toast.error("Please enter your details correctly before continuing.")
                     return
                 }
@@ -521,6 +523,18 @@ export default function RequestDashboard() {
                                         </InputLeftAddon>
                                         <Input variant='outline' backgroundColor='red.50' isInvalid={patInValid.lastName} focusBorderColor={patInValid.lastName  ? 'red.400' : 'green.300'} height={30} fontSize={14} type="text" name="lastName" value={patientDetails.lastName} onChange={e =>  setDetails(e)} />
                                     </InputGroup>
+                                </FormControl>
+                            </GridItem>
+                            <GridItem>
+                                <FormControl isRequired>
+                                    <FormLabel htmlFor='gender' fontSize={12}> Gender </FormLabel>
+                                    <RadioGroup onChange={e => setPatientDetails(prev => ({...prev , gender : e}))} name="gender" value={patientDetails.gender}>
+                                        <Stack direction='row' pt={1} gap={1}> 
+                                            <Radio size='lg' colorScheme='red' value='male'>Male</Radio>
+                                            <Radio size='lg' colorScheme='red' value='female'>Female</Radio>
+                                            <Radio size='lg' colorScheme='red' value='others'>Others</Radio>
+                                        </Stack>
+                                    </RadioGroup>
                                 </FormControl>
                             </GridItem>
                             <GridItem>
@@ -789,6 +803,7 @@ export default function RequestDashboard() {
             donationDate : patDet.donationDate,
             donationReceipt : patDet.donationReceipt,
             firstDonCheck : controlStep,
+            gender : patDet.gender,
         }
 
         for(const key in data){
