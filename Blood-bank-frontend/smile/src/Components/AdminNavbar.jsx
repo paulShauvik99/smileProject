@@ -69,9 +69,9 @@ function AdminNavbar (){
         
         try {
             const res = await axios.post('http://192.168.1.15:8000/adminUser/addPhotos/',formData)
-            console.log(res)
+            toast.success('Images added successfully!')
         } catch (error) {
-            toast.error(error.data.status)
+            toast.error('Something went wrong!')
         }
 
     }
