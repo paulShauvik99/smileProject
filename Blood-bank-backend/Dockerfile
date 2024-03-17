@@ -11,7 +11,7 @@ RUN pip install -r requirements.txt
 COPY . .
 EXPOSE 8000
 
-RUN python manage.py migrate
+# RUN python manage.py migrate
 
 CMD ["gunicorn", "--config", "gunicorn_config.py", "smile.wsgi:application"]
 
