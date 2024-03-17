@@ -732,7 +732,7 @@ const DonateBlood = () => {
                                     <div className="donate_login">
                                         <motion.div className="donate_login_form"
                                             initial={{ x : '100vw'}}
-                                            animate={{ x : 0 }}
+                                            whileInView={{ x : 0 }}
                                         >
                                             <VStack>
 

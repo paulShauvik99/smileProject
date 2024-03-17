@@ -36,16 +36,19 @@ version: '2'
 services:
   smile-backend: 
     build : ./Blood-bank-backend
+    image : paulshauvik99/smile-backend:v2
     container_name: 'smile-backend'
 
   smile-frontend: 
     build : ./Blood-bank-frontend/smile
+    image : paulshauvik99/smile-frontend:v2
     container_name: 'smile-frontend'
     depends_on :
       - smile-backend
     
   proxy:
     build: ./nginx
+    image: paulshauvik99/smile-proxy:v2
     container_name: 'smile-proxy'
     restart: always
     ports:
