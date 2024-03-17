@@ -46,7 +46,7 @@ print(SECRET_KEY)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.12','192.168.56.1','127.0.0.1', '192.168.1.15', '192.168.29.55','43.204.218.79']
+ALLOWED_HOSTS = ['192.168.1.12','192.168.56.1','127.0.0.1', '192.168.1.15', '192.168.29.55','13.201.194.105']
 
 
 # Application definition
@@ -78,7 +78,7 @@ MIDDLEWARE = [
 ]
 
 
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000','http://localhost:3000' , 'http://192.168.1.12:3000',"http://192.168.56.1:3000",'http://192.168.1.15:3000', 'http://192.168.1.15:4173', "http://192.168.29.55", 'http://43.204.218.79']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:3000','http://localhost:3000' , 'http://192.168.1.12:3000',"http://192.168.56.1:3000",'http://192.168.1.15:3000', 'http://192.168.1.15:4173', "http://192.168.29.55", 'http://13.201.194.105']
 
 #CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
@@ -99,7 +99,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://192.168.1.15:3000',
     'http://192.168.1.15:4173',
     "http://192.168.29.55",
-    'http://43.204.218.79'
+    'http://13.201.194.105'
   ]
 CSRF_TRUSTED_ORIGINS = [
     
