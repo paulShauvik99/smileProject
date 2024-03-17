@@ -33,4 +33,4 @@ jobs:
             sudo docker-compose up -d
             sudo docker image prune -af
           # Comment for Send-Command
-          comment: docker-compose.yml file re-pulls newer versions of book-portal images and runs them on the instance.
+          comment: docker-compose.yml file re-pulls newer versions of smile-project images and runs them on the instance.
