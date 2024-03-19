@@ -2,10 +2,9 @@ name: Python CI with Django
 
 on:
   push:
-    branches:
-      - 'dockerImplement2'
-  pull_request:
-    branches: [ 'dockerImplement2' ]
+    branches: ['dockerImplement2'] 
+  # pull_request:
+  #   branches: [ 'dockerImplement2' ]
 
 jobs:
   docker:
@@ -25,7 +24,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build and push BE
+      - name: Build and push Backend
         uses: docker/build-push-action@v3
         with:
           context: ./Blood-bank-backend
