@@ -38,6 +38,8 @@ services:
     build : ./Blood-bank-backend
     image : paulshauvik99/smile-backend:v2
     container_name: 'smile-backend'
+    env_file: 
+      - .env
 
   smile-frontend: 
     build : ./Blood-bank-frontend/smile
