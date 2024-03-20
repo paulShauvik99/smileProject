@@ -32,7 +32,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # environ.Env.read_env()
 
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 print(SECRET_KEY)
 #SESSION_SAVE_EVERY_REQUEST = True
 
@@ -167,7 +167,7 @@ WSGI_APPLICATION = 'smile.wsgi.application'
 # host =str(env('HOST'))
 # user = str(env('USERNAME'))
 # password = str(env('PASSWORD'))
-#print(os.environ.get('HOST'))
+#print(os.getenv('HOST'))
 
 DATABASES = {
         'default': {
@@ -175,7 +175,7 @@ DATABASES = {
             'NAME': 'blood_bank',
             'ENFORCE_SCHEMA': False,
             'CLIENT': {
-                'host': os.environ.get('HOST'),
+                'host': os.getenv('HOST'),
               
                 'authSource' : 'admin'
 
@@ -233,8 +233,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Twilio Account SID and Auth Token
-TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
 
 # Twilio Phone Number (from which you'll send SMS)
-TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
+TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
